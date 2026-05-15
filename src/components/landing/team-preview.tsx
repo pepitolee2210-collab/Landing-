@@ -1,48 +1,64 @@
 import Link from 'next/link'
 import { TEAM } from '@/lib/team'
-import { SectionLabel } from '@/components/site/section-label'
 
 export function TeamPreview() {
   return (
-    <section className="py-24 md:py-32">
-      <div className="container-editorial">
-        <SectionLabel number="05" title="El equipo" />
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+    <section className="py-24 md:py-32 relative" style={{ background: 'var(--color-bg-2)' }}>
+      <div className="container-x">
+        <div className="mb-16 max-w-3xl">
+          <span className="tag mb-6">
+            <DotIcon />
+            05 / El equipo
+          </span>
           <h2
-            className="lg:col-span-8 font-display font-light text-[var(--color-ink)]"
+            className="mt-6 font-display text-[var(--color-text)]"
             style={{
-              fontSize: 'clamp(2rem, 5vw, 4rem)',
-              lineHeight: 1.02,
-              letterSpacing: '-0.025em',
+              fontSize: 'clamp(2.25rem, 5vw, 4rem)',
+              lineHeight: 1,
+              letterSpacing: '-0.035em',
+              fontWeight: 500,
             }}
           >
-            Detrás de cada caso, un equipo{' '}
-            <span className="italic" style={{ color: 'var(--color-gold-2)' }}>
-              que también es latino.
+            Detrás de cada caso,{' '}
+            <span style={{ color: 'var(--color-cyan)' }}>
+              un equipo que también es latino.
             </span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
-          {TEAM.map((member) => (
-            <article key={member.slug} className="group">
-              {/* Avatar editorial — gradient warm tones */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
+          {TEAM.map((member, idx) => (
+            <article
+              key={member.slug}
+              className="group relative overflow-hidden border border-[var(--color-line-2)] hover:border-[var(--color-cyan)] transition-all duration-500"
+              style={{
+                background: 'var(--color-surface)',
+                borderRadius: 'var(--radius-md)',
+                animationDelay: `${idx * 80}ms`,
+              }}
+            >
+              {/* Avatar geometric */}
               <div
-                className="aspect-[4/5] mb-4 overflow-hidden relative"
+                className="aspect-square relative overflow-hidden"
                 style={{
-                  background: `linear-gradient(135deg, var(--color-canvas-2) 0%, var(--color-line-soft) 100%)`,
-                  borderRadius: 'var(--radius-md)',
+                  background:
+                    'linear-gradient(135deg, var(--color-elevated) 0%, var(--color-bg-2) 100%)',
                 }}
               >
-                {/* Iniciales como placeholder elegante */}
+                {/* Grid pattern */}
+                <div
+                  className="absolute inset-0 board-grid opacity-40 group-hover:opacity-60 transition-opacity"
+                />
+
+                {/* Iniciales grandes */}
                 <span
-                  className="absolute inset-0 flex items-center justify-center font-display font-light"
+                  className="absolute inset-0 flex items-center justify-center font-display group-hover:scale-110 transition-transform duration-700"
                   style={{
-                    fontSize: '4rem',
-                    color: 'var(--color-ink)',
-                    opacity: 0.18,
+                    fontSize: '3.5rem',
+                    color: 'var(--color-cyan)',
+                    fontWeight: 500,
                     letterSpacing: '-0.04em',
+                    opacity: 0.7,
                   }}
                 >
                   {member.name
@@ -52,39 +68,53 @@ export function TeamPreview() {
                     .join('')}
                 </span>
 
-                {/* Banderita esquina */}
+                {/* Bandera flotante */}
                 {member.origin && (
-                  <span className="absolute top-3 right-3 text-base">
+                  <span className="absolute top-2.5 right-2.5 text-sm">
                     {member.origin.split(' ')[0]}
                   </span>
                 )}
+
+                {/* Dot indicador */}
+                <span
+                  className="absolute bottom-2.5 left-2.5 w-2 h-2 rounded-full"
+                  style={{ background: 'var(--color-jade)' }}
+                />
               </div>
 
-              <p className="font-display text-base font-medium text-[var(--color-ink)] tracking-tight leading-tight">
-                {member.name}
-              </p>
-              <p className="mt-1 text-xs text-[var(--color-ink-3)] font-mono">
-                {member.shortRole}
-              </p>
+              {/* Info */}
+              <div className="p-3.5">
+                <p
+                  className="font-display text-sm text-[var(--color-text)] tracking-tight leading-tight truncate"
+                  style={{ fontWeight: 500 }}
+                  title={member.name}
+                >
+                  {member.name}
+                </p>
+                <p className="mt-1 text-[10px] text-[var(--color-text-3)] font-mono uppercase tracking-[0.1em] truncate">
+                  {member.shortRole}
+                </p>
+              </div>
             </article>
           ))}
         </div>
 
-        <div className="mt-16 flex">
+        <div className="mt-14 flex">
           <Link
             href="/sobre-nosotros"
-            className="inline-flex items-center gap-3 text-[var(--color-ink)] link-underline font-medium"
+            className="group inline-flex items-center gap-3 text-[var(--color-text)] font-medium link-tech"
           >
             Conoce al equipo completo
-            <span className="inline-block w-12 h-px bg-[var(--color-ink)] relative">
-              <span
-                className="absolute right-0 top-0 -translate-y-1/2 w-2 h-2 border-t border-r border-[var(--color-ink)] rotate-45"
-                style={{ marginTop: '-1px' }}
-              />
-            </span>
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" className="transition-transform group-hover:translate-x-1" aria-hidden>
+              <path d="M1 7H19M19 7L13 1M19 7L13 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </Link>
         </div>
       </div>
     </section>
   )
+}
+
+function DotIcon() {
+  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cyan)]" />
 }

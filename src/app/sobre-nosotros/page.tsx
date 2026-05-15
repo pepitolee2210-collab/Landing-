@@ -5,7 +5,7 @@ import { Footer } from '@/components/site/footer'
 import { CTAFinal } from '@/components/landing/cta-final'
 
 export const metadata: Metadata = {
-  title: 'Sobre Nosotros',
+  title: 'Equipo',
   description:
     'El equipo detrás de UsaLatinoPrime: Henry, Vanessa, Diana, Andrium, Giuseppe y Mauricio. Latinos trabajando para latinos en EE.UU.',
 }
@@ -15,38 +15,40 @@ export default function AboutPage() {
     <>
       <Navbar />
       <main className="flex-1">
-        <section className="pt-12 md:pt-20 pb-16">
-          <div className="container-editorial">
-            {/* Eyebrow */}
-            <div className="flex items-baseline gap-3 mb-10">
-              <span className="font-mono text-xs text-[var(--color-gold-2)] font-medium tracking-[0.2em]">
-                EQUIPO · 2026
+        <section className="relative overflow-hidden pt-16 md:pt-24 pb-16">
+          <div
+            aria-hidden
+            className="absolute inset-0 blueprint opacity-30 pointer-events-none"
+            style={{ maskImage: 'radial-gradient(ellipse 80% 60% at 50% 20%, black 30%, transparent 90%)' }}
+          />
+
+          <div className="container-x relative">
+            <div className="rise">
+              <span className="tag mb-8">
+                <DotIcon />
+                Equipo · 2026
               </span>
-              <span className="h-px w-12 bg-[var(--color-line-soft)]" />
             </div>
 
             <h1
-              className="font-display font-light text-[var(--color-ink)] rise"
+              className="font-display text-[var(--color-text)] rise"
               style={{
-                fontSize: 'clamp(3rem, 8vw, 7rem)',
-                lineHeight: 0.95,
-                letterSpacing: '-0.035em',
-                maxWidth: '14ch',
+                fontSize: 'clamp(2.75rem, 7vw, 6rem)',
+                lineHeight: 0.96,
+                letterSpacing: '-0.04em',
+                fontWeight: 500,
+                maxWidth: '15ch',
+                animationDelay: '100ms',
               }}
             >
               Latinos{' '}
-              <span
-                className="italic"
-                style={{ color: 'var(--color-gold-2)' }}
-              >
-                trabajando para latinos
-              </span>{' '}
+              <span style={{ color: 'var(--color-cyan)' }}>trabajando para latinos</span>{' '}
               en EE.UU.
             </h1>
 
             <p
-              className="mt-10 text-lg md:text-xl text-[var(--color-ink-2)] leading-relaxed max-w-2xl rise"
-              style={{ animationDelay: '160ms' }}
+              className="mt-10 text-lg text-[var(--color-text-2)] leading-relaxed max-w-2xl rise"
+              style={{ animationDelay: '220ms' }}
             >
               Cada uno del equipo migró, atravesó procesos legales o creció
               entre familias que lo hicieron. No es una historia de marketing.
@@ -55,36 +57,32 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Team grid editorial */}
+        {/* Team grid */}
         <section className="py-16 md:py-24">
-          <div className="container-editorial">
-            <ul className="space-y-px">
+          <div className="container-x">
+            <ul className="space-y-4">
               {TEAM.map((member, idx) => (
                 <li
                   key={member.slug}
-                  className="grid grid-cols-12 gap-4 md:gap-8 items-start py-10 md:py-14 border-t border-[var(--color-line-soft)]"
-                  style={
-                    idx === TEAM.length - 1
-                      ? { borderBottom: '1px solid var(--color-line-soft)' }
-                      : undefined
-                  }
+                  className="grid grid-cols-12 gap-4 md:gap-8 items-start p-6 md:p-10 border border-[var(--color-line-2)] rounded-lg transition-colors hover:border-[var(--color-cyan)]/40"
+                  style={{ background: 'var(--color-surface)' }}
                 >
-                  {/* Foto/Iniciales */}
+                  {/* Avatar geometric */}
                   <div className="col-span-3 md:col-span-2">
                     <div
-                      className="aspect-square overflow-hidden relative"
+                      className="aspect-square overflow-hidden relative rounded-md board-grid"
                       style={{
-                        background: `linear-gradient(135deg, var(--color-canvas-2) 0%, var(--color-line-soft) 100%)`,
-                        borderRadius: 'var(--radius-md)',
+                        background: 'linear-gradient(135deg, var(--color-elevated), var(--color-bg-2))',
                       }}
                     >
                       <span
-                        className="absolute inset-0 flex items-center justify-center font-display font-light"
+                        className="absolute inset-0 flex items-center justify-center font-display"
                         style={{
                           fontSize: '3rem',
-                          color: 'var(--color-ink)',
-                          opacity: 0.22,
+                          color: 'var(--color-cyan)',
+                          fontWeight: 500,
                           letterSpacing: '-0.04em',
+                          opacity: 0.7,
                         }}
                       >
                         {member.name
@@ -93,36 +91,35 @@ export default function AboutPage() {
                           .slice(0, 2)
                           .join('')}
                       </span>
+                      <span
+                        className="absolute bottom-2 left-2 w-2 h-2 rounded-full"
+                        style={{ background: 'var(--color-jade)' }}
+                      />
                     </div>
                   </div>
 
-                  {/* Nombre + bio */}
+                  {/* Bio */}
                   <div className="col-span-9 md:col-span-7">
-                    <p className="font-mono text-[10px] text-[var(--color-gold-2)] uppercase tracking-[0.2em] mb-2">
+                    <p className="font-mono text-[10px] text-[var(--color-cyan)] uppercase tracking-[0.18em] mb-2">
                       {member.shortRole}
                     </p>
                     <h2
-                      className="font-display text-[var(--color-ink)] font-medium tracking-tight mb-3"
-                      style={{
-                        fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
-                        lineHeight: 1.05,
-                      }}
+                      className="font-display text-[var(--color-text)] tracking-tight mb-3"
+                      style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', lineHeight: 1.05, fontWeight: 500 }}
                     >
                       {member.name}
                     </h2>
-                    <p className="text-base text-[var(--color-ink-3)] leading-relaxed max-w-xl">
+                    <p className="text-base text-[var(--color-text-2)] leading-relaxed max-w-xl">
                       {member.bio}
                     </p>
                   </div>
 
-                  {/* Bandera/origen */}
-                  <div className="col-span-12 md:col-span-3 md:text-right md:pt-2">
+                  {/* Bandera/rol */}
+                  <div className="col-span-12 md:col-span-3 md:text-right md:pt-2 mt-4 md:mt-0">
                     {member.origin && (
-                      <p className="text-base font-mono">
-                        {member.origin}
-                      </p>
+                      <p className="text-base font-mono mb-2">{member.origin}</p>
                     )}
-                    <p className="mt-2 text-xs font-mono text-[var(--color-ink-3)] uppercase tracking-[0.15em]">
+                    <p className="text-[10px] font-mono text-[var(--color-text-3)] uppercase tracking-[0.15em]">
                       {member.role}
                     </p>
                   </div>
@@ -132,70 +129,64 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Misión editorial */}
-        <section className="py-24 md:py-32 bg-[var(--color-canvas-2)]/40">
-          <div className="container-editorial grid grid-cols-1 lg:grid-cols-12 gap-12">
+        {/* Principios */}
+        <section className="py-24 md:py-32 relative" style={{ background: 'var(--color-bg-2)' }}>
+          <div
+            aria-hidden
+            className="absolute inset-0 blueprint opacity-30 pointer-events-none"
+          />
+          <div className="container-x relative grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-4">
-              <div className="flex items-baseline gap-3 mb-6">
-                <span className="font-mono text-xs text-[var(--color-gold-2)] font-medium tracking-[0.2em]">
-                  PRINCIPIOS
-                </span>
-                <span className="h-px w-12 bg-[var(--color-line-soft)]" />
-              </div>
+              <span className="tag mb-6">
+                <DotIcon />
+                Principios
+              </span>
               <h2
-                className="font-display font-light text-[var(--color-ink)]"
+                className="mt-6 font-display text-[var(--color-text)]"
                 style={{
                   fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
                   lineHeight: 1.05,
-                  letterSpacing: '-0.025em',
+                  letterSpacing: '-0.035em',
+                  fontWeight: 500,
                 }}
               >
                 Cómo trabajamos.
               </h2>
             </div>
 
-            <div className="lg:col-span-8 space-y-12">
-              <div>
-                <p className="font-display text-xs text-[var(--color-gold-2)] tracking-[0.3em] uppercase mb-3">
-                  01
-                </p>
-                <h3 className="font-display text-2xl md:text-3xl font-medium text-[var(--color-ink)] mb-3 tracking-tight">
-                  Sin promesas vacías
-                </h3>
-                <p className="text-base text-[var(--color-ink-3)] leading-relaxed max-w-2xl">
-                  Si un caso tiene baja probabilidad, lo decimos. Si los tiempos
-                  son largos, los explicamos. Nadie firma un contrato con
-                  nosotros sin saber el escenario realista.
-                </p>
-              </div>
-
-              <div>
-                <p className="font-display text-xs text-[var(--color-gold-2)] tracking-[0.3em] uppercase mb-3">
-                  02
-                </p>
-                <h3 className="font-display text-2xl md:text-3xl font-medium text-[var(--color-ink)] mb-3 tracking-tight">
-                  Atendemos en español de verdad
-                </h3>
-                <p className="text-base text-[var(--color-ink-3)] leading-relaxed max-w-2xl">
-                  No traductores, no chatbots. Todo el equipo habla español
-                  nativo y entiende la realidad de quien migra. Lees nuestros
-                  contratos en tu idioma.
-                </p>
-              </div>
-
-              <div>
-                <p className="font-display text-xs text-[var(--color-gold-2)] tracking-[0.3em] uppercase mb-3">
-                  03
-                </p>
-                <h3 className="font-display text-2xl md:text-3xl font-medium text-[var(--color-ink)] mb-3 tracking-tight">
-                  Tecnología al servicio de tu caso
-                </h3>
-                <p className="text-base text-[var(--color-ink-3)] leading-relaxed max-w-2xl">
-                  Construimos nuestra propia plataforma para que veas tu caso en
-                  vivo: documentos, fechas, pagos, notificaciones. Pronto en una
-                  app móvil — DigiLegal.
-                </p>
-              </div>
+            <div className="lg:col-span-8 space-y-10">
+              {[
+                {
+                  n: '01',
+                  t: 'Sin promesas vacías',
+                  d: 'Si un caso tiene baja probabilidad, lo decimos. Si los tiempos son largos, los explicamos. Nadie firma un contrato con nosotros sin saber el escenario realista.',
+                },
+                {
+                  n: '02',
+                  t: 'Español de verdad',
+                  d: 'No traductores, no chatbots. Todo el equipo habla español nativo y entiende la realidad de quien migra. Lees nuestros contratos en tu idioma.',
+                },
+                {
+                  n: '03',
+                  t: 'Tecnología al servicio del caso',
+                  d: 'Construimos nuestra propia plataforma para que veas tu caso en vivo: documentos, fechas, pagos, notificaciones. Pronto en una app móvil — DigiLegal.',
+                },
+              ].map((item) => (
+                <div key={item.n}>
+                  <p className="font-mono text-xs text-[var(--color-cyan)] tracking-[0.25em] mb-3">
+                    {item.n}
+                  </p>
+                  <h3
+                    className="font-display text-[var(--color-text)] mb-3 tracking-tight"
+                    style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', lineHeight: 1.1, fontWeight: 500 }}
+                  >
+                    {item.t}
+                  </h3>
+                  <p className="text-base text-[var(--color-text-2)] leading-relaxed max-w-2xl">
+                    {item.d}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -205,4 +196,8 @@ export default function AboutPage() {
       <Footer />
     </>
   )
+}
+
+function DotIcon() {
+  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cyan)]" />
 }

@@ -1,7 +1,7 @@
 import { Navbar } from '@/components/site/navbar'
 import { Footer } from '@/components/site/footer'
 import { Hero } from '@/components/landing/hero'
-import { ServicesCatalog } from '@/components/landing/services-catalog'
+import { ServicesBoard } from '@/components/landing/services-board'
 import { Process } from '@/components/landing/process'
 import { Testimonials } from '@/components/landing/testimonials'
 import { Upcoming } from '@/components/landing/upcoming'
@@ -14,7 +14,7 @@ export default function HomePage() {
       <Navbar />
       <main className="flex-1">
         <Hero />
-        <ServicesCatalog />
+        <ServicesBoard />
         <Process />
         <Testimonials />
         <Upcoming />
