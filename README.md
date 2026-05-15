@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UsaLatinoPrime — Landing Pública
 
-## Getting Started
+Landing **independiente** del proyecto principal `henryflow`. Pensada para correr
+tráfico pagado (Meta Ads, Google Ads) y convertir visitantes en consultas por
+WhatsApp.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 16** (App Router) + React 19 + Turbopack
+- **Tailwind CSS v4** con design tokens custom
+- **TypeScript** estricto
+- **next/font** para Fraunces + Geist Sans/Mono
+- Tracking listo: Meta Pixel + Google Analytics 4 (controlado por env vars)
+
+## Estructura
+
+```
+src/
+├── app/
+│   ├── page.tsx                 # Landing principal
+│   ├── layout.tsx               # Root layout + fuentes + tracking
+│   ├── globals.css              # Design tokens, animaciones
+│   ├── robots.ts                # SEO
+│   ├── sitemap.ts               # SEO
+│   ├── servicios/
+│   │   └── [slug]/page.tsx      # Detalle por servicio (dinámico)
+│   └── sobre-nosotros/
+│       └── page.tsx             # Equipo completo
+├── components/
+│   ├── site/                    # Navbar, Footer, Logo, etc.
+│   ├── landing/                 # Hero, Servicios, Testimonios, etc.
+│   └── tracking/                # MetaPixel, GA4
+└── lib/
+    ├── services.ts              # Catálogo de servicios (5 productos)
+    ├── team.ts                  # Equipo
+    ├── testimonials.ts          # Reseñas placeholder
+    ├── site.ts                  # Configuración de marca
+    └── utils.ts                 # cn(), whatsappUrl()
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Diseño
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Estilo "Bufete Editorial Premium" — tipografía serif (Fraunces) + paleta cálida
+(crema/tinta + dorado + rojo apagado). Inspirado en publicaciones serias y
+firmas legales premium, NO en SaaS genéricos.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Desarrollo
 
-## Learn More
+```bash
+npm install
+cp .env.example .env.local      # Llenar Pixel ID y GA ID cuando estén disponibles
+npm run dev -- -p 3001           # Corre en puerto 3001
+```
 
-To learn more about Next.js, take a look at the following resources:
+> El proyecto principal `henryflow` corre en el puerto 3000.
+> Esta landing corre en el **3001** para no chocar.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Producción
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deploy en Vercel apuntando al dominio `usalatinoprime.com`.
+El proyecto `henryflow` sigue en `app.usalatinoprime.com` sin cambios.
 
-## Deploy on Vercel
+## Placeholders pendientes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] Precios reales por servicio (ahora son `desde $X` aproximados)
+- [ ] Video del hero
+- [ ] Fotos profesionales del equipo
+- [ ] Testimonios reales (los actuales son placeholders editoriales)
+- [ ] Logos/screenshots de Sandbox Utah + DigiLegal
+- [ ] Pixel ID de Meta + Measurement ID de GA4
+- [ ] Headline final confirmado por Henry
