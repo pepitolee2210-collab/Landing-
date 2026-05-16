@@ -4,7 +4,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { FEATURED_SLUGS, SERVICES_BY_SLUG, type Service } from '@/lib/services'
 import { AmbientOrbs } from '@/components/decor/ambient-orbs'
-import { DataFlow } from '@/components/decor/data-flow'
 
 /**
  * Pizarra digital interactiva de servicios.
@@ -32,19 +31,12 @@ export function ServicesBoard() {
       id="servicios"
       className="relative py-24 md:py-32 overflow-hidden"
     >
-      {/* Ambient orbs — distribución 4 colores */}
+      {/* Un orb dorado sutil ambient */}
       <AmbientOrbs
         orbs={[
-          { color: 'gold', size: 450, x: '70%', y: '10%', opacity: 0.5, duration: 22 },
-          { color: 'red', size: 350, x: '5%', y: '60%', opacity: 0.55, duration: 16, delay: 3 },
-          { color: 'blue', size: 400, x: '85%', y: '85%', opacity: 0.45, duration: 26, delay: 6 },
+          { color: 'gold', size: 560, x: '78%', y: '20%', opacity: 0.28, duration: 26 },
         ]}
       />
-
-      {/* Data flow SVG */}
-      <div className="absolute inset-0 opacity-50 pointer-events-none">
-        <DataFlow />
-      </div>
 
       <div className="container-x relative">
         {/* Header de sección */}
@@ -244,7 +236,7 @@ function ServiceFolderCard({
 }) {
   const categoryStyle = {
     'visa-juvenil': { color: 'var(--color-gold)', label: 'VJ · SIJS' },
-    asilo: { color: 'var(--color-blue-bright)', label: 'ASILO' },
+    asilo: { color: 'var(--color-blue)', label: 'ASILO' },
     ajuste: { color: 'var(--color-jade)', label: 'I-485' },
     otros: { color: 'var(--color-text-2)', label: 'OTROS' },
   }[service.category]
@@ -253,14 +245,13 @@ function ServiceFolderCard({
     <Link
       href={`/servicios/${service.slug}`}
       onMouseEnter={onHover}
-      className="service-card group block p-5 hover:p-5"
+      className="service-card group block p-6"
       style={{ ['--rot' as string]: `${rotation}deg` }}
     >
-      {/* Tag de etiqueta superior (popular, recomendado) */}
+      {/* Tag minimalista solo si aplica (ej. "Más solicitado") */}
       {tag && (
-        <div className="absolute -top-3 left-4 z-10">
-          <span className="inline-flex items-center gap-1 px-2 py-1 bg-[var(--color-gold)] text-[#3a2a00] font-mono text-[9px] uppercase tracking-[0.1em] font-bold rounded">
-            <StarIcon />
+        <div className="absolute -top-2.5 left-5 z-10">
+          <span className="inline-block px-2 py-0.5 bg-[var(--color-bg)] border border-[var(--color-gold)]/40 text-[var(--color-gold)] font-mono text-[9px] uppercase tracking-[0.16em]">
             {tag}
           </span>
         </div>

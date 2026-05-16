@@ -1,57 +1,44 @@
 @import "tailwindcss";
 
-/* ────────────────────────────────────────────────────────────
-   USALATINO PRIME · Paleta Utah Neón
-   Bandera de Utah: AZUL cobalto · DORADO · BLANCO · ROJO
-   Llevados a tonalidades neón con glow para look tech.
-   ──────────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════
+   USALATINO PRIME · Editorial digital
+   Paleta Utah: azul cobalto · dorado · blanco · rojo
+   Aplicada con restraint. Tipografía es la protagonista.
+   ════════════════════════════════════════════════════════════ */
 @theme {
-  /* ╔══════════ FONDOS — AZUL UTAH PROFUNDO ══════════╗
-     #002855 oficial → profundizado para dark mode tech */
-  --color-bg: #06122a;              /* azul Utah ultra profundo */
-  --color-bg-2: #0a1936;
-  --color-surface: #102348;
-  --color-surface-2: #162d58;
-  --color-elevated: #1d3a6e;
+  /* Fondos — azul Utah profundo */
+  --color-bg: #060d1f;
+  --color-bg-2: #0a142b;
+  --color-surface: #0e1a37;
+  --color-surface-2: #132245;
+  --color-elevated: #1a2c5a;
 
-  /* Líneas y bordes con tinte azul sutil */
-  --color-line: rgba(255, 255, 255, 0.07);
-  --color-line-2: rgba(255, 255, 255, 0.14);
-  --color-line-strong: rgba(255, 255, 255, 0.24);
+  --color-line: rgba(255, 255, 255, 0.06);
+  --color-line-2: rgba(255, 255, 255, 0.12);
+  --color-line-strong: rgba(255, 255, 255, 0.22);
 
-  /* Texto blanco brillante con leves variaciones azuladas */
-  --color-text: #ffffff;             /* blanco puro */
-  --color-text-2: #c8d4ee;           /* blanco con tinte azul sutil */
-  --color-text-3: #889bc4;
-  --color-text-4: #56688e;
+  --color-text: #f4f1e8;             /* off-white cálido */
+  --color-text-2: #c1c9dc;
+  --color-text-3: #7d869c;
+  --color-text-4: #525a6f;
 
-  /* ╔══════════ DORADO UTAH ══════════╗
-     #F2A900 oficial → #FFB800 neón con glow */
-  --color-gold: #ffb800;
-  --color-gold-bright: #ffcc40;     /* aún más bright para neón puro */
-  --color-gold-soft: #f2a900;       /* oficial del brand */
-  --color-gold-deep: #c98a00;
-  --color-gold-glow: rgba(255, 184, 0, 0.28);
-  --color-gold-glow-strong: rgba(255, 184, 0, 0.5);
+  /* Dorado Utah */
+  --color-gold: #f2b234;
+  --color-gold-soft: #f2a900;
+  --color-gold-deep: #b07e15;
+  --color-gold-glow: rgba(242, 178, 52, 0.18);
 
-  /* ╔══════════ AZUL UTAH BRILLANTE ══════════╗
-     Cobalt blue elevated to electric for tech accents */
-  --color-blue: #3b6dd3;             /* azul Utah brillante */
-  --color-blue-bright: #5b8aff;     /* eléctrico para highlights */
-  --color-blue-deep: #002855;        /* azul oficial Utah */
-  --color-blue-glow: rgba(91, 138, 255, 0.25);
-  --color-blue-glow-strong: rgba(91, 138, 255, 0.45);
+  /* Azul Utah */
+  --color-blue: #4c7fd3;
+  --color-blue-deep: #002855;
+  --color-blue-glow: rgba(76, 127, 211, 0.18);
 
-  /* ╔══════════ ROJO UTAH ══════════╗
-     Red de la bandera de Utah elevado a neón */
-  --color-red: #e63946;              /* rojo bandera moderno */
-  --color-red-bright: #ff5566;       /* rojo neón */
-  --color-red-deep: #bf0a30;         /* rojo bandera oficial */
-  --color-red-glow: rgba(230, 57, 70, 0.28);
-  --color-red-glow-strong: rgba(230, 57, 70, 0.5);
+  /* Rojo Utah — discreto, solo donde aporta */
+  --color-red: #c8334a;
+  --color-red-deep: #8a1f30;
+  --color-red-glow: rgba(200, 51, 74, 0.18);
 
-  /* Acentos funcionales */
-  --color-jade: #34d399;             /* éxito */
+  --color-jade: #34d399;
 
   --font-display: var(--font-space-grotesk);
   --font-sans: var(--font-geist-sans);
@@ -62,18 +49,14 @@
   --radius-md: 12px;
   --radius-lg: 16px;
 
-  --shadow-soft: 0 4px 16px -4px rgba(0, 0, 0, 0.5);
-  --shadow-card:
-    0 8px 28px -8px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(255, 184, 0, 0.06);
-  --shadow-elevated:
-    0 24px 60px -12px rgba(0, 0, 0, 0.85),
-    0 0 0 1px rgba(255, 184, 0, 0.14);
+  /* Easings clave — todo el sitio respira con estos */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-/* ────────────────────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════════
    Base
-   ──────────────────────────────────────────────────────────── */
+   ════════════════════════════════════════════════════════════ */
 html {
   background: var(--color-bg);
   color: var(--color-text);
@@ -90,11 +73,11 @@ body {
   font-family: var(--font-sans);
   font-feature-settings: "ss01" on, "cv11" on;
   overflow-x: hidden;
-  /* Glow patriotic — gold arriba, red abajo derecha, blue sutil */
+  /* Atmósfera Utah envolviendo sutilmente */
   background-image:
-    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255, 184, 0, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 50% at 100% 100%, rgba(230, 57, 70, 0.05) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 60% at 0% 50%, rgba(91, 138, 255, 0.04) 0%, transparent 60%);
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(242, 178, 52, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 100% 100%, rgba(200, 51, 74, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 0% 50%, rgba(76, 127, 211, 0.04) 0%, transparent 70%);
   background-attachment: fixed;
 }
 
@@ -109,37 +92,30 @@ body {
   font-weight: 500;
 }
 
-/* ────────────────────────────────────────────────────────────
-   Blueprint grid background
-   ──────────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════
+   Grid blueprint — usado solo donde aporta
+   ════════════════════════════════════════════════════════════ */
 .blueprint {
   background-image:
     linear-gradient(var(--color-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  background-position: -1px -1px;
+  background-size: 64px 64px;
 }
 
-.blueprint-dots {
-  background-image: radial-gradient(circle, var(--color-line-2) 1px, transparent 1px);
-  background-size: 24px 24px;
+.blueprint-fine {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
-.glow-gold {
-  background: radial-gradient(circle at center, var(--color-gold-glow) 0%, transparent 60%);
-}
+.glow-gold { background: radial-gradient(circle at center, var(--color-gold-glow) 0%, transparent 60%); }
+.glow-blue { background: radial-gradient(circle at center, var(--color-blue-glow) 0%, transparent 60%); }
+.glow-red { background: radial-gradient(circle at center, var(--color-red-glow) 0%, transparent 60%); }
 
-.glow-blue {
-  background: radial-gradient(circle at center, var(--color-blue-glow) 0%, transparent 60%);
-}
-
-.glow-red {
-  background: radial-gradient(circle at center, var(--color-red-glow) 0%, transparent 60%);
-}
-
-/* ────────────────────────────────────────────────────────────
-   Tags
-   ──────────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════
+   Tags — discretas, sin glow neón excesivo
+   ════════════════════════════════════════════════════════════ */
 .tag {
   display: inline-flex;
   align-items: center;
@@ -147,10 +123,10 @@ body {
   padding: 0.375rem 0.75rem;
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-text-2);
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--color-line);
   border-radius: 999px;
   font-weight: 500;
@@ -158,49 +134,44 @@ body {
 
 .tag-gold {
   color: var(--color-gold);
-  border-color: rgba(255, 184, 0, 0.35);
-  background: rgba(255, 184, 0, 0.06);
-  text-shadow: 0 0 10px rgba(255, 184, 0, 0.5);
+  border-color: rgba(242, 178, 52, 0.25);
+  background: rgba(242, 178, 52, 0.04);
 }
 
 .tag-blue {
-  color: var(--color-blue-bright);
-  border-color: rgba(91, 138, 255, 0.35);
-  background: rgba(91, 138, 255, 0.06);
-  text-shadow: 0 0 10px rgba(91, 138, 255, 0.5);
+  color: var(--color-blue);
+  border-color: rgba(76, 127, 211, 0.25);
+  background: rgba(76, 127, 211, 0.04);
 }
 
 .tag-red {
   color: var(--color-red);
-  border-color: rgba(230, 57, 70, 0.35);
-  background: rgba(230, 57, 70, 0.06);
-  text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+  border-color: rgba(200, 51, 74, 0.3);
+  background: rgba(200, 51, 74, 0.05);
 }
 
-/* Aliases para compatibilidad con código actual */
-.tag-navy {
-  color: var(--color-blue-bright);
-  border-color: rgba(91, 138, 255, 0.35);
-  background: rgba(91, 138, 255, 0.06);
-  text-shadow: 0 0 10px rgba(91, 138, 255, 0.5);
+.tag-navy { /* alias */
+  color: var(--color-blue);
+  border-color: rgba(76, 127, 211, 0.25);
+  background: rgba(76, 127, 211, 0.04);
 }
-.tag-amber {
+.tag-amber { /* alias */
   color: var(--color-gold);
-  border-color: rgba(255, 184, 0, 0.35);
-  background: rgba(255, 184, 0, 0.06);
+  border-color: rgba(242, 178, 52, 0.25);
+  background: rgba(242, 178, 52, 0.04);
 }
 
-/* ────────────────────────────────────────────────────────────
-   Pulse dot
-   ──────────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════
+   Pulse dot — sin saturar
+   ════════════════════════════════════════════════════════════ */
 .pulse-dot {
   position: relative;
   display: inline-block;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--color-jade);
-  box-shadow: 0 0 8px currentColor;
+  box-shadow: 0 0 4px currentColor;
 }
 .pulse-dot::before {
   content: "";
@@ -208,77 +179,71 @@ body {
   inset: 0;
   border-radius: 50%;
   background: currentColor;
-  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 @keyframes pulse-ring {
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(3.5); opacity: 0; }
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2.8); opacity: 0; }
 }
 
-/* ────────────────────────────────────────────────────────────
-   Botones
-   ──────────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════
+   Botones — peso visual contenido, sin glow show
+   ════════════════════════════════════════════════════════════ */
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: var(--color-white, #fff);
+  gap: 0.55rem;
+  background: var(--color-text);
   color: var(--color-blue-deep);
-  padding: 0.875rem 1.5rem;
+  padding: 0.9rem 1.6rem;
   font-size: 14px;
   font-weight: 600;
-  border: 1px solid #fff;
+  letter-spacing: -0.005em;
+  border: 1px solid var(--color-text);
   border-radius: var(--radius-sm);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s var(--ease-out-expo), box-shadow 0.5s ease;
   cursor: pointer;
   font-family: var(--font-sans);
 }
 .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -12px rgba(244, 241, 232, 0.35);
 }
 
 .btn-ghost {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.03);
+  gap: 0.55rem;
+  background: transparent;
   color: var(--color-text);
-  padding: 0.875rem 1.5rem;
+  padding: 0.9rem 1.6rem;
   font-size: 14px;
   font-weight: 500;
   border: 1px solid var(--color-line-2);
   border-radius: var(--radius-sm);
-  transition: all 0.25s ease;
+  transition: all 0.4s var(--ease-out-cubic);
   cursor: pointer;
   font-family: var(--font-sans);
-  backdrop-filter: blur(8px);
 }
 .btn-ghost:hover {
   border-color: var(--color-line-strong);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
 }
 
-/* CTA principal — dorado neón Utah */
 .btn-gold {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   background: var(--color-gold);
   color: var(--color-blue-deep);
-  padding: 0.875rem 1.5rem;
+  padding: 0.9rem 1.6rem;
   font-size: 14px;
   font-weight: 700;
-  letter-spacing: -0.005em;
   border: 1px solid var(--color-gold);
   border-radius: var(--radius-sm);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s var(--ease-out-expo), box-shadow 0.5s ease;
   cursor: pointer;
   font-family: var(--font-sans);
-  box-shadow:
-    0 0 0 0 var(--color-gold-glow),
-    0 0 16px var(--color-gold-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
   position: relative;
   overflow: hidden;
 }
@@ -286,130 +251,101 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
-  transform: translateX(-100%);
-  transition: transform 0.7s;
+  background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.4) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.9s var(--ease-out-expo);
   pointer-events: none;
 }
-.btn-gold:hover::after { transform: translateX(100%); }
+.btn-gold:hover::after { transform: translateX(120%); }
 .btn-gold:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 0 4px var(--color-gold-glow),
-    0 10px 40px -10px var(--color-gold-glow-strong),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -12px var(--color-gold-glow);
 }
 
-/* Botón rojo Utah para urgencia/CTA secundario fuerte */
-.btn-red {
+.btn-cyan { /* alias para evitar romper código existente */
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: var(--color-red);
-  color: #fff;
-  padding: 0.875rem 1.5rem;
-  font-size: 14px;
-  font-weight: 600;
-  border: 1px solid var(--color-red);
-  border-radius: var(--radius-sm);
-  transition: all 0.25s ease;
-  cursor: pointer;
-  font-family: var(--font-sans);
-  box-shadow: 0 0 16px var(--color-red-glow);
-}
-.btn-red:hover {
-  transform: translateY(-1px);
-  background: var(--color-red-bright);
-  box-shadow:
-    0 0 0 4px var(--color-red-glow),
-    0 10px 40px -10px var(--color-red-glow-strong);
-}
-
-/* Aliases para compatibilidad */
-.btn-cyan { /* legacy */
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   background: var(--color-gold);
   color: var(--color-blue-deep);
-  padding: 0.875rem 1.5rem;
+  padding: 0.9rem 1.6rem;
   font-size: 14px;
   font-weight: 700;
   border: 1px solid var(--color-gold);
   border-radius: var(--radius-sm);
-  transition: all 0.25s ease;
+  transition: transform 0.6s var(--ease-out-expo);
   cursor: pointer;
   font-family: var(--font-sans);
-  box-shadow: 0 0 16px var(--color-gold-glow);
 }
 .btn-cyan:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 0 4px var(--color-gold-glow), 0 10px 40px -10px var(--color-gold-glow-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -12px var(--color-gold-glow);
 }
 
-.btn-navy {
+.btn-red {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(91, 138, 255, 0.08);
-  color: var(--color-blue-bright);
-  padding: 0.875rem 1.5rem;
+  gap: 0.55rem;
+  background: transparent;
+  color: var(--color-red);
+  padding: 0.9rem 1.6rem;
   font-size: 14px;
   font-weight: 600;
-  border: 1px solid var(--color-blue-bright);
+  border: 1px solid var(--color-red);
   border-radius: var(--radius-sm);
-  transition: all 0.25s ease;
+  transition: all 0.4s var(--ease-out-cubic);
   cursor: pointer;
   font-family: var(--font-sans);
-  text-shadow: 0 0 12px rgba(91, 138, 255, 0.6);
 }
-.btn-navy:hover {
-  background: var(--color-blue-bright);
+.btn-red:hover {
+  background: var(--color-red);
   color: #fff;
-  text-shadow: none;
-  box-shadow: 0 0 24px var(--color-blue-glow-strong);
 }
 
 .btn-whatsapp {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   background: #25d366;
   color: #002b16;
-  padding: 0.875rem 1.5rem;
+  padding: 0.9rem 1.6rem;
   font-size: 14px;
   font-weight: 600;
   border: 1px solid #25d366;
   border-radius: var(--radius-sm);
-  transition: all 0.25s ease;
+  transition: transform 0.6s var(--ease-out-expo);
   cursor: pointer;
   font-family: var(--font-sans);
-  box-shadow: 0 0 16px rgba(37, 211, 102, 0.25);
 }
 .btn-whatsapp:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 0 4px rgba(37, 211, 102, 0.2),
-    0 10px 30px -10px rgba(37, 211, 102, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -12px rgba(37, 211, 102, 0.4);
 }
 
-/* ────────────────────────────────────────────────────────────
-   Animations
-   ──────────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════
+   Animaciones — restraint, solo lo esencial
+   ════════════════════════════════════════════════════════════ */
 @keyframes rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 1s var(--ease-out-expo) both; }
+
+@keyframes word-reveal {
   from {
     opacity: 0;
-    transform: translateY(16px);
-    filter: blur(6px);
+    transform: translateY(0.5em) rotate(1.5deg);
+    filter: blur(8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) rotate(0);
     filter: blur(0);
   }
 }
-.rise {
-  animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+.word-reveal > span {
+  display: inline-block;
+  animation: word-reveal 1.2s var(--ease-out-expo) both;
 }
 
 @keyframes path-draw {
@@ -419,177 +355,41 @@ body {
 .path-draw {
   stroke-dasharray: var(--path-length, 1000);
   stroke-dashoffset: var(--path-length, 1000);
-  animation: path-draw 2.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: path-draw 2.6s var(--ease-out-expo) forwards;
 }
 
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 0.55; }
-  94% { opacity: 1; }
-  96% { opacity: 0.75; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
-.flicker { animation: flicker 5s infinite; }
-
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
-  50% { transform: translateY(-8px) rotate(var(--rot, 0deg)); }
-}
-.float-slow {
-  animation: float-slow 6s ease-in-out infinite;
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 50s) linear infinite;
 }
 
-@keyframes neon-pulse {
-  0%, 100% {
-    text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
-  }
-  50% {
-    text-shadow: 0 0 18px currentColor, 0 0 36px currentColor;
-  }
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(var(--drift-x, 24px), var(--drift-y, -16px)); }
 }
-.neon-pulse {
-  animation: neon-pulse 3s ease-in-out infinite;
-}
+.drift { animation: drift var(--drift-duration, 14s) ease-in-out infinite; }
 
 /* ════════════════════════════════════════════════════════════
-   ANIMACIONES TECH AVANZADAS
+   Services Board — más minimalista
    ════════════════════════════════════════════════════════════ */
-
-/* Orb flotante — drift lento */
-@keyframes orb-drift {
-  0%, 100% {
-    transform: translate(var(--ox, 0), var(--oy, 0)) scale(1);
-  }
-  33% {
-    transform: translate(calc(var(--ox, 0) + 40px), calc(var(--oy, 0) - 30px)) scale(1.1);
-  }
-  66% {
-    transform: translate(calc(var(--ox, 0) - 30px), calc(var(--oy, 0) + 25px)) scale(0.95);
-  }
-}
-.orb-drift {
-  animation: orb-drift var(--orb-duration, 18s) cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Scan line — barra horizontal que recorre la pantalla */
-@keyframes scan-line {
-  0% { transform: translateY(-10vh); opacity: 0; }
-  10% { opacity: 0.8; }
-  90% { opacity: 0.8; }
-  100% { transform: translateY(110vh); opacity: 0; }
-}
-.scan-line {
-  animation: scan-line 8s linear infinite;
-}
-
-/* Dot que viaja por un path */
-@keyframes travel-dot {
-  0% { offset-distance: 0%; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { offset-distance: 100%; opacity: 0; }
-}
-.travel-dot {
-  animation: travel-dot var(--travel-duration, 5s) linear infinite;
-}
-
-/* Rotation continuous (para hexágonos, sellos) */
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.spin-slow { animation: spin-slow 24s linear infinite; }
-.spin-slow-reverse { animation: spin-slow 24s linear infinite reverse; }
-
-/* Particle drift — partículas que suben sutilmente */
-@keyframes particle-rise {
-  0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0;
-  }
-  10% { opacity: var(--particle-opacity, 0.6); }
-  90% { opacity: var(--particle-opacity, 0.6); }
-  100% {
-    transform: translateY(-100vh) translateX(var(--particle-drift, 20px));
-    opacity: 0;
-  }
-}
-.particle-rise {
-  animation: particle-rise var(--particle-duration, 14s) linear infinite;
-  animation-delay: var(--particle-delay, 0s);
-}
-
-/* Glitch sutil — para títulos tech */
-@keyframes glitch-soft {
-  0%, 100% { transform: translate(0); }
-  92% { transform: translate(-1px, 0); }
-  93% { transform: translate(1px, 1px); }
-  94% { transform: translate(0); }
-}
-.glitch-soft {
-  animation: glitch-soft 4s infinite;
-}
-
-/* Pulse de heartbeat — para CTAs */
-@keyframes heartbeat {
-  0%, 100% {
-    box-shadow:
-      0 0 0 0 var(--color-red-glow-strong),
-      0 0 0 0 var(--color-red-glow);
-  }
-  50% {
-    box-shadow:
-      0 0 0 10px transparent,
-      0 0 24px var(--color-red-glow-strong);
-  }
-}
-.heartbeat {
-  animation: heartbeat 2.4s ease-out infinite;
-}
-
-/* Wave entrante de izquierda */
-@keyframes slide-in-x {
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-.slide-in-x { animation: slide-in-x 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
-
-/* Beam — barra de luz que pulsa horizontalmente */
-@keyframes beam {
-  0%, 100% { opacity: 0; transform: scaleX(0.3); }
-  50% { opacity: 1; transform: scaleX(1); }
-}
-.beam { animation: beam 3s ease-in-out infinite; }
-
-/* SVG path que se dibuja en loop */
-@keyframes path-loop {
-  0% { stroke-dashoffset: var(--path-length, 200); }
-  50% { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: calc(var(--path-length, 200) * -1); }
-}
-.path-loop {
-  stroke-dasharray: 12 6;
-  animation: path-loop var(--loop-duration, 6s) linear infinite;
-}
-
-/* ────────────────────────────────────────────────────────────
-   Services Board
-   ──────────────────────────────────────────────────────────── */
 .board {
   position: relative;
   background: var(--color-surface);
   border: 1px solid var(--color-line-2);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow:
-    0 0 80px -20px var(--color-blue-glow),
-    0 0 40px -20px var(--color-gold-glow);
 }
+
 .board-grid {
   background-image:
     linear-gradient(var(--color-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
   background-size: 32px 32px;
-  background-position: -1px -1px;
 }
 
 .service-card {
@@ -598,40 +398,32 @@ body {
   border: 1px solid var(--color-line-2);
   border-radius: var(--radius-md);
   transition:
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.5s,
-    border-color 0.3s;
+    transform 0.7s var(--ease-out-expo),
+    box-shadow 0.7s ease,
+    border-color 0.4s;
   transform: rotate(var(--rot, 0deg));
   will-change: transform;
 }
 .service-card::before {
-  /* Cinta roja Utah */
+  /* Marca discreta — línea gold delgada en el top, no cinta gigante */
   content: "";
   position: absolute;
-  top: -8px;
+  top: 0;
+  left: 24px;
   right: 24px;
-  width: 36px;
-  height: 16px;
-  background: linear-gradient(180deg, rgba(230, 57, 70, 0.6), rgba(230, 57, 70, 0.9));
-  border-left: 1px solid rgba(230, 57, 70, 0.5);
-  border-right: 1px solid rgba(230, 57, 70, 0.5);
-  transform: rotate(-3deg);
-  pointer-events: none;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.4),
-    0 0 12px rgba(230, 57, 70, 0.35);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  opacity: 0.5;
 }
 .service-card:hover {
   transform: rotate(0deg) translateY(-6px);
-  box-shadow:
-    var(--shadow-elevated),
-    0 0 40px var(--color-gold-glow);
-  border-color: var(--color-gold);
+  border-color: rgba(242, 178, 52, 0.4);
+  box-shadow: 0 28px 56px -18px rgba(0, 0, 0, 0.6);
   z-index: 5;
 }
 
 .sticky-note {
-  background: linear-gradient(135deg, #ffd556, #ffb800);
+  background: linear-gradient(135deg, #ffd97f, #f2b234);
   color: #2a1f00;
   padding: 0.875rem 1rem;
   border-radius: 2px;
@@ -639,11 +431,11 @@ body {
   font-size: 11px;
   font-weight: 500;
   line-height: 1.4;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.4),
-    0 8px 24px rgba(255, 184, 0, 0.18);
   letter-spacing: -0.005em;
   position: relative;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 8px 24px rgba(242, 178, 52, 0.12);
 }
 
 .container-x {
@@ -653,11 +445,10 @@ body {
   padding-inline: clamp(1.25rem, 4vw, 3rem);
 }
 
-/* Link underline neón */
 .link-tech {
   position: relative;
   color: var(--color-text-2);
-  transition: color 0.2s;
+  transition: color 0.3s var(--ease-out-cubic);
 }
 .link-tech::after {
   content: "";
@@ -667,51 +458,33 @@ body {
   bottom: -3px;
   height: 1px;
   background: var(--color-gold);
-  box-shadow: 0 0 6px var(--color-gold);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.6s var(--ease-out-expo);
 }
 .link-tech:hover { color: var(--color-text); }
 .link-tech:hover::after { transform: scaleX(1); }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 12px; height: 12px; }
+/* Scrollbar refinado */
+::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb {
   background: var(--color-elevated);
   border: 3px solid var(--color-bg);
   border-radius: 100px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--color-blue); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-blue-deep); }
 
-/* ────────────────────────────────────────────────────────────
-   Utilidades de neón
-   ──────────────────────────────────────────────────────────── */
+/* Utilidades neón sutil — para uso muy puntual */
 .neon-gold {
   color: var(--color-gold);
-  text-shadow:
-    0 0 10px rgba(255, 184, 0, 0.6),
-    0 0 24px rgba(255, 184, 0, 0.3);
+  text-shadow: 0 0 18px rgba(242, 178, 52, 0.35);
 }
-
-.neon-blue {
-  color: var(--color-blue-bright);
-  text-shadow:
-    0 0 10px rgba(91, 138, 255, 0.6),
-    0 0 24px rgba(91, 138, 255, 0.3);
-}
-
 .neon-red {
   color: var(--color-red);
-  text-shadow:
-    0 0 10px rgba(230, 57, 70, 0.6),
-    0 0 24px rgba(230, 57, 70, 0.3);
+  text-shadow: 0 0 18px rgba(200, 51, 74, 0.35);
 }
-
-.neon-white {
-  color: #fff;
-  text-shadow:
-    0 0 12px rgba(255, 255, 255, 0.3),
-    0 0 28px rgba(255, 255, 255, 0.15);
+.neon-blue {
+  color: var(--color-blue);
+  text-shadow: 0 0 18px rgba(76, 127, 211, 0.35);
 }

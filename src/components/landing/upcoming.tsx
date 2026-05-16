@@ -9,9 +9,7 @@ export function Upcoming() {
       />
       <AmbientOrbs
         orbs={[
-          { color: 'red', size: 500, x: '20%', y: '30%', opacity: 0.5, duration: 22 },
-          { color: 'blue', size: 450, x: '80%', y: '70%', opacity: 0.45, duration: 18, delay: 4 },
-          { color: 'gold', size: 350, x: '50%', y: '50%', opacity: 0.3, duration: 26 },
+          { color: 'blue', size: 580, x: '85%', y: '60%', opacity: 0.28, duration: 26 },
         ]}
       />
 

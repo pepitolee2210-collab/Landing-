@@ -10,8 +10,7 @@ export function Testimonials() {
       />
       <AmbientOrbs
         orbs={[
-          { color: 'red', size: 380, x: '85%', y: '20%', opacity: 0.45, duration: 20 },
-          { color: 'gold', size: 320, x: '5%', y: '70%', opacity: 0.4, duration: 24, delay: 5 },
+          { color: 'red', size: 520, x: '88%', y: '20%', opacity: 0.25, duration: 24 },
         ]}
       />
 
