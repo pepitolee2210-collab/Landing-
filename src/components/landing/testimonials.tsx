@@ -24,7 +24,7 @@ export function Testimonials() {
             }}
           >
             Lo que dicen{' '}
-            <span style={{ color: 'var(--color-cyan)' }}>
+            <span style={{ color: 'var(--color-gold)' }}>
               quienes ya pasaron
             </span>{' '}
             por aquí.
@@ -44,7 +44,7 @@ export function Testimonials() {
             return (
               <article
                 key={t.id}
-                className={`${span} group relative p-7 md:p-9 border border-[var(--color-line-2)] hover:border-[var(--color-cyan)]/40 transition-all duration-500 hover:-translate-y-1`}
+                className={`${span} group relative p-7 md:p-9 border border-[var(--color-line-2)] hover:border-[var(--color-gold)]/40 transition-all duration-500 hover:-translate-y-1`}
                 style={{
                   background: 'var(--color-surface)',
                   borderRadius: 'var(--radius-md)',
@@ -55,7 +55,7 @@ export function Testimonials() {
                   className="absolute -top-2.5 left-7 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em]"
                   style={{
                     background: 'var(--color-bg)',
-                    color: 'var(--color-cyan)',
+                    color: 'var(--color-gold)',
                     border: '1px solid var(--color-line-2)',
                     borderRadius: '4px',
                   }}
@@ -66,7 +66,7 @@ export function Testimonials() {
                 <svg width="28" height="20" viewBox="0 0 28 20" fill="none" className="mb-5" aria-hidden>
                   <path
                     d="M0 20V12C0 5.4 4.4 0.8 11 0L11.6 4.4C7.6 5.6 5.2 7.6 5.2 12H10.4V20H0ZM17.2 20V12C17.2 5.4 21.6 0.8 28 0L28 4.4C24.6 5.6 22.4 7.6 22.4 12H27.6V20H17.2Z"
-                    fill="var(--color-cyan)"
+                    fill="var(--color-gold)"
                     fillOpacity="0.4"
                   />
                 </svg>
@@ -89,7 +89,7 @@ export function Testimonials() {
                       className="inline-flex items-center justify-center w-10 h-10 font-mono text-xs font-medium flex-shrink-0"
                       style={{
                         background: 'linear-gradient(135deg, var(--color-elevated), var(--color-surface-2))',
-                        color: 'var(--color-cyan)',
+                        color: 'var(--color-gold)',
                         borderRadius: '50%',
                         border: '1px solid var(--color-line-2)',
                       }}
@@ -124,5 +124,5 @@ export function Testimonials() {
 }
 
 function DotIcon() {
-  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cyan)]" />
+  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]" />
 }

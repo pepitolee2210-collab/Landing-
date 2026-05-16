@@ -42,7 +42,7 @@ export default function AboutPage() {
               }}
             >
               Latinos{' '}
-              <span style={{ color: 'var(--color-cyan)' }}>trabajando para latinos</span>{' '}
+              <span style={{ color: 'var(--color-gold)' }}>trabajando para latinos</span>{' '}
               en EE.UU.
             </h1>
 
@@ -64,7 +64,7 @@ export default function AboutPage() {
               {TEAM.map((member, idx) => (
                 <li
                   key={member.slug}
-                  className="grid grid-cols-12 gap-4 md:gap-8 items-start p-6 md:p-10 border border-[var(--color-line-2)] rounded-lg transition-colors hover:border-[var(--color-cyan)]/40"
+                  className="grid grid-cols-12 gap-4 md:gap-8 items-start p-6 md:p-10 border border-[var(--color-line-2)] rounded-lg transition-colors hover:border-[var(--color-gold)]/40"
                   style={{ background: 'var(--color-surface)' }}
                 >
                   {/* Avatar geometric */}
@@ -79,7 +79,7 @@ export default function AboutPage() {
                         className="absolute inset-0 flex items-center justify-center font-display"
                         style={{
                           fontSize: '3rem',
-                          color: 'var(--color-cyan)',
+                          color: 'var(--color-gold)',
                           fontWeight: 500,
                           letterSpacing: '-0.04em',
                           opacity: 0.7,
@@ -100,7 +100,7 @@ export default function AboutPage() {
 
                   {/* Bio */}
                   <div className="col-span-9 md:col-span-7">
-                    <p className="font-mono text-[10px] text-[var(--color-cyan)] uppercase tracking-[0.18em] mb-2">
+                    <p className="font-mono text-[10px] text-[var(--color-gold)] uppercase tracking-[0.18em] mb-2">
                       {member.shortRole}
                     </p>
                     <h2
@@ -173,7 +173,7 @@ export default function AboutPage() {
                 },
               ].map((item) => (
                 <div key={item.n}>
-                  <p className="font-mono text-xs text-[var(--color-cyan)] tracking-[0.25em] mb-3">
+                  <p className="font-mono text-xs text-[var(--color-gold)] tracking-[0.25em] mb-3">
                     {item.n}
                   </p>
                   <h3
@@ -199,5 +199,5 @@ export default function AboutPage() {
 }
 
 function DotIcon() {
-  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cyan)]" />
+  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]" />
 }

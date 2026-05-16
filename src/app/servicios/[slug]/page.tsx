@@ -33,8 +33,8 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
   const whatsappMessage = `Hola, vi en su web el servicio "${service.shortName}" y quisiera más información.`
   const categoryColor = {
-    'visa-juvenil': 'var(--color-cyan)',
-    asilo: 'var(--color-ember)',
+    'visa-juvenil': 'var(--color-gold)',
+    asilo: 'var(--color-navy)',
     ajuste: 'var(--color-jade)',
     otros: 'var(--color-text-2)',
   }[service.category]
@@ -105,7 +105,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                   Plan a {service.installments} cuotas
                 </p>
                 {service.priceExtraChild && (
-                  <p className="mt-2 text-xs" style={{ color: 'var(--color-cyan)' }}>
+                  <p className="mt-2 text-xs" style={{ color: 'var(--color-gold)' }}>
                     + ${service.priceExtraChild} por cada hijo adicional
                   </p>
                 )}
@@ -166,7 +166,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         <section id="fases" className="py-24 md:py-32 relative">
           <div className="container-x">
             <div className="flex items-baseline gap-3 mb-6">
-              <span className="tag tag-cyan">
+              <span className="tag tag-gold">
                 <DotIcon />
                 FASES · {service.phases.length} etapa{service.phases.length !== 1 ? 's' : ''}
               </span>
@@ -190,7 +190,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                 className="absolute left-6 top-8 bottom-8 w-px hidden md:block"
                 style={{
                   background:
-                    'linear-gradient(180deg, var(--color-cyan) 0%, var(--color-cyan-dim) 50%, transparent 100%)',
+                    'linear-gradient(180deg, var(--color-gold) 0%, var(--color-gold-deep) 50%, transparent 100%)',
                 }}
               />
 
@@ -205,8 +205,8 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                       className="inline-flex items-center justify-center w-12 h-12 rounded-md font-mono font-bold border-2 relative z-10"
                       style={{
                         background: 'var(--color-bg)',
-                        color: 'var(--color-cyan)',
-                        borderColor: 'var(--color-cyan)',
+                        color: 'var(--color-gold)',
+                        borderColor: 'var(--color-gold)',
                         fontSize: 14,
                       }}
                     >
@@ -241,7 +241,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                         <p className="font-mono text-[10px] text-[var(--color-text-3)] uppercase tracking-[0.18em] mb-1.5">
                           Tiempo
                         </p>
-                        <p className="font-mono text-sm text-[var(--color-cyan)]">
+                        <p className="font-mono text-sm text-[var(--color-gold)]">
                           {phase.timeframe}
                         </p>
                       </div>
@@ -282,11 +282,11 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               {service.documents.map((doc, idx) => (
                 <li
                   key={idx}
-                  className="flex items-start gap-4 p-4 border border-[var(--color-line-2)] rounded-md hover:border-[var(--color-cyan)]/40 transition-colors"
+                  className="flex items-start gap-4 p-4 border border-[var(--color-line-2)] rounded-md hover:border-[var(--color-gold)]/40 transition-colors"
                   style={{ background: 'var(--color-surface)' }}
                 >
                   <span
-                    className="font-mono text-xs text-[var(--color-cyan)] pt-0.5"
+                    className="font-mono text-xs text-[var(--color-gold)] pt-0.5"
                     style={{ minWidth: '24px' }}
                   >
                     {String(idx + 1).padStart(2, '0')}
@@ -323,7 +323,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               {service.faq.map((item, idx) => (
                 <details
                   key={idx}
-                  className="group border border-[var(--color-line-2)] rounded-md hover:border-[var(--color-cyan)]/40 transition-colors"
+                  className="group border border-[var(--color-line-2)] rounded-md hover:border-[var(--color-gold)]/40 transition-colors"
                   style={{ background: 'var(--color-surface)' }}
                 >
                   <summary className="cursor-pointer flex items-start justify-between gap-6 list-none p-6">
@@ -334,7 +334,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                       {item.q}
                     </dt>
                     <span
-                      className="font-display text-3xl font-light text-[var(--color-cyan)] transition-transform duration-300 group-open:rotate-45 leading-none flex-shrink-0"
+                      className="font-display text-3xl font-light text-[var(--color-gold)] transition-transform duration-300 group-open:rotate-45 leading-none flex-shrink-0"
                       aria-hidden
                     >
                       +
@@ -360,7 +360,7 @@ function DotIcon({ amber = false }: { amber?: boolean }) {
   return (
     <span
       className="w-1.5 h-1.5 rounded-full"
-      style={{ background: amber ? 'var(--color-amber)' : 'var(--color-cyan)' }}
+      style={{ background: amber ? 'var(--color-amber)' : 'var(--color-gold)' }}
     />
   )
 }

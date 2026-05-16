@@ -31,7 +31,7 @@ export function JourneyDiagram() {
       {/* Glow detrás */}
       <div
         aria-hidden
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] glow-cyan opacity-50 pointer-events-none"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] glow-gold opacity-50 pointer-events-none"
       />
 
       <svg
@@ -47,9 +47,9 @@ export function JourneyDiagram() {
             <stop offset="100%" stopColor="var(--color-surface-2)" />
           </linearGradient>
           <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="var(--color-cyan)" stopOpacity="0.2" />
-            <stop offset="50%" stopColor="var(--color-cyan)" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="var(--color-cyan)" stopOpacity="0.2" />
+            <stop offset="0%" stopColor="var(--color-gold)" stopOpacity="0.2" />
+            <stop offset="50%" stopColor="var(--color-gold)" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="var(--color-gold)" stopOpacity="0.2" />
           </linearGradient>
           <filter id="cyanGlow">
             <feGaussianBlur stdDeviation="3" result="blur" />
@@ -80,9 +80,9 @@ export function JourneyDiagram() {
             strokeWidth="1"
           />
           {/* Borde de papel arriba */}
-          <rect width="110" height="6" fill="var(--color-cyan)" opacity="0.4" rx="6" />
+          <rect width="110" height="6" fill="var(--color-gold)" opacity="0.4" rx="6" />
           {/* Texto encabezado */}
-          <text x="12" y="28" fill="var(--color-cyan)" fontSize="7" fontFamily="var(--font-mono)" letterSpacing="2">
+          <text x="12" y="28" fill="var(--color-gold)" fontSize="7" fontFamily="var(--font-mono)" letterSpacing="2">
             01 · CUSTODIA
           </text>
           {/* Líneas de "texto" */}
@@ -110,19 +110,19 @@ export function JourneyDiagram() {
           />
         </g>
 
-        {/* === DOC 2 — I-360 === */}
+        {/* === DOC 2 — I-360 (activo, navy eléctrico para variedad) === */}
         <g transform="translate(245, 200)">
           <rect
             width="110"
             height="140"
             rx="6"
             fill="url(#docGrad)"
-            stroke="var(--color-cyan)"
+            stroke="var(--color-navy)"
             strokeWidth="1.5"
             filter="url(#cyanGlow)"
           />
-          <rect width="110" height="6" fill="var(--color-cyan)" opacity="0.7" rx="6" />
-          <text x="12" y="28" fill="var(--color-cyan)" fontSize="7" fontFamily="var(--font-mono)" letterSpacing="2">
+          <rect width="110" height="6" fill="var(--color-navy)" opacity="0.8" rx="6" />
+          <text x="12" y="28" fill="var(--color-navy)" fontSize="7" fontFamily="var(--font-mono)" letterSpacing="2">
             02 · I-360
           </text>
           <text x="12" y="42" fill="var(--color-text-2)" fontSize="6" fontFamily="var(--font-mono)" opacity="0.7">
@@ -133,8 +133,8 @@ export function JourneyDiagram() {
           <rect x="12" y="74" width="78" height="3" fill="var(--color-text-3)" opacity="0.3" rx="1" />
           {/* Barra de progreso */}
           <rect x="12" y="92" width="86" height="4" rx="2" fill="var(--color-line)" />
-          <rect x="12" y="92" width="55" height="4" rx="2" fill="var(--color-cyan)" />
-          <text x="12" y="108" fill="var(--color-cyan)" fontSize="6" fontFamily="var(--font-mono)" opacity="0.8">
+          <rect x="12" y="92" width="55" height="4" rx="2" fill="var(--color-navy)" />
+          <text x="12" y="108" fill="var(--color-navy)" fontSize="6" fontFamily="var(--font-mono)" opacity="0.9">
             EN PROCESO · 64%
           </text>
         </g>
@@ -179,8 +179,8 @@ export function JourneyDiagram() {
 
         {/* Tag costo */}
         <g transform="translate(60, 360)" className="float-slow" style={{ animationDelay: '1.5s', ['--rot' as string]: '3deg' }}>
-          <rect width="120" height="36" rx="4" fill="var(--color-surface-2)" stroke="var(--color-cyan)" strokeWidth="1" />
-          <text x="10" y="13" fill="var(--color-cyan)" fontSize="6" fontFamily="var(--font-mono)" letterSpacing="1.5">
+          <rect width="120" height="36" rx="4" fill="var(--color-surface-2)" stroke="var(--color-gold)" strokeWidth="1" />
+          <text x="10" y="13" fill="var(--color-gold)" fontSize="6" fontFamily="var(--font-mono)" letterSpacing="1.5">
             INVERSIÓN TOTAL
           </text>
           <text x="10" y="28" fill="var(--color-text)" fontSize="11" fontFamily="var(--font-display)" fontWeight="600">
@@ -188,9 +188,9 @@ export function JourneyDiagram() {
           </text>
         </g>
 
-        {/* Punto pulsante en doc 2 */}
+        {/* Punto pulsante en doc 2 (activo) - navy eléctrico */}
         <g transform="translate(300, 200)">
-          <circle r="4" fill="var(--color-cyan)">
+          <circle r="4" fill="var(--color-navy)">
             <animate
               attributeName="opacity"
               values="1;0.3;1"
@@ -198,7 +198,7 @@ export function JourneyDiagram() {
               repeatCount="indefinite"
             />
           </circle>
-          <circle r="8" fill="none" stroke="var(--color-cyan)" strokeWidth="1">
+          <circle r="8" fill="none" stroke="var(--color-navy)" strokeWidth="1">
             <animate attributeName="r" values="4;14;4" dur="2s" repeatCount="indefinite" />
             <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite" />
           </circle>
@@ -226,8 +226,8 @@ export function JourneyDiagram() {
           </svg>
           12 docs cargados
         </span>
-        <span className="tag tag-cyan">
-          <span className="pulse-dot" style={{ background: 'var(--color-cyan)' }} />
+        <span className="tag tag-navy">
+          <span className="pulse-dot" style={{ background: 'var(--color-navy)' }} />
           USCIS sincronizado
         </span>
       </div>

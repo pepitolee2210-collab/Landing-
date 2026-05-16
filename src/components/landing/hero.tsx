@@ -20,7 +20,7 @@ export function Hero() {
       {/* Glow cian sutil arriba */}
       <div
         aria-hidden
-        className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[600px] glow-cyan opacity-50 pointer-events-none"
+        className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[600px] glow-gold opacity-50 pointer-events-none"
       />
 
       <div className="container-x relative">
@@ -28,8 +28,8 @@ export function Hero() {
           {/* Lado izquierdo — texto */}
           <div className="lg:col-span-6">
             <div className="rise" style={{ animationDelay: '0ms' }}>
-              <span className="tag tag-cyan">
-                <span className="pulse-dot" style={{ background: 'var(--color-cyan)' }} />
+              <span className="tag tag-gold">
+                <span className="pulse-dot" style={{ background: 'var(--color-gold)' }} />
                 Bufete digital · Establecido {SITE.legal.foundedYear}
               </span>
             </div>
@@ -56,7 +56,7 @@ export function Hero() {
                 >
                   <path
                     d="M2 8 Q 50 2, 100 8 T 198 8"
-                    stroke="var(--color-cyan)"
+                    stroke="var(--color-gold)"
                     strokeWidth="2.5"
                     fill="none"
                     strokeLinecap="round"
@@ -67,7 +67,7 @@ export function Hero() {
               </span>
               <br />
               en{' '}
-              <span style={{ color: 'var(--color-cyan)' }}>tiempo real.</span>
+              <span style={{ color: 'var(--color-gold)' }}>tiempo real.</span>
             </h1>
 
             <p
@@ -91,7 +91,7 @@ export function Hero() {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-cyan"
+                className="btn-gold"
               >
                 <WhatsAppIcon />
                 Empieza tu caso ahora

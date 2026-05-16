@@ -22,7 +22,7 @@ export function Upcoming() {
             }}
           >
             No solo migración.{' '}
-            <span style={{ color: 'var(--color-cyan)' }}>
+            <span style={{ color: 'var(--color-gold)' }}>
               Construimos infraestructura
             </span>{' '}
             para la comunidad latina.
@@ -73,7 +73,7 @@ export function Upcoming() {
             </div>
           </article>
 
-          {/* DigiLegal */}
+          {/* DigiLegal — navy electric (app digital) */}
           <article
             className="relative p-10 md:p-14 group overflow-hidden"
             style={{ background: 'var(--color-bg-2)' }}
@@ -84,8 +84,8 @@ export function Upcoming() {
 
             <div className="relative">
               <div className="flex items-center justify-between mb-8">
-                <span className="tag tag-cyan">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cyan)]" />
+                <span className="tag tag-navy">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-navy)]" />
                   App móvil · 2026
                 </span>
               </div>
@@ -154,16 +154,16 @@ function PhoneMockupSVG() {
   return (
     <svg width="200" height="280" viewBox="0 0 200 280" fill="none" aria-hidden>
       {/* Frame del teléfono */}
-      <rect x="40" y="20" width="120" height="240" rx="14" stroke="var(--color-cyan)" strokeWidth="1.2" fill="var(--color-bg-2)" />
+      <rect x="40" y="20" width="120" height="240" rx="14" stroke="var(--color-navy)" strokeWidth="1.2" fill="var(--color-bg-2)" />
       {/* Notch */}
-      <rect x="80" y="28" width="40" height="6" rx="3" fill="var(--color-cyan)" opacity="0.4" />
+      <rect x="80" y="28" width="40" height="6" rx="3" fill="var(--color-gold)" opacity="0.4" />
       {/* App screen mock */}
-      <rect x="48" y="44" width="104" height="40" rx="4" fill="var(--color-cyan)" opacity="0.15" stroke="var(--color-cyan)" strokeWidth="0.6" />
-      <text x="56" y="58" fill="var(--color-cyan)" fontSize="5" fontFamily="var(--font-mono)" letterSpacing="0.5">CASO ACTIVO</text>
-      <text x="56" y="72" fill="var(--color-cyan)" fontSize="9" fontFamily="var(--font-display)" fontWeight="600">Visa Juvenil</text>
+      <rect x="48" y="44" width="104" height="40" rx="4" fill="var(--color-gold)" opacity="0.15" stroke="var(--color-gold)" strokeWidth="0.6" />
+      <text x="56" y="58" fill="var(--color-gold)" fontSize="5" fontFamily="var(--font-mono)" letterSpacing="0.5">CASO ACTIVO</text>
+      <text x="56" y="72" fill="var(--color-gold)" fontSize="9" fontFamily="var(--font-display)" fontWeight="600">Visa Juvenil</text>
       {/* Progress */}
       <rect x="48" y="100" width="104" height="3" rx="1.5" fill="var(--color-line-2)" />
-      <rect x="48" y="100" width="65" height="3" rx="1.5" fill="var(--color-cyan)" />
+      <rect x="48" y="100" width="65" height="3" rx="1.5" fill="var(--color-gold)" />
       {/* List items */}
       <rect x="48" y="118" width="104" height="20" rx="3" stroke="var(--color-line)" strokeWidth="0.6" />
       <rect x="48" y="144" width="104" height="20" rx="3" stroke="var(--color-line)" strokeWidth="0.6" />
@@ -171,7 +171,7 @@ function PhoneMockupSVG() {
       <rect x="48" y="196" width="104" height="20" rx="3" stroke="var(--color-line)" strokeWidth="0.6" />
       {/* Bottom nav */}
       <line x1="48" y1="234" x2="152" y2="234" stroke="var(--color-line)" strokeWidth="0.5" />
-      <circle cx="64" cy="248" r="4" fill="var(--color-cyan)" />
+      <circle cx="64" cy="248" r="4" fill="var(--color-navy)" />
       <circle cx="100" cy="248" r="4" stroke="var(--color-text-3)" strokeWidth="0.6" fill="none" />
       <circle cx="136" cy="248" r="4" stroke="var(--color-text-3)" strokeWidth="0.6" fill="none" />
     </svg>
@@ -195,5 +195,5 @@ function PlayStoreIcon() {
 }
 
 function DotIcon() {
-  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cyan)]" />
+  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]" />
 }

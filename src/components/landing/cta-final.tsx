@@ -7,7 +7,7 @@ export function CTAFinal() {
       {/* Glow ambient */}
       <div
         aria-hidden
-        className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[600px] glow-cyan opacity-50 pointer-events-none"
+        className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[600px] glow-gold opacity-50 pointer-events-none"
       />
       <div
         aria-hidden
@@ -20,8 +20,8 @@ export function CTAFinal() {
 
       <div className="container-x relative">
         <div className="max-w-4xl mx-auto text-center">
-          <span className="tag tag-cyan inline-flex">
-            <span className="pulse-dot" style={{ background: 'var(--color-cyan)' }} />
+          <span className="tag tag-gold inline-flex">
+            <span className="pulse-dot" style={{ background: 'var(--color-gold)' }} />
             Disponible ahora · Sin compromiso
           </span>
 
@@ -35,7 +35,7 @@ export function CTAFinal() {
             }}
           >
             Tu próxima conversación{' '}
-            <span style={{ color: 'var(--color-cyan)' }}>
+            <span style={{ color: 'var(--color-gold)' }}>
               cambia todo el rumbo
             </span>{' '}
             de tu caso.

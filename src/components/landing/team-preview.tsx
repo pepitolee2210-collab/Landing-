@@ -20,7 +20,7 @@ export function TeamPreview() {
             }}
           >
             Detrás de cada caso,{' '}
-            <span style={{ color: 'var(--color-cyan)' }}>
+            <span style={{ color: 'var(--color-gold)' }}>
               un equipo que también es latino.
             </span>
           </h2>
@@ -30,7 +30,7 @@ export function TeamPreview() {
           {TEAM.map((member, idx) => (
             <article
               key={member.slug}
-              className="group relative overflow-hidden border border-[var(--color-line-2)] hover:border-[var(--color-cyan)] transition-all duration-500"
+              className="group relative overflow-hidden border border-[var(--color-line-2)] hover:border-[var(--color-gold)] transition-all duration-500"
               style={{
                 background: 'var(--color-surface)',
                 borderRadius: 'var(--radius-md)',
@@ -55,7 +55,7 @@ export function TeamPreview() {
                   className="absolute inset-0 flex items-center justify-center font-display group-hover:scale-110 transition-transform duration-700"
                   style={{
                     fontSize: '3.5rem',
-                    color: 'var(--color-cyan)',
+                    color: 'var(--color-gold)',
                     fontWeight: 500,
                     letterSpacing: '-0.04em',
                     opacity: 0.7,
@@ -116,5 +116,5 @@ export function TeamPreview() {
 }
 
 function DotIcon() {
-  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cyan)]" />
+  return <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]" />
 }

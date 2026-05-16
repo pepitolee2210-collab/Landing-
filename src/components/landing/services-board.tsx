@@ -47,7 +47,7 @@ export function ServicesBoard() {
             }}
           >
             Elige tu carpeta.{' '}
-            <span style={{ color: 'var(--color-cyan)' }}>
+            <span style={{ color: 'var(--color-gold)' }}>
               Cada caso, un plan distinto.
             </span>
           </h2>
@@ -73,7 +73,7 @@ export function ServicesBoard() {
           {/* Glow ambient */}
           <div
             aria-hidden
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] glow-cyan opacity-30 pointer-events-none"
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] glow-gold opacity-30 pointer-events-none"
           />
 
           {/* Workspace bar superior */}
@@ -84,8 +84,8 @@ export function ServicesBoard() {
             <span className="ml-3 font-mono text-[10px] text-[var(--color-text-3)] uppercase tracking-[0.2em]">
               workspace · servicios.ulp
             </span>
-            <span className="ml-auto font-mono text-[10px] text-[var(--color-cyan)] flex items-center gap-1.5">
-              <span className="pulse-dot" style={{ background: 'var(--color-cyan)' }} />
+            <span className="ml-auto font-mono text-[10px] text-[var(--color-gold)] flex items-center gap-1.5">
+              <span className="pulse-dot" style={{ background: 'var(--color-gold)' }} />
               5 carpetas activas
             </span>
           </div>
@@ -143,7 +143,7 @@ export function ServicesBoard() {
                   y1="180"
                   x2="430"
                   y2="200"
-                  stroke="var(--color-cyan)"
+                  stroke="var(--color-gold)"
                   strokeWidth="0.8"
                   strokeDasharray="2 4"
                   opacity="0.5"
@@ -153,7 +153,7 @@ export function ServicesBoard() {
                   y1="200"
                   x2="720"
                   y2="180"
-                  stroke="var(--color-cyan)"
+                  stroke="var(--color-gold)"
                   strokeWidth="0.8"
                   strokeDasharray="2 4"
                   opacity="0.5"
@@ -163,7 +163,7 @@ export function ServicesBoard() {
                   y1="500"
                   x2="600"
                   y2="500"
-                  stroke="var(--color-cyan)"
+                  stroke="var(--color-gold)"
                   strokeWidth="0.8"
                   strokeDasharray="2 4"
                   opacity="0.5"
@@ -198,7 +198,7 @@ export function ServicesBoard() {
             </span>
             <span className="hidden sm:flex items-center gap-3">
               <span>Tip ↗</span>
-              <span className="text-[var(--color-cyan)]">Si dudas, pregúntanos por WhatsApp</span>
+              <span className="text-[var(--color-gold)]">Si dudas, pregúntanos por WhatsApp</span>
             </span>
           </div>
         </div>
@@ -225,8 +225,8 @@ function ServiceFolderCard({
   tag?: string
 }) {
   const categoryStyle = {
-    'visa-juvenil': { color: 'var(--color-cyan)', label: 'VJ · SIJS' },
-    asilo: { color: 'var(--color-ember)', label: 'ASILO' },
+    'visa-juvenil': { color: 'var(--color-gold)', label: 'VJ · SIJS' },
+    asilo: { color: 'var(--color-navy)', label: 'ASILO' },
     ajuste: { color: 'var(--color-jade)', label: 'I-485' },
     otros: { color: 'var(--color-text-2)', label: 'OTROS' },
   }[service.category]
@@ -312,7 +312,7 @@ function ServiceFolderCard({
             {service.priceLabel}
           </p>
         </div>
-        <div className="flex items-center gap-2 text-xs text-[var(--color-text-2)] group-hover:text-[var(--color-cyan)] transition-colors">
+        <div className="flex items-center gap-2 text-xs text-[var(--color-text-2)] group-hover:text-[var(--color-gold)] transition-colors">
           <span>Abrir</span>
           <ArrowRightSmall />
         </div>

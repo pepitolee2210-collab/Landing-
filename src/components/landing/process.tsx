@@ -61,7 +61,7 @@ export function Process() {
             }}
           >
             Cuatro pasos.{' '}
-            <span style={{ color: 'var(--color-cyan)' }}>Cero incógnitas.</span>
+            <span style={{ color: 'var(--color-gold)' }}>Cero incógnitas.</span>
           </h2>
           <p className="mt-6 text-lg text-[var(--color-text-2)] leading-relaxed max-w-2xl">
             Tu proceso migratorio puede tardar meses o años. Te explicamos en
@@ -88,7 +88,7 @@ function StepCard({ step, index }: { step: (typeof STEPS)[number]; index: number
     >
       {/* Número grande de fondo */}
       <span
-        className="absolute top-4 right-5 font-display text-7xl font-bold opacity-[0.07] text-[var(--color-cyan)] pointer-events-none select-none"
+        className="absolute top-4 right-5 font-display text-7xl font-bold opacity-[0.07] text-[var(--color-gold)] pointer-events-none select-none"
         style={{ letterSpacing: '-0.05em' }}
       >
         {step.n}
@@ -105,7 +105,7 @@ function StepCard({ step, index }: { step: (typeof STEPS)[number]; index: number
             y1="0.5"
             x2="100%"
             y2="0.5"
-            stroke="var(--color-cyan)"
+            stroke="var(--color-gold)"
             strokeWidth="1"
             strokeDasharray="2 3"
             opacity="0.3"
@@ -116,7 +116,7 @@ function StepCard({ step, index }: { step: (typeof STEPS)[number]; index: number
       <div className="relative">
         <div className="flex items-center gap-2 mb-5">
           <StepIcon icon={step.icon} />
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-cyan)]">
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-gold)]">
             {step.code}
           </span>
         </div>
@@ -143,7 +143,7 @@ function StepCard({ step, index }: { step: (typeof STEPS)[number]; index: number
 }
 
 function StepIcon({ icon }: { icon: string }) {
-  const stroke = 'var(--color-cyan)'
+  const stroke = 'var(--color-gold)'
   if (icon === 'phone') {
     return (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
@@ -192,6 +192,6 @@ function StepIcon({ icon }: { icon: string }) {
 
 function DotIcon() {
   return (
-    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cyan)]" />
+    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]" />
   )
 }
