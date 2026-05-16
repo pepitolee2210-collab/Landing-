@@ -375,6 +375,97 @@ body {
 .drift { animation: drift var(--drift-duration, 14s) ease-in-out infinite; }
 
 /* ════════════════════════════════════════════════════════════
+   GROWING LINES — efecto "hierba digital"
+   ════════════════════════════════════════════════════════════ */
+@keyframes line-grow {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  20% { opacity: var(--line-opacity, 0.4); }
+  100% {
+    transform: scaleY(1);
+    opacity: var(--line-opacity, 0.4);
+  }
+}
+@keyframes line-sway {
+  0%, 100% { transform: scaleY(1) translateX(0); }
+  50% { transform: scaleY(1) translateX(var(--sway-amount, 2px)); }
+}
+.line-grow {
+  transform-origin: bottom;
+  animation:
+    line-grow 1.6s cubic-bezier(0.22, 1, 0.36, 1) backwards,
+    line-sway var(--sway-duration, 4s) ease-in-out infinite;
+  animation-delay: var(--line-delay, 0s), calc(var(--line-delay, 0s) + 1.6s);
+}
+
+/* Pulse en el dot al final de cada línea */
+@keyframes line-tip-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.6); opacity: 1; }
+}
+.line-tip {
+  animation: line-tip-pulse var(--tip-duration, 3s) ease-in-out infinite;
+  animation-delay: var(--tip-delay, 0s);
+}
+
+/* ════════════════════════════════════════════════════════════
+   STACKED CARDS — sticky scroll deck
+   ════════════════════════════════════════════════════════════ */
+.deck-container {
+  position: relative;
+}
+.deck-card {
+  position: sticky;
+  top: 8vh;
+  /* Cada card pisa la anterior; el contenido del wrapper define el scroll */
+}
+
+/* Subtle reveal del contenido de la card cuando entra en viewport */
+@keyframes card-enter {
+  from {
+    opacity: 0.6;
+    transform: scale(0.96) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   PROCESS BRANCH — rama trazándose al scroll
+   ════════════════════════════════════════════════════════════ */
+.branch-grow {
+  stroke-dasharray: var(--branch-length, 600);
+  stroke-dashoffset: var(--branch-length, 600);
+  animation: path-draw 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 50%;
+}
+
+/* Fallback para browsers sin scroll-timeline */
+@supports not (animation-timeline: view()) {
+  .branch-grow {
+    animation: path-draw 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Typography Synergy — números gigantes entrelazados
+   ════════════════════════════════════════════════════════════ */
+@keyframes number-glow {
+  0%, 100% { filter: drop-shadow(0 0 0 transparent); }
+  50% { filter: drop-shadow(0 0 30px var(--color-gold-glow)); }
+}
+
+/* Cursor magnetic effect — refinado */
+.magnetic {
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
+/* ════════════════════════════════════════════════════════════
    Services Board — más minimalista
    ════════════════════════════════════════════════════════════ */
 .board {
