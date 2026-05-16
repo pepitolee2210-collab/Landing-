@@ -81,6 +81,10 @@ export function Process() {
 }
 
 function StepCard({ step, index }: { step: (typeof STEPS)[number]; index: number }) {
+  // Alterna entre 4 colores Utah para tener variedad
+  const accentColor = ['gold', 'blue-bright', 'gold', 'blue-bright'][index]
+  const accent = `var(--color-${accentColor})`
+
   return (
     <article
       className="relative p-7 md:p-8 group"
@@ -88,8 +92,8 @@ function StepCard({ step, index }: { step: (typeof STEPS)[number]; index: number
     >
       {/* Número grande de fondo */}
       <span
-        className="absolute top-4 right-5 font-display text-7xl font-bold opacity-[0.07] text-[var(--color-gold)] pointer-events-none select-none"
-        style={{ letterSpacing: '-0.05em' }}
+        className="absolute top-4 right-5 font-display text-7xl font-bold opacity-[0.08] pointer-events-none select-none"
+        style={{ letterSpacing: '-0.05em', color: accent }}
       >
         {step.n}
       </span>
@@ -105,18 +109,21 @@ function StepCard({ step, index }: { step: (typeof STEPS)[number]; index: number
             y1="0.5"
             x2="100%"
             y2="0.5"
-            stroke="var(--color-gold)"
+            stroke="var(--color-blue-bright)"
             strokeWidth="1"
             strokeDasharray="2 3"
-            opacity="0.3"
+            opacity="0.4"
           />
         </svg>
       )}
 
       <div className="relative">
         <div className="flex items-center gap-2 mb-5">
-          <StepIcon icon={step.icon} />
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-gold)]">
+          <StepIcon icon={step.icon} color={accent} />
+          <span
+            className="font-mono text-[10px] uppercase tracking-[0.18em]"
+            style={{ color: accent, textShadow: `0 0 8px ${accent}` }}
+          >
             {step.code}
           </span>
         </div>
@@ -142,8 +149,8 @@ function StepCard({ step, index }: { step: (typeof STEPS)[number]; index: number
   )
 }
 
-function StepIcon({ icon }: { icon: string }) {
-  const stroke = 'var(--color-gold)'
+function StepIcon({ icon, color }: { icon: string; color: string }) {
+  const stroke = color
   if (icon === 'phone') {
     return (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
@@ -192,6 +199,9 @@ function StepIcon({ icon }: { icon: string }) {
 
 function DotIcon() {
   return (
-    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]" />
+    <span
+      className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]"
+      style={{ boxShadow: '0 0 6px var(--color-gold)' }}
+    />
   )
 }

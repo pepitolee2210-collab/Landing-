@@ -1,50 +1,57 @@
 @import "tailwindcss";
 
 /* ────────────────────────────────────────────────────────────
-   USALATINO PRIME · Brand neón
-   Tomamos el dorado #F2A900 y el navy #002855 oficiales
-   y los modernizamos a tonalidades neón para dark mode.
+   USALATINO PRIME · Paleta Utah Neón
+   Bandera de Utah: AZUL cobalto · DORADO · BLANCO · ROJO
+   Llevados a tonalidades neón con glow para look tech.
    ──────────────────────────────────────────────────────────── */
 @theme {
-  /* Fondos — negro con tinte navy profundo */
-  --color-bg: #050a18;
-  --color-bg-2: #08101f;
-  --color-surface: #0c1426;
-  --color-surface-2: #111a31;
-  --color-elevated: #16213d;
+  /* ╔══════════ FONDOS — AZUL UTAH PROFUNDO ══════════╗
+     #002855 oficial → profundizado para dark mode tech */
+  --color-bg: #06122a;              /* azul Utah ultra profundo */
+  --color-bg-2: #0a1936;
+  --color-surface: #102348;
+  --color-surface-2: #162d58;
+  --color-elevated: #1d3a6e;
 
-  /* Líneas y bordes con tinte navy */
-  --color-line: rgba(74, 158, 255, 0.08);
-  --color-line-2: rgba(74, 158, 255, 0.16);
-  --color-line-strong: rgba(74, 158, 255, 0.28);
+  /* Líneas y bordes con tinte azul sutil */
+  --color-line: rgba(255, 255, 255, 0.07);
+  --color-line-2: rgba(255, 255, 255, 0.14);
+  --color-line-strong: rgba(255, 255, 255, 0.24);
 
-  /* Texto sobre dark */
-  --color-text: #f4f0e3;          /* off-white cálido */
-  --color-text-2: #c8c1ad;
-  --color-text-3: #8f8773;
-  --color-text-4: #5a5340;
+  /* Texto blanco brillante con leves variaciones azuladas */
+  --color-text: #ffffff;             /* blanco puro */
+  --color-text-2: #c8d4ee;           /* blanco con tinte azul sutil */
+  --color-text-3: #889bc4;
+  --color-text-4: #56688e;
 
-  /* ╔══════════ MARCA — DORADO USA LATINO ══════════╗
-     #F2A900 oficial → llevado a #FFC629 neón
-     Aplicar en CTAs, focus, highlights principales. */
-  --color-gold: #ffc629;
-  --color-gold-soft: #f2a900;       /* dorado oficial del brand */
+  /* ╔══════════ DORADO UTAH ══════════╗
+     #F2A900 oficial → #FFB800 neón con glow */
+  --color-gold: #ffb800;
+  --color-gold-bright: #ffcc40;     /* aún más bright para neón puro */
+  --color-gold-soft: #f2a900;       /* oficial del brand */
   --color-gold-deep: #c98a00;
-  --color-gold-glow: rgba(255, 198, 41, 0.22);
-  --color-gold-glow-strong: rgba(255, 198, 41, 0.4);
+  --color-gold-glow: rgba(255, 184, 0, 0.28);
+  --color-gold-glow-strong: rgba(255, 184, 0, 0.5);
 
-  /* ╔══════════ MARCA — AZUL NAVY USA LATINO ══════════╗
-     #002855 oficial → llevado a #4A9EFF eléctrico
-     Para acentos secundarios, conectores, indicadores. */
-  --color-navy: #4a9eff;            /* azul eléctrico neón */
-  --color-navy-soft: #1c5fd0;       /* puente al original */
-  --color-navy-deep: #002855;       /* navy oficial del brand */
-  --color-navy-glow: rgba(74, 158, 255, 0.2);
-  --color-navy-glow-strong: rgba(74, 158, 255, 0.38);
+  /* ╔══════════ AZUL UTAH BRILLANTE ══════════╗
+     Cobalt blue elevated to electric for tech accents */
+  --color-blue: #3b6dd3;             /* azul Utah brillante */
+  --color-blue-bright: #5b8aff;     /* eléctrico para highlights */
+  --color-blue-deep: #002855;        /* azul oficial Utah */
+  --color-blue-glow: rgba(91, 138, 255, 0.25);
+  --color-blue-glow-strong: rgba(91, 138, 255, 0.45);
+
+  /* ╔══════════ ROJO UTAH ══════════╗
+     Red de la bandera de Utah elevado a neón */
+  --color-red: #e63946;              /* rojo bandera moderno */
+  --color-red-bright: #ff5566;       /* rojo neón */
+  --color-red-deep: #bf0a30;         /* rojo bandera oficial */
+  --color-red-glow: rgba(230, 57, 70, 0.28);
+  --color-red-glow-strong: rgba(230, 57, 70, 0.5);
 
   /* Acentos funcionales */
-  --color-ember: #ff5d4a;           /* alertas urgentes */
-  --color-jade: #34d399;            /* éxito */
+  --color-jade: #34d399;             /* éxito */
 
   --font-display: var(--font-space-grotesk);
   --font-sans: var(--font-geist-sans);
@@ -58,16 +65,10 @@
   --shadow-soft: 0 4px 16px -4px rgba(0, 0, 0, 0.5);
   --shadow-card:
     0 8px 28px -8px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(255, 198, 41, 0.06);
+    0 0 0 1px rgba(255, 184, 0, 0.06);
   --shadow-elevated:
     0 24px 60px -12px rgba(0, 0, 0, 0.85),
-    0 0 0 1px rgba(255, 198, 41, 0.12);
-  --shadow-glow-gold:
-    0 0 0 1px var(--color-gold),
-    0 0 32px var(--color-gold-glow);
-  --shadow-glow-navy:
-    0 0 0 1px var(--color-navy),
-    0 0 32px var(--color-navy-glow);
+    0 0 0 1px rgba(255, 184, 0, 0.14);
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -89,16 +90,17 @@ body {
   font-family: var(--font-sans);
   font-feature-settings: "ss01" on, "cv11" on;
   overflow-x: hidden;
-  /* Sutil overlay navy radial para añadir profundidad */
+  /* Glow patriotic — gold arriba, red abajo derecha, blue sutil */
   background-image:
-    radial-gradient(ellipse at top, rgba(0, 40, 85, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom right, rgba(242, 169, 0, 0.04) 0%, transparent 40%);
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255, 184, 0, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 100% 100%, rgba(230, 57, 70, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 60% at 0% 50%, rgba(91, 138, 255, 0.04) 0%, transparent 60%);
   background-attachment: fixed;
 }
 
 ::selection {
   background: var(--color-gold);
-  color: var(--color-navy-deep);
+  color: var(--color-blue-deep);
 }
 
 .font-display {
@@ -127,8 +129,12 @@ body {
   background: radial-gradient(circle at center, var(--color-gold-glow) 0%, transparent 60%);
 }
 
-.glow-navy {
-  background: radial-gradient(circle at center, var(--color-navy-glow) 0%, transparent 60%);
+.glow-blue {
+  background: radial-gradient(circle at center, var(--color-blue-glow) 0%, transparent 60%);
+}
+
+.glow-red {
+  background: radial-gradient(circle at center, var(--color-red-glow) 0%, transparent 60%);
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -144,7 +150,7 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-2);
-  background: rgba(244, 240, 227, 0.02);
+  background: rgba(255, 255, 255, 0.025);
   border: 1px solid var(--color-line);
   border-radius: 999px;
   font-weight: 500;
@@ -152,27 +158,40 @@ body {
 
 .tag-gold {
   color: var(--color-gold);
-  border-color: rgba(255, 198, 41, 0.3);
-  background: rgba(255, 198, 41, 0.06);
-  text-shadow: 0 0 8px rgba(255, 198, 41, 0.4);
+  border-color: rgba(255, 184, 0, 0.35);
+  background: rgba(255, 184, 0, 0.06);
+  text-shadow: 0 0 10px rgba(255, 184, 0, 0.5);
 }
 
+.tag-blue {
+  color: var(--color-blue-bright);
+  border-color: rgba(91, 138, 255, 0.35);
+  background: rgba(91, 138, 255, 0.06);
+  text-shadow: 0 0 10px rgba(91, 138, 255, 0.5);
+}
+
+.tag-red {
+  color: var(--color-red);
+  border-color: rgba(230, 57, 70, 0.35);
+  background: rgba(230, 57, 70, 0.06);
+  text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+}
+
+/* Aliases para compatibilidad con código actual */
 .tag-navy {
-  color: var(--color-navy);
-  border-color: rgba(74, 158, 255, 0.3);
-  background: rgba(74, 158, 255, 0.06);
-  text-shadow: 0 0 8px rgba(74, 158, 255, 0.4);
+  color: var(--color-blue-bright);
+  border-color: rgba(91, 138, 255, 0.35);
+  background: rgba(91, 138, 255, 0.06);
+  text-shadow: 0 0 10px rgba(91, 138, 255, 0.5);
 }
-
 .tag-amber {
-  /* alias para mantener compatibilidad con código existente */
   color: var(--color-gold);
-  border-color: rgba(255, 198, 41, 0.3);
-  background: rgba(255, 198, 41, 0.06);
+  border-color: rgba(255, 184, 0, 0.35);
+  background: rgba(255, 184, 0, 0.06);
 }
 
 /* ────────────────────────────────────────────────────────────
-   Pulse dot — indicador "live"
+   Pulse dot
    ──────────────────────────────────────────────────────────── */
 .pulse-dot {
   position: relative;
@@ -181,7 +200,7 @@ body {
   height: 6px;
   border-radius: 50%;
   background: var(--color-jade);
-  box-shadow: 0 0 6px currentColor;
+  box-shadow: 0 0 8px currentColor;
 }
 .pulse-dot::before {
   content: "";
@@ -203,29 +222,27 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--color-text);
-  color: var(--color-bg);
+  background: var(--color-white, #fff);
+  color: var(--color-blue-deep);
   padding: 0.875rem 1.5rem;
   font-size: 14px;
-  font-weight: 500;
-  border: 1px solid var(--color-text);
+  font-weight: 600;
+  border: 1px solid #fff;
   border-radius: var(--radius-sm);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   font-family: var(--font-sans);
-  position: relative;
-  overflow: hidden;
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 30px -10px rgba(244, 240, 227, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.4);
 }
 
 .btn-ghost {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(244, 240, 227, 0.02);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--color-text);
   padding: 0.875rem 1.5rem;
   font-size: 14px;
@@ -239,16 +256,16 @@ body {
 }
 .btn-ghost:hover {
   border-color: var(--color-line-strong);
-  background: rgba(74, 158, 255, 0.04);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-/* CTA principal — dorado neón con glow */
+/* CTA principal — dorado neón Utah */
 .btn-gold {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   background: var(--color-gold);
-  color: var(--color-navy-deep);
+  color: var(--color-blue-deep);
   padding: 0.875rem 1.5rem;
   font-size: 14px;
   font-weight: 700;
@@ -258,52 +275,99 @@ body {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   font-family: var(--font-sans);
-  box-shadow: 0 0 0 0 var(--color-gold-glow), 0 0 16px var(--color-gold-glow);
+  box-shadow:
+    0 0 0 0 var(--color-gold-glow),
+    0 0 16px var(--color-gold-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
   position: relative;
+  overflow: hidden;
 }
 .btn-gold::after {
-  /* sheen */
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
   transform: translateX(-100%);
   transition: transform 0.7s;
   pointer-events: none;
 }
-.btn-gold:hover::after {
-  transform: translateX(100%);
-}
+.btn-gold:hover::after { transform: translateX(100%); }
 .btn-gold:hover {
   transform: translateY(-1px);
   box-shadow:
     0 0 0 4px var(--color-gold-glow),
-    0 10px 40px -10px var(--color-gold-glow-strong);
+    0 10px 40px -10px var(--color-gold-glow-strong),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-/* Botón navy eléctrico — alternativa secundaria */
-.btn-navy {
+/* Botón rojo Utah para urgencia/CTA secundario fuerte */
+.btn-red {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(74, 158, 255, 0.08);
-  color: var(--color-navy);
+  background: var(--color-red);
+  color: #fff;
   padding: 0.875rem 1.5rem;
   font-size: 14px;
   font-weight: 600;
-  border: 1px solid var(--color-navy);
+  border: 1px solid var(--color-red);
   border-radius: var(--radius-sm);
   transition: all 0.25s ease;
   cursor: pointer;
   font-family: var(--font-sans);
-  text-shadow: 0 0 12px rgba(74, 158, 255, 0.6);
+  box-shadow: 0 0 16px var(--color-red-glow);
+}
+.btn-red:hover {
+  transform: translateY(-1px);
+  background: var(--color-red-bright);
+  box-shadow:
+    0 0 0 4px var(--color-red-glow),
+    0 10px 40px -10px var(--color-red-glow-strong);
+}
+
+/* Aliases para compatibilidad */
+.btn-cyan { /* legacy */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-gold);
+  color: var(--color-blue-deep);
+  padding: 0.875rem 1.5rem;
+  font-size: 14px;
+  font-weight: 700;
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  box-shadow: 0 0 16px var(--color-gold-glow);
+}
+.btn-cyan:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 4px var(--color-gold-glow), 0 10px 40px -10px var(--color-gold-glow-strong);
+}
+
+.btn-navy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(91, 138, 255, 0.08);
+  color: var(--color-blue-bright);
+  padding: 0.875rem 1.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--color-blue-bright);
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  text-shadow: 0 0 12px rgba(91, 138, 255, 0.6);
 }
 .btn-navy:hover {
-  background: var(--color-navy);
-  color: var(--color-bg);
+  background: var(--color-blue-bright);
+  color: #fff;
   text-shadow: none;
-  box-shadow: 0 0 24px var(--color-navy-glow-strong);
-  transform: translateY(-1px);
+  box-shadow: 0 0 24px var(--color-blue-glow-strong);
 }
 
 .btn-whatsapp {
@@ -320,7 +384,7 @@ body {
   transition: all 0.25s ease;
   cursor: pointer;
   font-family: var(--font-sans);
-  box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.3);
+  box-shadow: 0 0 16px rgba(37, 211, 102, 0.25);
 }
 .btn-whatsapp:hover {
   transform: translateY(-1px);
@@ -374,13 +438,12 @@ body {
   animation: float-slow 6s ease-in-out infinite;
 }
 
-/* Glow pulsante para acentos importantes */
 @keyframes neon-pulse {
   0%, 100% {
-    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
   }
   50% {
-    text-shadow: 0 0 16px currentColor, 0 0 32px currentColor;
+    text-shadow: 0 0 18px currentColor, 0 0 36px currentColor;
   }
 }
 .neon-pulse {
@@ -396,7 +459,9 @@ body {
   border: 1px solid var(--color-line-2);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 0 80px -20px var(--color-navy-glow);
+  box-shadow:
+    0 0 80px -20px var(--color-blue-glow),
+    0 0 40px -20px var(--color-gold-glow);
 }
 .board-grid {
   background-image:
@@ -419,21 +484,21 @@ body {
   will-change: transform;
 }
 .service-card::before {
-  /* Cinta dorada neón */
+  /* Cinta roja Utah */
   content: "";
   position: absolute;
   top: -8px;
   right: 24px;
   width: 36px;
   height: 16px;
-  background: linear-gradient(180deg, rgba(255, 198, 41, 0.5), rgba(255, 198, 41, 0.85));
-  border-left: 1px solid rgba(255, 198, 41, 0.4);
-  border-right: 1px solid rgba(255, 198, 41, 0.4);
+  background: linear-gradient(180deg, rgba(230, 57, 70, 0.6), rgba(230, 57, 70, 0.9));
+  border-left: 1px solid rgba(230, 57, 70, 0.5);
+  border-right: 1px solid rgba(230, 57, 70, 0.5);
   transform: rotate(-3deg);
   pointer-events: none;
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    0 0 12px rgba(255, 198, 41, 0.3);
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 0 12px rgba(230, 57, 70, 0.35);
 }
 .service-card:hover {
   transform: rotate(0deg) translateY(-6px);
@@ -445,7 +510,7 @@ body {
 }
 
 .sticky-note {
-  background: linear-gradient(135deg, #ffd556, #ffc629);
+  background: linear-gradient(135deg, #ffd556, #ffb800);
   color: #2a1f00;
   padding: 0.875rem 1rem;
   border-radius: 2px;
@@ -454,8 +519,8 @@ body {
   font-weight: 500;
   line-height: 1.4;
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    0 8px 24px rgba(255, 198, 41, 0.18);
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 8px 24px rgba(255, 184, 0, 0.18);
   letter-spacing: -0.005em;
   position: relative;
 }
@@ -481,17 +546,13 @@ body {
   bottom: -3px;
   height: 1px;
   background: var(--color-gold);
-  box-shadow: 0 0 4px var(--color-gold);
+  box-shadow: 0 0 6px var(--color-gold);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.link-tech:hover {
-  color: var(--color-text);
-}
-.link-tech:hover::after {
-  transform: scaleX(1);
-}
+.link-tech:hover { color: var(--color-text); }
+.link-tech:hover::after { transform: scaleX(1); }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 12px; height: 12px; }
@@ -501,7 +562,7 @@ body {
   border: 3px solid var(--color-bg);
   border-radius: 100px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--color-navy-deep); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-blue); }
 
 /* ────────────────────────────────────────────────────────────
    Utilidades de neón
@@ -509,13 +570,27 @@ body {
 .neon-gold {
   color: var(--color-gold);
   text-shadow:
-    0 0 10px rgba(255, 198, 41, 0.5),
-    0 0 24px rgba(255, 198, 41, 0.25);
+    0 0 10px rgba(255, 184, 0, 0.6),
+    0 0 24px rgba(255, 184, 0, 0.3);
 }
 
-.neon-navy {
-  color: var(--color-navy);
+.neon-blue {
+  color: var(--color-blue-bright);
   text-shadow:
-    0 0 10px rgba(74, 158, 255, 0.5),
-    0 0 24px rgba(74, 158, 255, 0.25);
+    0 0 10px rgba(91, 138, 255, 0.6),
+    0 0 24px rgba(91, 138, 255, 0.3);
+}
+
+.neon-red {
+  color: var(--color-red);
+  text-shadow:
+    0 0 10px rgba(230, 57, 70, 0.6),
+    0 0 24px rgba(230, 57, 70, 0.3);
+}
+
+.neon-white {
+  color: #fff;
+  text-shadow:
+    0 0 12px rgba(255, 255, 255, 0.3),
+    0 0 28px rgba(255, 255, 255, 0.15);
 }

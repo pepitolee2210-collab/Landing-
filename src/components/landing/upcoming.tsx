@@ -43,7 +43,7 @@ export function Upcoming() {
             <div className="relative">
               <div className="flex items-center justify-between mb-8">
                 <span className="tag tag-amber">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-amber)]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]" />
                   Q3 2026 · Salt Lake City
                 </span>
               </div>
@@ -67,7 +67,7 @@ export function Upcoming() {
               </p>
 
               <div className="flex items-center gap-2 text-xs font-mono text-[var(--color-text-3)] uppercase tracking-[0.15em]">
-                <span className="pulse-dot" style={{ background: 'var(--color-amber)' }} />
+                <span className="pulse-dot" style={{ background: 'var(--color-gold)' }} />
                 En construcción
               </div>
             </div>
@@ -85,7 +85,7 @@ export function Upcoming() {
             <div className="relative">
               <div className="flex items-center justify-between mb-8">
                 <span className="tag tag-navy">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-navy)]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-blue-bright)]" />
                   App móvil · 2026
                 </span>
               </div>
@@ -130,22 +130,26 @@ function SandboxSVG() {
   return (
     <svg width="240" height="240" viewBox="0 0 240 240" fill="none" aria-hidden>
       {/* Edificio blueprint */}
-      <rect x="40" y="80" width="160" height="120" stroke="var(--color-amber)" strokeWidth="1" />
-      <path d="M40 80 L120 30 L200 80" stroke="var(--color-amber)" strokeWidth="1" />
+      <rect x="40" y="80" width="160" height="120" stroke="var(--color-gold)" strokeWidth="1" />
+      <path d="M40 80 L120 30 L200 80" stroke="var(--color-gold)" strokeWidth="1" />
       {/* Ventanas */}
-      <rect x="60" y="100" width="20" height="24" stroke="var(--color-amber)" strokeWidth="0.6" />
-      <rect x="90" y="100" width="20" height="24" stroke="var(--color-amber)" strokeWidth="0.6" />
-      <rect x="120" y="100" width="20" height="24" stroke="var(--color-amber)" strokeWidth="0.6" />
-      <rect x="150" y="100" width="20" height="24" stroke="var(--color-amber)" strokeWidth="0.6" />
-      <rect x="60" y="140" width="20" height="24" stroke="var(--color-amber)" strokeWidth="0.6" />
-      <rect x="90" y="140" width="20" height="24" stroke="var(--color-amber)" strokeWidth="0.6" />
-      <rect x="120" y="140" width="20" height="24" stroke="var(--color-amber)" strokeWidth="0.6" />
-      <rect x="150" y="140" width="20" height="24" stroke="var(--color-amber)" strokeWidth="0.6" />
-      {/* Puerta */}
-      <rect x="108" y="172" width="24" height="28" stroke="var(--color-amber)" strokeWidth="0.8" fill="var(--color-amber)" fillOpacity="0.1" />
-      {/* Marcadores */}
-      <circle cx="40" cy="80" r="3" fill="var(--color-amber)" />
-      <circle cx="200" cy="80" r="3" fill="var(--color-amber)" />
+      <rect x="60" y="100" width="20" height="24" stroke="var(--color-gold)" strokeWidth="0.6" />
+      <rect x="90" y="100" width="20" height="24" stroke="var(--color-gold)" strokeWidth="0.6" />
+      <rect x="120" y="100" width="20" height="24" stroke="var(--color-gold)" strokeWidth="0.6" />
+      <rect x="150" y="100" width="20" height="24" stroke="var(--color-gold)" strokeWidth="0.6" />
+      <rect x="60" y="140" width="20" height="24" stroke="var(--color-gold)" strokeWidth="0.6" />
+      <rect x="90" y="140" width="20" height="24" stroke="var(--color-gold)" strokeWidth="0.6" />
+      <rect x="120" y="140" width="20" height="24" stroke="var(--color-gold)" strokeWidth="0.6" />
+      <rect x="150" y="140" width="20" height="24" stroke="var(--color-gold)" strokeWidth="0.6" />
+      {/* Puerta — rojo Utah */}
+      <rect x="108" y="172" width="24" height="28" stroke="var(--color-red)" strokeWidth="1" fill="var(--color-red)" fillOpacity="0.18" />
+      {/* Marcadores blueprint - blanco */}
+      <circle cx="40" cy="80" r="3" fill="#fff" />
+      <circle cx="200" cy="80" r="3" fill="#fff" />
+      {/* Bandera Utah simplificada en el techo */}
+      <line x1="120" y1="30" x2="120" y2="12" stroke="#fff" strokeWidth="1" />
+      <rect x="120" y="12" width="14" height="9" fill="var(--color-red)" />
+      <rect x="120" y="12" width="14" height="3" fill="var(--color-gold)" />
     </svg>
   )
 }
@@ -154,7 +158,7 @@ function PhoneMockupSVG() {
   return (
     <svg width="200" height="280" viewBox="0 0 200 280" fill="none" aria-hidden>
       {/* Frame del teléfono */}
-      <rect x="40" y="20" width="120" height="240" rx="14" stroke="var(--color-navy)" strokeWidth="1.2" fill="var(--color-bg-2)" />
+      <rect x="40" y="20" width="120" height="240" rx="14" stroke="var(--color-blue-bright)" strokeWidth="1.2" fill="var(--color-bg-2)" />
       {/* Notch */}
       <rect x="80" y="28" width="40" height="6" rx="3" fill="var(--color-gold)" opacity="0.4" />
       {/* App screen mock */}
@@ -171,7 +175,7 @@ function PhoneMockupSVG() {
       <rect x="48" y="196" width="104" height="20" rx="3" stroke="var(--color-line)" strokeWidth="0.6" />
       {/* Bottom nav */}
       <line x1="48" y1="234" x2="152" y2="234" stroke="var(--color-line)" strokeWidth="0.5" />
-      <circle cx="64" cy="248" r="4" fill="var(--color-navy)" />
+      <circle cx="64" cy="248" r="4" fill="var(--color-blue-bright)" />
       <circle cx="100" cy="248" r="4" stroke="var(--color-text-3)" strokeWidth="0.6" fill="none" />
       <circle cx="136" cy="248" r="4" stroke="var(--color-text-3)" strokeWidth="0.6" fill="none" />
     </svg>

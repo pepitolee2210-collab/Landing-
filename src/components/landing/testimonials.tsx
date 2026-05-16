@@ -109,7 +109,7 @@ export function Testimonials() {
                     <p className="font-mono text-[9px] text-[var(--color-text-3)] uppercase tracking-[0.15em]">
                       Servicio
                     </p>
-                    <p className="font-mono text-[10px] text-[var(--color-amber)] mt-0.5">
+                    <p className="font-mono text-[10px] text-[var(--color-gold)] mt-0.5">
                       {t.service}
                     </p>
                   </div>

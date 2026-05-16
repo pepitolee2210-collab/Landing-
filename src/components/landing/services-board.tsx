@@ -78,8 +78,8 @@ export function ServicesBoard() {
 
           {/* Workspace bar superior */}
           <div className="absolute top-0 left-0 right-0 px-5 h-11 flex items-center gap-3 border-b border-[var(--color-line)] bg-[var(--color-surface)]/50 backdrop-blur-sm z-10">
-            <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-ember)]/50" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-amber)]/50" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-red)]/50" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-gold)]/50" />
             <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-jade)]/50" />
             <span className="ml-3 font-mono text-[10px] text-[var(--color-text-3)] uppercase tracking-[0.2em]">
               workspace · servicios.ulp
@@ -132,11 +132,11 @@ export function ServicesBoard() {
                 </div>
               ))}
 
-              {/* Líneas SVG conectoras decorativas entre algunas cards */}
+              {/* Líneas SVG conectoras — 3 colores Utah */}
               <svg
                 className="absolute inset-0 w-full h-full pointer-events-none"
                 aria-hidden
-                style={{ opacity: 0.4 }}
+                style={{ opacity: 0.5 }}
               >
                 <line
                   x1="180"
@@ -146,28 +146,30 @@ export function ServicesBoard() {
                   stroke="var(--color-gold)"
                   strokeWidth="0.8"
                   strokeDasharray="2 4"
-                  opacity="0.5"
                 />
                 <line
                   x1="430"
                   y1="200"
                   x2="720"
                   y2="180"
-                  stroke="var(--color-gold)"
+                  stroke="var(--color-blue-bright)"
                   strokeWidth="0.8"
                   strokeDasharray="2 4"
-                  opacity="0.5"
                 />
                 <line
                   x1="280"
                   y1="500"
                   x2="600"
                   y2="500"
-                  stroke="var(--color-gold)"
+                  stroke="var(--color-red)"
                   strokeWidth="0.8"
                   strokeDasharray="2 4"
-                  opacity="0.5"
                 />
+                {/* Dots en los extremos de las líneas */}
+                <circle cx="180" cy="180" r="2" fill="var(--color-gold)" />
+                <circle cx="720" cy="180" r="2" fill="var(--color-blue-bright)" />
+                <circle cx="280" cy="500" r="2" fill="var(--color-red)" />
+                <circle cx="600" cy="500" r="2" fill="var(--color-red)" />
               </svg>
             </div>
 
@@ -226,7 +228,7 @@ function ServiceFolderCard({
 }) {
   const categoryStyle = {
     'visa-juvenil': { color: 'var(--color-gold)', label: 'VJ · SIJS' },
-    asilo: { color: 'var(--color-navy)', label: 'ASILO' },
+    asilo: { color: 'var(--color-blue-bright)', label: 'ASILO' },
     ajuste: { color: 'var(--color-jade)', label: 'I-485' },
     otros: { color: 'var(--color-text-2)', label: 'OTROS' },
   }[service.category]
@@ -241,7 +243,7 @@ function ServiceFolderCard({
       {/* Tag de etiqueta superior (popular, recomendado) */}
       {tag && (
         <div className="absolute -top-3 left-4 z-10">
-          <span className="inline-flex items-center gap-1 px-2 py-1 bg-[var(--color-amber)] text-[#3a2a00] font-mono text-[9px] uppercase tracking-[0.1em] font-bold rounded">
+          <span className="inline-flex items-center gap-1 px-2 py-1 bg-[var(--color-gold)] text-[#3a2a00] font-mono text-[9px] uppercase tracking-[0.1em] font-bold rounded">
             <StarIcon />
             {tag}
           </span>

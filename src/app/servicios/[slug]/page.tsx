@@ -34,7 +34,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const whatsappMessage = `Hola, vi en su web el servicio "${service.shortName}" y quisiera más información.`
   const categoryColor = {
     'visa-juvenil': 'var(--color-gold)',
-    asilo: 'var(--color-navy)',
+    asilo: 'var(--color-blue-bright)',
     ajuste: 'var(--color-jade)',
     otros: 'var(--color-text-2)',
   }[service.category]
@@ -360,7 +360,7 @@ function DotIcon({ amber = false }: { amber?: boolean }) {
   return (
     <span
       className="w-1.5 h-1.5 rounded-full"
-      style={{ background: amber ? 'var(--color-amber)' : 'var(--color-gold)' }}
+      style={{ background: amber ? 'var(--color-gold)' : 'var(--color-gold)' }}
     />
   )
 }

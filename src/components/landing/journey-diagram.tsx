@@ -16,8 +16,8 @@ export function JourneyDiagram() {
 
       {/* Header del workspace — fake terminal bar */}
       <div className="absolute top-0 left-0 right-0 px-4 h-9 flex items-center gap-2 border-b border-[var(--color-line)]">
-        <span className="w-2 h-2 rounded-full bg-[var(--color-ember)]/60" />
-        <span className="w-2 h-2 rounded-full bg-[var(--color-amber)]/60" />
+        <span className="w-2 h-2 rounded-full bg-[var(--color-red)]/60" />
+        <span className="w-2 h-2 rounded-full bg-[var(--color-gold)]/60" />
         <span className="w-2 h-2 rounded-full bg-[var(--color-jade)]/60" />
         <span className="ml-3 font-mono text-[10px] text-[var(--color-text-3)] uppercase tracking-[0.15em]">
           tu_caso · visa_juvenil.sijs
@@ -90,9 +90,9 @@ export function JourneyDiagram() {
           <rect x="12" y="54" width="70" height="3" fill="var(--color-text-3)" opacity="0.3" rx="1" />
           <rect x="12" y="64" width="78" height="3" fill="var(--color-text-3)" opacity="0.3" rx="1" />
           {/* Sello */}
-          <circle cx="78" cy="106" r="14" stroke="var(--color-amber)" strokeWidth="1.2" fill="none" />
-          <circle cx="78" cy="106" r="10" stroke="var(--color-amber)" strokeWidth="0.6" fill="none" />
-          <text x="78" y="110" textAnchor="middle" fill="var(--color-amber)" fontSize="6" fontFamily="var(--font-mono)" fontWeight="700">
+          <circle cx="78" cy="106" r="14" stroke="var(--color-gold)" strokeWidth="1.2" fill="none" />
+          <circle cx="78" cy="106" r="10" stroke="var(--color-gold)" strokeWidth="0.6" fill="none" />
+          <text x="78" y="110" textAnchor="middle" fill="var(--color-gold)" fontSize="6" fontFamily="var(--font-mono)" fontWeight="700">
             UT
           </text>
         </g>
@@ -117,12 +117,12 @@ export function JourneyDiagram() {
             height="140"
             rx="6"
             fill="url(#docGrad)"
-            stroke="var(--color-navy)"
+            stroke="var(--color-blue-bright)"
             strokeWidth="1.5"
             filter="url(#cyanGlow)"
           />
-          <rect width="110" height="6" fill="var(--color-navy)" opacity="0.8" rx="6" />
-          <text x="12" y="28" fill="var(--color-navy)" fontSize="7" fontFamily="var(--font-mono)" letterSpacing="2">
+          <rect width="110" height="6" fill="var(--color-blue-bright)" opacity="0.8" rx="6" />
+          <text x="12" y="28" fill="var(--color-blue-bright)" fontSize="7" fontFamily="var(--font-mono)" letterSpacing="2">
             02 · I-360
           </text>
           <text x="12" y="42" fill="var(--color-text-2)" fontSize="6" fontFamily="var(--font-mono)" opacity="0.7">
@@ -133,8 +133,8 @@ export function JourneyDiagram() {
           <rect x="12" y="74" width="78" height="3" fill="var(--color-text-3)" opacity="0.3" rx="1" />
           {/* Barra de progreso */}
           <rect x="12" y="92" width="86" height="4" rx="2" fill="var(--color-line)" />
-          <rect x="12" y="92" width="55" height="4" rx="2" fill="var(--color-navy)" />
-          <text x="12" y="108" fill="var(--color-navy)" fontSize="6" fontFamily="var(--font-mono)" opacity="0.9">
+          <rect x="12" y="92" width="55" height="4" rx="2" fill="var(--color-blue-bright)" />
+          <text x="12" y="108" fill="var(--color-blue-bright)" fontSize="6" fontFamily="var(--font-mono)" opacity="0.9">
             EN PROCESO · 64%
           </text>
         </g>
@@ -190,7 +190,7 @@ export function JourneyDiagram() {
 
         {/* Punto pulsante en doc 2 (activo) - navy eléctrico */}
         <g transform="translate(300, 200)">
-          <circle r="4" fill="var(--color-navy)">
+          <circle r="4" fill="var(--color-blue-bright)">
             <animate
               attributeName="opacity"
               values="1;0.3;1"
@@ -198,7 +198,7 @@ export function JourneyDiagram() {
               repeatCount="indefinite"
             />
           </circle>
-          <circle r="8" fill="none" stroke="var(--color-navy)" strokeWidth="1">
+          <circle r="8" fill="none" stroke="var(--color-blue-bright)" strokeWidth="1">
             <animate attributeName="r" values="4;14;4" dur="2s" repeatCount="indefinite" />
             <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite" />
           </circle>
@@ -227,7 +227,7 @@ export function JourneyDiagram() {
           12 docs cargados
         </span>
         <span className="tag tag-navy">
-          <span className="pulse-dot" style={{ background: 'var(--color-navy)' }} />
+          <span className="pulse-dot" style={{ background: 'var(--color-blue-bright)' }} />
           USCIS sincronizado
         </span>
       </div>
