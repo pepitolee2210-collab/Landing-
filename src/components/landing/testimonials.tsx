@@ -1,4 +1,5 @@
 import { TESTIMONIALS } from '@/lib/testimonials'
+import { AmbientOrbs } from '@/components/decor/ambient-orbs'
 
 export function Testimonials() {
   return (
@@ -6,6 +7,12 @@ export function Testimonials() {
       <div
         aria-hidden
         className="absolute inset-0 blueprint-dots opacity-30 pointer-events-none"
+      />
+      <AmbientOrbs
+        orbs={[
+          { color: 'red', size: 380, x: '85%', y: '20%', opacity: 0.45, duration: 20 },
+          { color: 'gold', size: 320, x: '5%', y: '70%', opacity: 0.4, duration: 24, delay: 5 },
+        ]}
       />
 
       <div className="container-x relative">

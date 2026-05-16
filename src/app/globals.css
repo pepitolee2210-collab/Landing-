@@ -450,6 +450,127 @@ body {
   animation: neon-pulse 3s ease-in-out infinite;
 }
 
+/* ════════════════════════════════════════════════════════════
+   ANIMACIONES TECH AVANZADAS
+   ════════════════════════════════════════════════════════════ */
+
+/* Orb flotante — drift lento */
+@keyframes orb-drift {
+  0%, 100% {
+    transform: translate(var(--ox, 0), var(--oy, 0)) scale(1);
+  }
+  33% {
+    transform: translate(calc(var(--ox, 0) + 40px), calc(var(--oy, 0) - 30px)) scale(1.1);
+  }
+  66% {
+    transform: translate(calc(var(--ox, 0) - 30px), calc(var(--oy, 0) + 25px)) scale(0.95);
+  }
+}
+.orb-drift {
+  animation: orb-drift var(--orb-duration, 18s) cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Scan line — barra horizontal que recorre la pantalla */
+@keyframes scan-line {
+  0% { transform: translateY(-10vh); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
+.scan-line {
+  animation: scan-line 8s linear infinite;
+}
+
+/* Dot que viaja por un path */
+@keyframes travel-dot {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+.travel-dot {
+  animation: travel-dot var(--travel-duration, 5s) linear infinite;
+}
+
+/* Rotation continuous (para hexágonos, sellos) */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin-slow { animation: spin-slow 24s linear infinite; }
+.spin-slow-reverse { animation: spin-slow 24s linear infinite reverse; }
+
+/* Particle drift — partículas que suben sutilmente */
+@keyframes particle-rise {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% { opacity: var(--particle-opacity, 0.6); }
+  90% { opacity: var(--particle-opacity, 0.6); }
+  100% {
+    transform: translateY(-100vh) translateX(var(--particle-drift, 20px));
+    opacity: 0;
+  }
+}
+.particle-rise {
+  animation: particle-rise var(--particle-duration, 14s) linear infinite;
+  animation-delay: var(--particle-delay, 0s);
+}
+
+/* Glitch sutil — para títulos tech */
+@keyframes glitch-soft {
+  0%, 100% { transform: translate(0); }
+  92% { transform: translate(-1px, 0); }
+  93% { transform: translate(1px, 1px); }
+  94% { transform: translate(0); }
+}
+.glitch-soft {
+  animation: glitch-soft 4s infinite;
+}
+
+/* Pulse de heartbeat — para CTAs */
+@keyframes heartbeat {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 var(--color-red-glow-strong),
+      0 0 0 0 var(--color-red-glow);
+  }
+  50% {
+    box-shadow:
+      0 0 0 10px transparent,
+      0 0 24px var(--color-red-glow-strong);
+  }
+}
+.heartbeat {
+  animation: heartbeat 2.4s ease-out infinite;
+}
+
+/* Wave entrante de izquierda */
+@keyframes slide-in-x {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.slide-in-x { animation: slide-in-x 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Beam — barra de luz que pulsa horizontalmente */
+@keyframes beam {
+  0%, 100% { opacity: 0; transform: scaleX(0.3); }
+  50% { opacity: 1; transform: scaleX(1); }
+}
+.beam { animation: beam 3s ease-in-out infinite; }
+
+/* SVG path que se dibuja en loop */
+@keyframes path-loop {
+  0% { stroke-dashoffset: var(--path-length, 200); }
+  50% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: calc(var(--path-length, 200) * -1); }
+}
+.path-loop {
+  stroke-dasharray: 12 6;
+  animation: path-loop var(--loop-duration, 6s) linear infinite;
+}
+
 /* ────────────────────────────────────────────────────────────
    Services Board
    ──────────────────────────────────────────────────────────── */

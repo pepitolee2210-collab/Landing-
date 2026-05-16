@@ -4,6 +4,10 @@ import Link from 'next/link'
 import { SITE } from '@/lib/site'
 import { whatsappUrl } from '@/lib/utils'
 import { JourneyDiagram } from './journey-diagram'
+import { AmbientOrbs } from '@/components/decor/ambient-orbs'
+import { Particles } from '@/components/decor/particles'
+import { FloatingShapes } from '@/components/decor/floating-shapes'
+import { ScanLines } from '@/components/decor/scan-lines'
 
 export function Hero() {
   return (
@@ -17,11 +21,24 @@ export function Hero() {
             'radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 90%)',
         }}
       />
-      {/* Glow cian sutil arriba */}
-      <div
-        aria-hidden
-        className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[600px] glow-gold opacity-50 pointer-events-none"
+
+      {/* Ambient orbs — los 4 colores Utah flotando */}
+      <AmbientOrbs
+        orbs={[
+          { color: 'gold', size: 600, x: '50%', y: '-15%', opacity: 0.7, duration: 22 },
+          { color: 'red', size: 400, x: '-10%', y: '40%', opacity: 0.55, duration: 18, delay: 3 },
+          { color: 'blue', size: 500, x: '85%', y: '60%', opacity: 0.5, duration: 26, delay: 6 },
+        ]}
       />
+
+      {/* Particles drifting up */}
+      <Particles count={30} />
+
+      {/* Floating geometric shapes */}
+      <FloatingShapes />
+
+      {/* Scan lines tech */}
+      <ScanLines />
 
       <div className="container-x relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">

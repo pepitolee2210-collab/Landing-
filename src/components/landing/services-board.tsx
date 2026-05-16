@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { FEATURED_SLUGS, SERVICES_BY_SLUG, type Service } from '@/lib/services'
+import { AmbientOrbs } from '@/components/decor/ambient-orbs'
+import { DataFlow } from '@/components/decor/data-flow'
 
 /**
  * Pizarra digital interactiva de servicios.
@@ -30,7 +32,21 @@ export function ServicesBoard() {
       id="servicios"
       className="relative py-24 md:py-32 overflow-hidden"
     >
-      <div className="container-x">
+      {/* Ambient orbs — distribución 4 colores */}
+      <AmbientOrbs
+        orbs={[
+          { color: 'gold', size: 450, x: '70%', y: '10%', opacity: 0.5, duration: 22 },
+          { color: 'red', size: 350, x: '5%', y: '60%', opacity: 0.55, duration: 16, delay: 3 },
+          { color: 'blue', size: 400, x: '85%', y: '85%', opacity: 0.45, duration: 26, delay: 6 },
+        ]}
+      />
+
+      {/* Data flow SVG */}
+      <div className="absolute inset-0 opacity-50 pointer-events-none">
+        <DataFlow />
+      </div>
+
+      <div className="container-x relative">
         {/* Header de sección */}
         <div className="mb-16 max-w-3xl">
           <span className="tag mb-6">

@@ -1,14 +1,28 @@
 import { SITE } from '@/lib/site'
 import { whatsappUrl } from '@/lib/utils'
+import { AmbientOrbs } from '@/components/decor/ambient-orbs'
+import { ScanLines } from '@/components/decor/scan-lines'
 
 export function CTAFinal() {
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden">
-      {/* Glow ambient */}
-      <div
-        aria-hidden
-        className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[600px] glow-gold opacity-50 pointer-events-none"
+    <section
+      className="py-24 md:py-32 relative overflow-hidden"
+      style={{
+        background:
+          'linear-gradient(180deg, var(--color-bg) 0%, rgba(40, 8, 14, 0.4) 50%, var(--color-bg) 100%)',
+      }}
+    >
+      {/* Red dominante en este CTA — la urgencia */}
+      <AmbientOrbs
+        orbs={[
+          { color: 'red', size: 700, x: '50%', y: '50%', opacity: 0.7, duration: 14 },
+          { color: 'gold', size: 400, x: '15%', y: '20%', opacity: 0.45, duration: 20 },
+          { color: 'gold', size: 350, x: '80%', y: '70%', opacity: 0.4, duration: 18, delay: 4 },
+        ]}
       />
+
+      <ScanLines />
+
       <div
         aria-hidden
         className="absolute inset-0 blueprint opacity-30 pointer-events-none"
@@ -18,10 +32,13 @@ export function CTAFinal() {
         }}
       />
 
+      {/* Marco rojo decorativo en las esquinas */}
+      <CornerMarks />
+
       <div className="container-x relative">
         <div className="max-w-4xl mx-auto text-center">
-          <span className="tag tag-gold inline-flex">
-            <span className="pulse-dot" style={{ background: 'var(--color-gold)' }} />
+          <span className="tag tag-red inline-flex">
+            <span className="pulse-dot" style={{ background: 'var(--color-red)' }} />
             Disponible ahora · Sin compromiso
           </span>
 
@@ -35,7 +52,10 @@ export function CTAFinal() {
             }}
           >
             Tu próxima conversación{' '}
-            <span style={{ color: 'var(--color-gold)' }}>
+            <span
+              className="neon-red"
+              style={{ fontWeight: 600 }}
+            >
               cambia todo el rumbo
             </span>{' '}
             de tu caso.
@@ -54,7 +74,7 @@ export function CTAFinal() {
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-whatsapp text-base px-6 py-4"
+              className="btn-whatsapp text-base px-6 py-4 heartbeat"
             >
               <WhatsAppIcon />
               Hablar con un asesor ahora
@@ -68,20 +88,57 @@ export function CTAFinal() {
             </a>
           </div>
 
+          {/* Beam decorativo bajo CTAs */}
+          <div className="relative mt-8 h-px max-w-md mx-auto">
+            <div
+              className="absolute inset-0 beam"
+              style={{
+                background:
+                  'linear-gradient(90deg, transparent 0%, var(--color-red) 50%, transparent 100%)',
+                boxShadow: '0 0 12px var(--color-red)',
+              }}
+            />
+          </div>
+
           {/* Metrics inline */}
-          <div className="mt-16 inline-flex items-center gap-6 px-6 py-3 border border-[var(--color-line-2)] rounded-full bg-[var(--color-surface)]/60 backdrop-blur-sm">
-            <span className="font-mono text-xs text-[var(--color-text-3)] uppercase tracking-[0.15em] flex items-center gap-2">
+          <div className="mt-12 inline-flex items-center gap-6 px-6 py-3 border border-[var(--color-red)]/30 rounded-full bg-[var(--color-surface)]/60 backdrop-blur-sm">
+            <span className="font-mono text-xs text-[var(--color-text-2)] uppercase tracking-[0.15em] flex items-center gap-2">
               <span className="pulse-dot" style={{ background: 'var(--color-jade)' }} />
               Respuesta &lt; 4h
             </span>
             <span className="h-4 w-px bg-[var(--color-line-2)]" />
-            <span className="font-mono text-xs text-[var(--color-text-3)] uppercase tracking-[0.15em]">
+            <span className="font-mono text-xs text-[var(--color-text-2)] uppercase tracking-[0.15em]">
               100+ familias atendidas
+            </span>
+            <span className="h-4 w-px bg-[var(--color-line-2)]" />
+            <span className="font-mono text-xs text-[var(--color-red)] uppercase tracking-[0.15em] neon-red">
+              Bilingüe
             </span>
           </div>
         </div>
       </div>
     </section>
+  )
+}
+
+function CornerMarks() {
+  const cornerSvg = (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden>
+      <path
+        d="M 0 32 L 0 0 L 32 0"
+        stroke="var(--color-red)"
+        strokeWidth="1.5"
+        fill="none"
+      />
+    </svg>
+  )
+  return (
+    <div aria-hidden className="absolute inset-6 md:inset-10 pointer-events-none" style={{ opacity: 0.45 }}>
+      <div className="absolute top-0 left-0">{cornerSvg}</div>
+      <div className="absolute top-0 right-0 scale-x-[-1]">{cornerSvg}</div>
+      <div className="absolute bottom-0 left-0 scale-y-[-1]">{cornerSvg}</div>
+      <div className="absolute bottom-0 right-0 scale-[-1]">{cornerSvg}</div>
+    </div>
   )
 }
 
