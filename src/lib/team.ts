@@ -4,7 +4,8 @@ export interface TeamMember {
   role: string
   shortRole: string
   bio: string
-  /** Iniciales generadas; reemplazar por path de imagen real cuando se tenga */
+  /** Path en /public/team/ (ej: '/team/henry.jpg') o URL externa.
+   *  Si no hay foto, el componente renderiza iniciales con fondo blueprint. */
   photo?: string
   origin?: string
 }

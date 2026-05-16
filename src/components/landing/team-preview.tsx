@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { TEAM } from '@/lib/team'
+import { TeamAvatar } from './team-avatar'
 
 export function TeamPreview() {
   return (
@@ -27,63 +28,10 @@ export function TeamPreview() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
-          {TEAM.map((member, idx) => (
-            <article
-              key={member.slug}
-              className="group relative overflow-hidden border border-[var(--color-line-2)] hover:border-[var(--color-gold)] transition-all duration-500"
-              style={{
-                background: 'var(--color-surface)',
-                borderRadius: 'var(--radius-md)',
-                animationDelay: `${idx * 80}ms`,
-              }}
-            >
-              {/* Avatar geometric */}
-              <div
-                className="aspect-square relative overflow-hidden"
-                style={{
-                  background:
-                    'linear-gradient(135deg, var(--color-elevated) 0%, var(--color-bg-2) 100%)',
-                }}
-              >
-                {/* Grid pattern */}
-                <div
-                  className="absolute inset-0 board-grid opacity-40 group-hover:opacity-60 transition-opacity"
-                />
-
-                {/* Iniciales grandes */}
-                <span
-                  className="absolute inset-0 flex items-center justify-center font-display group-hover:scale-110 transition-transform duration-700"
-                  style={{
-                    fontSize: '3.5rem',
-                    color: 'var(--color-gold)',
-                    fontWeight: 500,
-                    letterSpacing: '-0.04em',
-                    opacity: 0.7,
-                  }}
-                >
-                  {member.name
-                    .split(' ')
-                    .map((n) => n[0])
-                    .slice(0, 2)
-                    .join('')}
-                </span>
-
-                {/* Bandera flotante */}
-                {member.origin && (
-                  <span className="absolute top-2.5 right-2.5 text-sm">
-                    {member.origin.split(' ')[0]}
-                  </span>
-                )}
-
-                {/* Dot indicador */}
-                <span
-                  className="absolute bottom-2.5 left-2.5 w-2 h-2 rounded-full"
-                  style={{ background: 'var(--color-jade)' }}
-                />
-              </div>
-
-              {/* Info */}
-              <div className="p-3.5">
+          {TEAM.map((member) => (
+            <article key={member.slug} className="group">
+              <TeamAvatar member={member} size="sm" />
+              <div className="pt-3.5 pb-1">
                 <p
                   className="font-display text-sm text-[var(--color-text)] tracking-tight leading-tight truncate"
                   style={{ fontWeight: 500 }}

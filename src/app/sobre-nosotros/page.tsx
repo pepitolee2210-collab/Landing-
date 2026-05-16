@@ -3,6 +3,7 @@ import { TEAM } from '@/lib/team'
 import { Navbar } from '@/components/site/navbar'
 import { Footer } from '@/components/site/footer'
 import { CTAFinal } from '@/components/landing/cta-final'
+import { TeamAvatar } from '@/components/landing/team-avatar'
 
 export const metadata: Metadata = {
   title: 'Equipo',
@@ -67,35 +68,9 @@ export default function AboutPage() {
                   className="grid grid-cols-12 gap-4 md:gap-8 items-start p-6 md:p-10 border border-[var(--color-line-2)] rounded-lg transition-colors hover:border-[var(--color-gold)]/40"
                   style={{ background: 'var(--color-surface)' }}
                 >
-                  {/* Avatar geometric */}
+                  {/* Avatar — usa foto real si existe en /public/team/ */}
                   <div className="col-span-3 md:col-span-2">
-                    <div
-                      className="aspect-square overflow-hidden relative rounded-md board-grid"
-                      style={{
-                        background: 'linear-gradient(135deg, var(--color-elevated), var(--color-bg-2))',
-                      }}
-                    >
-                      <span
-                        className="absolute inset-0 flex items-center justify-center font-display"
-                        style={{
-                          fontSize: '3rem',
-                          color: 'var(--color-gold)',
-                          fontWeight: 500,
-                          letterSpacing: '-0.04em',
-                          opacity: 0.7,
-                        }}
-                      >
-                        {member.name
-                          .split(' ')
-                          .map((n) => n[0])
-                          .slice(0, 2)
-                          .join('')}
-                      </span>
-                      <span
-                        className="absolute bottom-2 left-2 w-2 h-2 rounded-full"
-                        style={{ background: 'var(--color-jade)' }}
-                      />
-                    </div>
+                    <TeamAvatar member={member} size="md" />
                   </div>
 
                   {/* Bio */}

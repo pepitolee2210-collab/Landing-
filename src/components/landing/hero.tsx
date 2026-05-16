@@ -1,21 +1,25 @@
 import Link from 'next/link'
 import { SITE } from '@/lib/site'
 import { whatsappUrl } from '@/lib/utils'
-import { JourneyDiagram } from './journey-diagram'
+import { HeroDoc } from './hero-doc'
+import { USAMap } from '@/components/decor/usa-map'
 import { AmbientOrbs } from '@/components/decor/ambient-orbs'
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden pt-20 md:pt-28 pb-24 md:pb-32">
-      {/* Grid blueprint apenas visible */}
+      {/* Mapa USA animado al fondo — el detalle distintivo */}
       <div
         aria-hidden
-        className="absolute inset-0 blueprint-fine opacity-50 pointer-events-none"
+        className="absolute inset-0 pointer-events-none flex items-center justify-center"
         style={{
+          opacity: 0.4,
           maskImage:
-            'radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 90%)',
+            'radial-gradient(ellipse 80% 70% at 35% 50%, black 30%, transparent 80%)',
         }}
-      />
+      >
+        <USAMap className="w-full max-w-[1400px] h-auto" />
+      </div>
 
       {/* Un solo orb sutil — atmósfera, no escaparate */}
       <AmbientOrbs
@@ -96,9 +100,9 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Lado derecho — diagrama */}
+          {/* Lado derecho — documento 3D interactivo */}
           <div className="lg:col-span-5 relative rise" style={{ animationDelay: '600ms' }}>
-            <JourneyDiagram />
+            <HeroDoc />
           </div>
         </div>
       </div>
