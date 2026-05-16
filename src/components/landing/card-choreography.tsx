@@ -18,18 +18,19 @@ import { MIGRATORY_CARDS, MigratoryCard } from './migratory-card'
  *   Mismo componente para ambos modos: las cards nunca se remontan.
  */
 
-const CARD_SIZE = 220
-const HERO_ROW_Y_RATIO = 0.62 // 62% del viewport height, donde se acomoda el fan
+const CARD_SIZE = 160
+const CARD_HEIGHT_EXTRA = 40 // total height = CARD_SIZE + extra = 200
+const HERO_ROW_Y_RATIO = 0.7 // 70% — claramente entre el headline y el bloque inferior
 
 // Slots del abanico — coordenadas relativas al centro del viewport
 const FAN_SLOTS = [
-  { x: -380, y: 14, rotate: -16, scale: 0.86, z: 1 },
-  { x: -240, y: 4,  rotate: -10, scale: 0.92, z: 2 },
-  { x: -110, y: -2, rotate: -4,  scale: 0.96, z: 3 },
-  { x: 0,    y: -8, rotate: 0,   scale: 1.0,  z: 4 },
-  { x: 110,  y: -2, rotate: 5,   scale: 0.96, z: 3 },
-  { x: 240,  y: 4,  rotate: 12,  scale: 0.92, z: 2 },
-  { x: 380,  y: 14, rotate: 18,  scale: 0.86, z: 1 },
+  { x: -255, y: 8,  rotate: -14, scale: 0.86, z: 1 },
+  { x: -160, y: 2,  rotate: -8,  scale: 0.92, z: 2 },
+  { x: -74,  y: -3, rotate: -3,  scale: 0.96, z: 3 },
+  { x: 0,    y: -7, rotate: 0,   scale: 1.0,  z: 4 },
+  { x: 74,   y: -3, rotate: 4,   scale: 0.96, z: 3 },
+  { x: 160,  y: 2,  rotate: 9,   scale: 0.92, z: 2 },
+  { x: 255,  y: 8,  rotate: 15,  scale: 0.86, z: 1 },
 ]
 
 // Cascada diagonal de la sección 2
@@ -154,9 +155,9 @@ export function CardChoreography({
                   top: 0,
                   left: 0,
                   width: CARD_SIZE,
-                  height: CARD_SIZE + 60,
+                  height: CARD_SIZE + CARD_HEIGHT_EXTRA,
                   x: vp.w / 2 + slot.x - CARD_SIZE / 2,
-                  y: heroRowY + slot.y - (CARD_SIZE + 60) / 2,
+                  y: heroRowY + slot.y - (CARD_SIZE + CARD_HEIGHT_EXTRA) / 2,
                   rotate: slot.rotate,
                   scale: slot.scale,
                   zIndex: slot.z,
@@ -185,9 +186,9 @@ export function CardChoreography({
               ],
               y: [
                 vp.h / 2 + 180,
-                heroRowY - (CARD_SIZE + 60) / 2,
-                heroRowY + FAN_SLOTS[6].y - (CARD_SIZE + 60) / 2,
-                heroRowY + FAN_SLOTS[0].y - (CARD_SIZE + 60) / 2,
+                heroRowY - (CARD_SIZE + CARD_HEIGHT_EXTRA) / 2,
+                heroRowY + FAN_SLOTS[6].y - (CARD_SIZE + CARD_HEIGHT_EXTRA) / 2,
+                heroRowY + FAN_SLOTS[0].y - (CARD_SIZE + CARD_HEIGHT_EXTRA) / 2,
               ],
               rotate: [0, 0, FAN_SLOTS[6].rotate, FAN_SLOTS[0].rotate],
               scale: [0.3, 1, FAN_SLOTS[6].scale, FAN_SLOTS[0].scale],
@@ -210,7 +211,7 @@ export function CardChoreography({
               top: 0,
               left: 0,
               width: CARD_SIZE,
-              height: CARD_SIZE + 60,
+              height: CARD_SIZE + CARD_HEIGHT_EXTRA,
               zIndex: 10,
             }}
           >
@@ -315,7 +316,7 @@ function ScrollLinkedCard({
         top: 0,
         left: 0,
         width: CARD_SIZE,
-        height: CARD_SIZE + 60,
+        height: CARD_SIZE + CARD_HEIGHT_EXTRA,
         x,
         y,
         rotate,

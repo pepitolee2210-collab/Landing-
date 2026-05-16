@@ -135,17 +135,23 @@ function CardIllustration({ variant, color }: { variant: string; color: string }
     )
   }
   if (variant === 'i360') {
+    // Determinístico — sin Math.random, evita hydration mismatch
+    const rows = [
+      { y: 24, len: 68 },
+      { y: 34, len: 54 },
+      { y: 44, len: 60 },
+      { y: 54, len: 72 },
+      { y: 64, len: 50 },
+    ]
     return (
       <svg width="100" height="80" viewBox="0 0 100 80" fill="none" aria-hidden>
-        {/* Formulario USCIS */}
         <rect x="14" y="4" width="72" height="72" rx="2" stroke={color} strokeWidth="1.4" fill="none" />
         <rect x="14" y="4" width="72" height="14" fill={color} fillOpacity="0.2" />
         <text x="50" y="14" textAnchor="middle" fill={color} fontSize="7" fontFamily="var(--font-mono)" fontWeight="700">I-360</text>
-        {/* Checkboxes */}
-        {[24, 34, 44, 54, 64].map((y) => (
-          <g key={y}>
-            <rect x="20" y={y} width="6" height="6" stroke={color} strokeWidth="0.8" fill="none" />
-            <line x1="30" y1={y + 3} x2={50 + Math.random() * 25} y2={y + 3} stroke={color} strokeWidth="0.8" opacity="0.5" />
+        {rows.map((r) => (
+          <g key={r.y}>
+            <rect x="20" y={r.y} width="6" height="6" stroke={color} strokeWidth="0.8" fill="none" />
+            <line x1="30" y1={r.y + 3} x2={30 + r.len * 0.5} y2={r.y + 3} stroke={color} strokeWidth="0.8" opacity="0.5" />
           </g>
         ))}
       </svg>

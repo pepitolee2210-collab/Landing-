@@ -23,7 +23,11 @@ export function Hero() {
       {/* Overlay global de cards — vive sobre las 3 secciones */}
       <CardChoreography pageContainerRef={containerRef} />
 
-      {/* === SECCIÓN 1 — HERO TEXTO === */}
+      {/* === SECCIÓN 1 — HERO === */}
+      {/* Layout: 3 zonas verticales que NO se solapan con el abanico:
+            top   = eyebrow + headline   (~38vh)
+            mid   = abanico de cards     (~38vh — sin contenido propio)
+            bot   = descripción + CTAs   (~24vh) */}
       <section className="relative overflow-hidden min-h-[100vh] flex flex-col">
         {/* PCB Circuit fondo */}
         <div
@@ -48,8 +52,9 @@ export function Hero() {
           />
         </div>
 
-        <div className="container-x relative flex-1 flex flex-col justify-start py-24 md:py-28">
-          <div className="rise mb-10" style={{ animationDelay: '100ms' }}>
+        {/* TOP zone — eyebrow + headline */}
+        <div className="container-x relative pt-24 md:pt-28 pb-4">
+          <div className="rise mb-8 md:mb-10" style={{ animationDelay: '100ms' }}>
             <span className="inline-flex items-center gap-3 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-[var(--color-text-3)]">
               <span className="h-px w-8 bg-[var(--color-gold)]" />
               Bufete migratorio · Utah · Est. {SITE.legal.foundedYear}
@@ -57,11 +62,11 @@ export function Hero() {
           </div>
 
           <h1
-            className="word-reveal font-display text-[var(--color-text)] max-w-[15ch]"
+            className="word-reveal font-display text-[var(--color-text)] max-w-[16ch]"
             style={{
-              fontSize: 'clamp(3rem, 9vw, 7.5rem)',
-              lineHeight: 0.94,
-              letterSpacing: '-0.045em',
+              fontSize: 'clamp(2.5rem, 7vw, 6rem)',
+              lineHeight: 0.95,
+              letterSpacing: '-0.04em',
               fontWeight: 300,
             }}
           >
@@ -82,51 +87,56 @@ export function Hero() {
             </span>{' '}
             <span style={{ animationDelay: '720ms' }}>de tu caso.</span>
           </h1>
+        </div>
 
-          {/* Espacio reservado para que las cards aterricen visualmente */}
-          <div className="h-[280px] md:h-[340px]" aria-hidden />
+        {/* MID zone — vacío, aquí aterrizan las cards */}
+        <div className="flex-1 min-h-[260px]" aria-hidden />
 
-          <p
-            className="mt-2 max-w-xl text-base md:text-lg text-[var(--color-text-2)] leading-relaxed rise"
-            style={{ animationDelay: '900ms' }}
-          >
-            Visa juvenil, asilo político, ajuste de estatus. Cada paso del
-            proceso migratorio en un lugar — con un equipo bilingüe en Utah
-            que entiende tu historia antes que tus papeles.
-          </p>
-
-          <div
-            className="mt-8 flex flex-wrap gap-3 rise"
-            style={{ animationDelay: '1050ms' }}
-          >
-            <a
-              href={whatsappUrl(
-                SITE.contact.whatsapp,
-                'Hola, llegué desde su sitio y necesito orientación migratoria.'
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-gold"
+        {/* BOTTOM zone — descripción + CTAs */}
+        <div className="container-x relative pb-20 md:pb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
+            <p
+              className="lg:col-span-7 text-base md:text-lg text-[var(--color-text-2)] leading-relaxed max-w-xl rise"
+              style={{ animationDelay: '900ms' }}
             >
-              Empieza tu caso
-              <ArrowRight />
-            </a>
-            <Link href="#servicios" className="btn-ghost">
-              Conocer servicios
-            </Link>
+              Visa juvenil, asilo político, ajuste de estatus. Cada paso del
+              proceso migratorio en un lugar — con un equipo bilingüe en Utah
+              que entiende tu historia antes que tus papeles.
+            </p>
+
+            <div
+              className="lg:col-span-5 flex flex-wrap gap-3 rise lg:justify-end"
+              style={{ animationDelay: '1050ms' }}
+            >
+              <a
+                href={whatsappUrl(
+                  SITE.contact.whatsapp,
+                  'Hola, llegué desde su sitio y necesito orientación migratoria.'
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-gold"
+              >
+                Empieza tu caso
+                <ArrowRight />
+              </a>
+              <Link href="#servicios" className="btn-ghost">
+                Conocer servicios
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator — abajo, fuera del flujo */}
         <div
           aria-hidden
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 rise opacity-60"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 rise opacity-60 z-10"
           style={{ animationDelay: '1400ms' }}
         >
           <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[var(--color-text-3)]">
             Scroll
           </span>
-          <span className="block w-px h-8 bg-gradient-to-b from-[var(--color-gold)] to-transparent" />
+          <span className="block w-px h-6 bg-gradient-to-b from-[var(--color-gold)] to-transparent" />
         </div>
       </section>
 
