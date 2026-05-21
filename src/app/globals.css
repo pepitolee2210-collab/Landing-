@@ -1328,6 +1328,7 @@ html:has(.l2-root) {
    Hero se EXCLUYE para que el typewriter/video carguen al instante.
 */
 @layer utilities {
+  /* content-visibility: defer rendering off-screen sections */
   .ls-section,
   #planes,
   #que-es,
@@ -1337,9 +1338,15 @@ html:has(.l2-root) {
   #ceo,
   #garantia,
   #faq,
-  .ctaf-section {
+  .ctaf-section,
+  .sales-ticker-section {
     content-visibility: auto;
     contain-intrinsic-size: auto 1000px;
+  }
+  /* Hero — defer cuando ya scrolleamos fuera (no en initial load porque ya está visible) */
+  .l2-aurora-hero {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 740px;
   }
 
   /* Touch devices: simplificar filters caros en mobile */
@@ -1347,8 +1354,7 @@ html:has(.l2-root) {
     .l2-aurora-layer { filter: saturate(1.05); }
 
     /* CRÍTICO: desactivar backdrop-filter en elementos sticky/fixed —
-       causaba scroll jank severo (blur recomputado en cada frame de scroll).
-       Reemplazado por backgrounds opacos suficientemente similares. */
+       causaba scroll jank severo (blur recomputado en cada frame de scroll). */
     .nav2-header,
     .nav2-pill,
     .nav2-mobile-menu,
@@ -1371,6 +1377,22 @@ html:has(.l2-root) {
     .nav2-header {
       transform: translateZ(0);
       will-change: transform;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       CRÍTICO: PAUSAR TODAS LAS ANIMACIONES DURANTE SCROLL EN MOBILE
+       ═══════════════════════════════════════════════════════════════
+       Cuando html tiene .is-scrolling (toggled via JS desde navbar2),
+       pausamos cada animation-play-state. Esto libera el GPU mobile
+       para que pueda componer el scroll a 60fps sin saturarse con
+       las 240+ animaciones infinitas (marquees, halos, shimmers,
+       breathing, etc). Al detenerse el scroll (~120ms idle) se
+       reanudan automáticamente. Resultado: scroll buttery-smooth.
+    */
+    html.is-scrolling *,
+    html.is-scrolling *::before,
+    html.is-scrolling *::after {
+      animation-play-state: paused !important;
     }
   }
 }

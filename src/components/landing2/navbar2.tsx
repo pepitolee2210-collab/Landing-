@@ -19,10 +19,30 @@ export function Navbar2() {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16)
-    onScroll()
+    let raf = 0
+    let idleTimer: number | undefined
+    const html = document.documentElement
+    const onScroll = () => {
+      // Toggle .is-scrolling — CSS pausa animaciones mobile para que scroll fluya
+      html.classList.add('is-scrolling')
+      if (idleTimer !== undefined) window.clearTimeout(idleTimer)
+      idleTimer = window.setTimeout(() => html.classList.remove('is-scrolling'), 140)
+
+      // rAF-throttled state update (1 update por frame max)
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 16)
+        raf = 0
+      })
+    }
+    setScrolled(window.scrollY > 16)
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (raf) cancelAnimationFrame(raf)
+      if (idleTimer !== undefined) window.clearTimeout(idleTimer)
+      html.classList.remove('is-scrolling')
+    }
   }, [])
 
   // Block scroll cuando mobile menu abierto

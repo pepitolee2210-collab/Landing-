@@ -13,7 +13,7 @@ export function SalesTicker() {
 
   return (
     <section
-      className="relative py-3 border-y overflow-hidden"
+      className="sales-ticker-section relative py-3 border-y overflow-hidden"
       style={{
         borderColor: 'var(--c-line-2)',
         background: 'var(--c-carbon-1)',

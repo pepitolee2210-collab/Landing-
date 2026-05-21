@@ -116,6 +116,26 @@ export function Hero2() {
 }
 
 function VideoHeroStack() {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  // Pause cuando offscreen para liberar CPU/GPU del decoder
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          v.play().catch(() => {})
+        } else {
+          v.pause()
+        }
+      },
+      { threshold: 0.15 }
+    )
+    io.observe(v)
+    return () => io.disconnect()
+  }, [])
+
   return (
     <div className="relative">
       <div
@@ -128,8 +148,9 @@ function VideoHeroStack() {
           boxShadow: '0 36px 80px -24px rgba(0,0,0,0.6), 0 0 0 1px rgba(91,155,255,0.16)',
         }}
       >
-        {/* Video hero — loop continuo, sin audio */}
+        {/* Video hero — autoplay solo cuando visible (IntersectionObserver) */}
         <video
+          ref={videoRef}
           src="/hero.mp4"
           autoPlay
           muted
