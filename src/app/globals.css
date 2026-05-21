@@ -1328,6 +1328,12 @@ html:has(.l2-root) {
    Hero se EXCLUYE para que el typewriter/video carguen al instante.
 */
 @layer utilities {
+  /* Prevenir rubber-band overscroll de iOS Safari que arrastra
+     el navbar sticky durante el momentum scroll. */
+  html, body {
+    overscroll-behavior-y: none;
+  }
+
   /* content-visibility: defer rendering off-screen sections */
   .ls-section,
   #planes,
@@ -1373,11 +1379,9 @@ html:has(.l2-root) {
       -webkit-backdrop-filter: none !important;
     }
 
-    /* Promote navbar to GPU layer para scroll suave en iOS */
-    .nav2-header {
-      transform: translateZ(0);
-      will-change: transform;
-    }
+    /* NO usar transform/will-change en nav2-header — rompe position:sticky en iOS Safari
+       (la GPU layer crea su propio containing block y el sticky pierde su anclaje al viewport,
+       provocando rebote/descuadre durante el momentum scroll). */
 
     /* ═══════════════════════════════════════════════════════════════
        CRÍTICO: PAUSAR TODAS LAS ANIMACIONES DURANTE SCROLL EN MOBILE
