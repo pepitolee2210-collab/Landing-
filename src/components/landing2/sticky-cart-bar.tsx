@@ -26,10 +26,9 @@ export function StickyCartBar() {
       }`}
     >
       <div
-        className="flex items-center gap-3 py-2.5 px-3 rounded-2xl"
+        className="flex items-center gap-3 py-2.5 px-3 rounded-2xl sticky-cart-bg"
         style={{
-          background: 'rgba(20, 20, 20, 0.88)',
-          backdropFilter: 'blur(20px) saturate(140%)',
+          background: 'rgba(20, 20, 20, 0.95)',
           border: '1px solid var(--c-line-3)',
           boxShadow: '0 24px 48px -16px rgba(0,0,0,0.6), 0 0 0 1px rgba(91,155,255,0.16) inset',
         }}
