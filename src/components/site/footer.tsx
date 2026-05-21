@@ -39,28 +39,28 @@ export function Footer() {
           </p>
           <ul className="space-y-3 text-sm">
             <li>
-              <Link href="/servicios/visa-juvenil-completa" className="link-tech">
-                Visa Juvenil completa
+              <Link href="#productos" className="link-tech">
+                Visa Juvenil SIJS
               </Link>
             </li>
             <li>
-              <Link href="/servicios/visa-juvenil-i360-i485" className="link-tech">
-                Visa Juvenil — I-360 + I-485
-              </Link>
-            </li>
-            <li>
-              <Link href="/servicios/visa-juvenil-i485" className="link-tech">
-                Visa Juvenil — Solo I-485
-              </Link>
-            </li>
-            <li>
-              <Link href="/servicios/asilo-completo" className="link-tech">
+              <Link href="#productos" className="link-tech">
                 Asilo Político
               </Link>
             </li>
             <li>
-              <Link href="/servicios/asilo-reforzamiento" className="link-tech">
-                Asilo — Reforzamiento
+              <Link href="#productos" className="link-tech">
+                Ajuste de Estatus
+              </Link>
+            </li>
+            <li>
+              <Link href="#productos" className="link-tech">
+                Apelación BIA
+              </Link>
+            </li>
+            <li>
+              <Link href="#productos" className="link-tech">
+                Ver catálogo completo
               </Link>
             </li>
           </ul>
