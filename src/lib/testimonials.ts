@@ -8,12 +8,21 @@ export interface Testimonial {
   year: number
   /** Iniciales generadas */
   initials: string
+  /** Color de acento del avatar/badge */
+  color: 'blue' | 'green' | 'red' | 'gold' | 'purple'
+  /** Indicador temporal: "Hoy", "Hace 2h", "Ayer", etc. */
+  recency?: string
+  /** URL de foto real opcional — fallback a gradient + iniciales si no existe */
+  photo?: string
 }
 
 /**
- * PLACEHOLDERS editoriales — Henry confirmará con testimonios reales antes
+ * PLACEHOLDERS editoriales — reemplazar con testimonios reales verificados antes
  * de producción. Los textos están escritos de forma realista y sobria, sin
  * exageración tipo "cambió mi vida", para reforzar credibilidad.
+ *
+ * Para agregar foto real: subir a /public/testimonials/{id}.webp
+ * y poner `photo: '/testimonials/{id}.webp'` en el objeto.
  */
 export const TESTIMONIALS: Testimonial[] = [
   {
@@ -23,8 +32,11 @@ export const TESTIMONIALS: Testimonial[] = [
     service: 'Visa Juvenil',
     year: 2026,
     initials: 'MR',
+    color: 'blue',
+    recency: 'Hoy',
+    photo: '/testimonials/t1.webp',
     quote:
-      'Llevaba dos años con miedo cada vez que escuchaba sirenas. El equipo de Henry me explicó cada paso con paciencia. Hoy mi hijo tiene su orden de custodia firmada y vamos por el I-360.',
+      'Llevaba dos años con miedo cada vez que escuchaba sirenas. La plataforma me guió paso a paso en español y Vanessa me explicó lo que no entendía. Hoy mi hijo tiene su orden de custodia firmada y vamos por el I-360.',
   },
   {
     id: 't2',
@@ -33,6 +45,9 @@ export const TESTIMONIALS: Testimonial[] = [
     service: 'Visa Juvenil — Proceso completo',
     year: 2026,
     initials: 'CH',
+    color: 'green',
+    recency: 'Hace 2h',
+    photo: '/testimonials/t2.webp',
     quote:
       'Lo que más valoré fue que Vanessa me contestó un sábado a las nueve de la noche cuando llegó la notificación de USCIS. No es solo un bufete, es gente que está pendiente.',
   },
@@ -43,6 +58,8 @@ export const TESTIMONIALS: Testimonial[] = [
     service: 'Asilo Político',
     year: 2025,
     initials: 'AG',
+    color: 'gold',
+    photo: '/testimonials/t3.webp',
     quote:
       'Tenía la solicitud radicada con otro abogado pero no me preparaban para nada. Reforzaron mi caso en seis semanas y la audiencia salió favorable. La preparación marcó la diferencia.',
   },
@@ -53,8 +70,10 @@ export const TESTIMONIALS: Testimonial[] = [
     service: 'Visa Juvenil — I-485',
     year: 2025,
     initials: 'RH',
+    color: 'red',
+    photo: '/testimonials/t4.webp',
     quote:
-      'Diana me guió en cada documento del paquete I-485. Lo que parecía un trámite imposible terminó siendo una entrevista de quince minutos. Hoy tengo mi residencia.',
+      'La plataforma me guió en cada documento del paquete I-485. Vanessa me ayudó cuando llegó el RFE. Lo que parecía imposible terminó siendo una entrevista de quince minutos. Hoy tengo mi residencia.',
   },
   {
     id: 't5',
@@ -63,17 +82,46 @@ export const TESTIMONIALS: Testimonial[] = [
     service: 'Visa Juvenil',
     year: 2026,
     initials: 'EM',
+    color: 'purple',
+    recency: 'Ayer',
+    photo: '/testimonials/t5.webp',
     quote:
-      'Lo que me dio confianza es que Henry no prometió nada que no se pudiera cumplir. Me dijo los tiempos reales, los riesgos reales y el costo total desde el primer día.',
+      'Lo que me dio confianza es que UsaLatinoPrime no me prometió nada que no se pudiera cumplir. Me dijeron los tiempos reales, los riesgos reales y el costo total desde el primer día. Sin sorpresas.',
   },
   {
     id: 't6',
-    name: 'Jose L.',
+    name: 'José L.',
     origin: 'Yonkers · New York',
     service: 'Ajuste de Estatus',
     year: 2026,
     initials: 'JL',
+    color: 'blue',
+    photo: '/testimonials/t6.webp',
     quote:
       'Comparé tres bufetes antes de elegir. UsaLatinoPrime fue el único que me preguntó por la historia detrás del caso, no solo por mis papeles. Esa diferencia se nota en USCIS.',
+  },
+  {
+    id: 't8',
+    name: 'Diego A.',
+    origin: 'Miami · Florida',
+    service: 'Apelación BIA',
+    year: 2025,
+    initials: 'DA',
+    color: 'red',
+    photo: '/testimonials/t8.webp',
+    quote:
+      'Me habían negado el asilo en corte. Quedaban 22 días para apelar. La plataforma armó el brief y ganamos la moción. Sigo en Estados Unidos.',
+  },
+  {
+    id: 't10',
+    name: 'Rafael S.',
+    origin: 'San Diego · California',
+    service: 'Declaración de Impuestos',
+    year: 2026,
+    initials: 'RS',
+    color: 'purple',
+    photo: '/testimonials/t10.webp',
+    quote:
+      'Tres años sin declarar por miedo. La plataforma me ayudó a ponerme al día sin problemas con IRS. Hoy tengo records limpios para mi caso migratorio.',
   },
 ]

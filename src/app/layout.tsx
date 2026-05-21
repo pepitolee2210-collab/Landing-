@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk, Geist, JetBrains_Mono } from 'next/font/google'
+import { Space_Grotesk, Geist, JetBrains_Mono, Bricolage_Grotesque } from 'next/font/google'
 import { MetaPixel } from '@/components/tracking/meta-pixel'
 import { GoogleAnalytics } from '@/components/tracking/google-analytics'
 import './globals.css'
@@ -9,6 +9,13 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
+})
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ['latin'],
+  variable: '--font-bricolage',
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
 })
 
 const geistSans = Geist({
@@ -59,7 +66,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${spaceGrotesk.variable} ${geistSans.variable} ${jetBrainsMono.variable} h-full`}
+      className={`${spaceGrotesk.variable} ${bricolage.variable} ${geistSans.variable} ${jetBrainsMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
         {children}

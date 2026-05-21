@@ -9,12 +9,11 @@ export const SITE = {
   url: 'https://usalatinoprime.com',
   appUrl: 'https://app.usalatinoprime.com',
 
-  /** Estos placeholders — confirmar con Henry */
   contact: {
     /** Pasar por whatsappUrl() — solo dígitos cuentan */
-    whatsapp: '+1 (267) 787-4365',
-    email: 'henry@usalatino.com',
-    phone: '+1 (267) 787-4365',
+    whatsapp: '+1 (402) 824-8171',
+    email: 'contacto@usalatinoprime.com',
+    phone: '+1 (402) 824-8171',
   },
 
   social: {

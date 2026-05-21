@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local-only assets and tooling (NO push)
+/.claude/
+/Imagenes/
+/Imagenes ceo/
+/Imagenes de clientes/
+/Video hero/
