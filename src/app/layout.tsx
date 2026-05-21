@@ -30,8 +30,17 @@ const jetBrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
+// Detecta automáticamente la URL del deploy (Vercel) o usa la prod
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'https://usalatinoprime.com')
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://usalatinoprime.com'),
+  metadataBase: new URL(baseUrl),
   title: {
     default: 'UsaLatinoPrime — Bufete migratorio digital para latinos en EE.UU.',
     template: '%s · UsaLatinoPrime',
@@ -53,9 +62,26 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_US',
     siteName: 'UsaLatinoPrime',
+    url: '/',
     title: 'UsaLatinoPrime — Bufete migratorio digital para latinos en EE.UU.',
     description:
-      'Más de 100 casos firmados en 2026. Visa juvenil, asilo y ajuste de estatus con un equipo bilingüe en Utah.',
+      'Más de 400 familias atendidas. Visa juvenil, asilo y ajuste de estatus con un equipo bilingüe en Utah. Portal 24/7, plataforma propia.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Henry Orellana — Fundador & CEO de UsaLatinoPrime',
+        type: 'image/png',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'UsaLatinoPrime — Bufete migratorio digital para latinos en EE.UU.',
+    description:
+      'Más de 400 familias atendidas. Visa juvenil, asilo y ajuste de estatus con un equipo bilingüe en Utah.',
+    images: ['/og-image.png'],
   },
   robots: { index: true, follow: true },
 }
