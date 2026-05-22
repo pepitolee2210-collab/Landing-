@@ -42,20 +42,22 @@ const baseUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'UsaLatinoPrime — Bufete migratorio digital para latinos en EE.UU.',
+    default: 'UsaLatinoPrime — Acompañamiento automatizado para tu caso migratorio',
     template: '%s · UsaLatinoPrime',
   },
   description:
-    'Visa juvenil SIJS, asilo político, ajuste de estatus. Un equipo bilingüe en Utah con tecnología propia para que veas tu caso en tiempo real. Más de 100 familias atendidas.',
+    'Plataforma propia que arma tu caso paso a paso: visa juvenil, asilo, residencia. La tecnología te guía, un humano responde cuando lo necesitas. Empieza gratis y ve tu caso construirse en vivo.',
   keywords: [
+    'acompañamiento automatizado inmigración',
+    'plataforma migratoria',
     'visa juvenil',
     'SIJS',
     'asilo político',
     'ajuste de estatus',
     'I-485',
     'I-360',
-    'abogado de inmigración latino',
-    'bufete migratorio Utah',
+    'caso migratorio en vivo',
+    'WhatsApp inmigración Utah',
   ],
   authors: [{ name: 'UsaLatinoPrime' }],
   openGraph: {
@@ -63,16 +65,16 @@ export const metadata: Metadata = {
     locale: 'es_US',
     siteName: 'UsaLatinoPrime',
     url: '/',
-    title: 'UsaLatinoPrime — Bufete migratorio digital para latinos en EE.UU.',
+    title: 'Tu caso migratorio en piloto automático · UsaLatinoPrime',
     description:
-      'Más de 400 familias atendidas. Visa juvenil, asilo y ajuste de estatus con un equipo bilingüe en Utah. Portal 24/7, plataforma propia.',
+      'Plataforma propia que arma tu caso paso a paso. Sube un documento desde el celular y ve qué falta en tiempo real. Cuando necesitas un humano, Vanessa responde en menos de 14 min. Empieza gratis →',
     // Imagen: Next.js auto-detecta src/app/opengraph-image.jpg
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'UsaLatinoPrime — Bufete migratorio digital para latinos en EE.UU.',
+    title: 'Tu caso migratorio en piloto automático · UsaLatinoPrime',
     description:
-      'Más de 400 familias atendidas. Visa juvenil, asilo y ajuste de estatus con un equipo bilingüe en Utah.',
+      'Plataforma + humanos cuando hacen falta. Visa, asilo, residencia paso a paso desde el celular. Empieza gratis →',
     // Imagen: Next.js auto-detecta src/app/twitter-image.jpg
   },
   robots: { index: true, follow: true },
