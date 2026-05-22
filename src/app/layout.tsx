@@ -66,22 +66,14 @@ export const metadata: Metadata = {
     title: 'UsaLatinoPrime — Bufete migratorio digital para latinos en EE.UU.',
     description:
       'Más de 400 familias atendidas. Visa juvenil, asilo y ajuste de estatus con un equipo bilingüe en Utah. Portal 24/7, plataforma propia.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Henry Orellana — Fundador & CEO de UsaLatinoPrime',
-        type: 'image/png',
-      },
-    ],
+    // Imagen: Next.js auto-detecta src/app/opengraph-image.jpg
   },
   twitter: {
     card: 'summary_large_image',
     title: 'UsaLatinoPrime — Bufete migratorio digital para latinos en EE.UU.',
     description:
       'Más de 400 familias atendidas. Visa juvenil, asilo y ajuste de estatus con un equipo bilingüe en Utah.',
-    images: ['/og-image.png'],
+    // Imagen: Next.js auto-detecta src/app/twitter-image.jpg
   },
   robots: { index: true, follow: true },
 }
