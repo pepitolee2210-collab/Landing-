@@ -1400,3 +1400,36 @@ html:has(.l2-root) {
     }
   }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   Lex highlight — pulso visual de 2.5s sobre la sección que Lex
+   está mostrando al usuario. Se aplica via classList desde la tool
+   `highlightSection` y se quita automáticamente con setTimeout.
+   ════════════════════════════════════════════════════════════════ */
+.lex-highlight-pulse {
+  position: relative;
+  animation: lex-section-pulse 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lex-highlight-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow:
+    0 0 0 2px rgba(91, 155, 255, 0.55),
+    0 0 48px 12px rgba(91, 155, 255, 0.25),
+    inset 0 0 48px rgba(91, 155, 255, 0.08);
+  animation: lex-section-ring 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+@keyframes lex-section-pulse {
+  0%   { background-color: rgba(91, 155, 255, 0); }
+  20%  { background-color: rgba(91, 155, 255, 0.06); }
+  100% { background-color: rgba(91, 155, 255, 0); }
+}
+@keyframes lex-section-ring {
+  0%   { opacity: 0; transform: scale(1.005); }
+  15%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}

@@ -27,13 +27,40 @@ export const LEX_TOOL_DECLARATIONS: LexFunctionDeclaration[] = [
   {
     name: 'scrollToSection',
     description:
-      'Mueve la página web a una sección específica para que el usuario la vea. Úsala cuando quieras mostrarle al usuario una parte concreta de la landing.',
+      'Mueve la página web a una sección específica para que el usuario la vea. Úsala constantemente mientras hablas — cada vez que menciones un concepto relacionado a una sección, ya estás haciendo scroll ahí.',
     parameters: {
       type: 'object',
       properties: {
         sectionId: {
           type: 'string',
           description: 'ID de la sección a la que hacer scroll.',
+          enum: [
+            'hero',
+            'productos',
+            'servicios-showcase',
+            'planes',
+            'que-es',
+            'como-funciona',
+            'opiniones',
+            'ceo',
+            'garantia',
+            'faq',
+          ],
+        },
+      },
+      required: ['sectionId'],
+    },
+  },
+  {
+    name: 'highlightSection',
+    description:
+      'Como scrollToSection pero ENFATIZA con un pulso visual de 2 segundos sobre la sección. Úsala cuando es algo crítico que el usuario debe ver (precios, garantía, prueba social, CTA principal).',
+    parameters: {
+      type: 'object',
+      properties: {
+        sectionId: {
+          type: 'string',
+          description: 'ID de la sección a destacar.',
           enum: [
             'hero',
             'productos',
@@ -121,6 +148,18 @@ export function executeLexTool(name: string, args: Record<string, unknown>): Lex
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
       dispatchLexEvent('lex:scrollTo', { sectionId })
       return { ok: true, message: `Scroll a ${sectionId} completado` }
+    }
+
+    case 'highlightSection': {
+      const sectionId = String(args.sectionId ?? '')
+      const el = document.getElementById(sectionId)
+      if (!el) return { ok: false, message: `Sección ${sectionId} no encontrada` }
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      // Aplicar clase de pulso visual durante 2.5s
+      el.classList.add('lex-highlight-pulse')
+      setTimeout(() => el.classList.remove('lex-highlight-pulse'), 2500)
+      dispatchLexEvent('lex:scrollTo', { sectionId })
+      return { ok: true, message: `Sección ${sectionId} destacada` }
     }
 
     case 'openServiceDemo': {
