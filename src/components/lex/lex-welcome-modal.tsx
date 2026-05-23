@@ -19,9 +19,12 @@ type Choice = 'guided' | 'explore'
 interface Props {
   onAcceptGuided: () => void
   onDeclineGuided?: () => void
+  /** Si el agente ya está activo (por ejemplo, lanzado desde el FAB),
+   *  el modal no debe aparecer/mostrarse — ya no tiene sentido preguntar. */
+  hidden?: boolean
 }
 
-export function LexWelcomeModal({ onAcceptGuided, onDeclineGuided }: Props) {
+export function LexWelcomeModal({ onAcceptGuided, onDeclineGuided, hidden }: Props) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -61,6 +64,7 @@ export function LexWelcomeModal({ onAcceptGuided, onDeclineGuided }: Props) {
     onDeclineGuided?.()
   }
 
+  if (hidden) return null
   if (!open) return null
   if (typeof document === 'undefined') return null
 

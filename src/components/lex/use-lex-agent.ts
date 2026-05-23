@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { GoogleGenAI, Modality, type Session, type LiveServerMessage } from '@google/genai'
+import { GoogleGenAI, MediaResolution, Modality, type Session, type LiveServerMessage } from '@google/genai'
 import { LEX_SYSTEM_PROMPT } from './lex-prompt'
 import { LEX_TOOL_DECLARATIONS, executeLexTool } from './lex-tools'
 import { AUDIO_WORKLET_SRC } from './audio-worklet-source'
@@ -17,13 +17,12 @@ export type LexState =
 
 interface UseLexAgentOptions {
   onTranscript?: (role: 'user' | 'lex', text: string) => void
-  onClose?: () => void
 }
 
 const INPUT_SAMPLE_RATE = 16_000
 const OUTPUT_SAMPLE_RATE = 24_000
 
-export function useLexAgent({ onTranscript, onClose }: UseLexAgentOptions = {}) {
+export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   const [state, setState] = useState<LexState>('idle')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isMuted, setIsMuted] = useState(false)
@@ -187,50 +186,72 @@ export function useLexAgent({ onTranscript, onClose }: UseLexAgentOptions = {}) 
       audioCtxRef.current = playbackCtx
       nextStartTimeRef.current = playbackCtx.currentTime
 
-      // 4) Conectar a Gemini Live API con el token efímero
-      const ai = new GoogleGenAI({ apiKey: token, apiVersion: 'v1alpha' })
+      // 4) Conectar a Gemini Live API.
+      // `token` puede ser ephemeral o API key directa (POC) — el SDK acepta ambos.
+      console.log('[lex] Connecting to Gemini Live with model:', model)
+      const ai = new GoogleGenAI({ apiKey: token })
+
+      // Para Gemini 3.1+, usar `parametersJsonSchema` (JSON Schema estándar)
+      // en vez de `parameters` (formato Type enum legacy). El SDK acepta
+      // ambos pero los modelos nuevos son más estrictos con el primero.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const toolDecls = LEX_TOOL_DECLARATIONS.map((d): any => ({
+        name: d.name,
+        description: d.description,
+        parametersJsonSchema: d.parameters,
+      }))
+
+      // El SDK requiere el nombre del modelo CON prefix `models/` (según
+      // el get-code oficial de AI Studio para gemini-3.1-flash-live-preview).
+      const fullModel = model.startsWith('models/') ? model : `models/${model}`
+
       const session = await ai.live.connect({
-        model,
+        model: fullModel,
         config: {
           responseModalities: [Modality.AUDIO],
+          mediaResolution: MediaResolution.MEDIA_RESOLUTION_MEDIUM,
           systemInstruction: LEX_SYSTEM_PROMPT,
-          inputAudioTranscription: {},
-          outputAudioTranscription: {},
           speechConfig: {
             voiceConfig: {
-              prebuiltVoiceConfig: { voiceName: 'Aoede' },
+              prebuiltVoiceConfig: { voiceName: 'Zephyr' },
             },
-            languageCode: 'es-US',
           },
-          tools: [
-            {
-              functionDeclarations: LEX_TOOL_DECLARATIONS.map((d) => ({
-                name: d.name,
-                description: d.description,
-                parametersJsonSchema: d.parameters
-                  ? {
-                      type: 'object',
-                      properties: d.parameters.properties,
-                      required: d.parameters.required,
-                    }
-                  : undefined,
-              })),
-            },
-          ],
+          contextWindowCompression: {
+            triggerTokens: '104857',
+            slidingWindow: { targetTokens: '52428' },
+          },
+          tools: [{ functionDeclarations: toolDecls }],
         },
         callbacks: {
           onopen: () => {
+            console.log('[lex] WebSocket opened')
             setState('listening')
           },
           onmessage: (msg) => handleServerMessage(msg),
           onerror: (e) => {
-            console.error('[lex] WebSocket error:', e)
-            setErrorMessage('Error en la conexión con Lex')
+            console.error('[lex] WebSocket error:', e, JSON.stringify(e, Object.getOwnPropertyNames(e)))
+            const msg = (e as { message?: string })?.message || 'Error en la conexión con Lex'
+            setErrorMessage(msg)
             setState('error')
           },
-          onclose: () => {
-            setState('closed')
-            onClose?.()
+          onclose: (e) => {
+            // El close se dispara también después de error. Mantenemos visible
+            // el estado de error si ya hubo uno — solo cerramos como "closed"
+            // si fue una desconexión limpia.
+            const closeCode = (e as { code?: number })?.code
+            const closeReason = (e as { reason?: string })?.reason
+            console.log('[lex] WebSocket closed:', { code: closeCode, reason: closeReason })
+            setState((prev) => {
+              if (prev === 'error') return prev
+              if (closeCode && closeCode !== 1000 && closeCode !== 1005) {
+                // Cierre anormal — mostrar como error en lugar de "closed"
+                setErrorMessage(
+                  `Conexión cerrada (código ${closeCode}${closeReason ? `: ${closeReason}` : ''})`,
+                )
+                return 'error'
+              }
+              return 'closed'
+            })
           },
         },
       })

@@ -27,9 +27,9 @@ export function LexAgent({ onClosed }: { onClosed?: () => void }) {
         return [...prev, { role, text, id: idRef.current }]
       })
     },
-    onClose: () => {
-      onClosed?.()
-    },
+    // onClose: NO desmontar el widget — el usuario debe ver el estado final
+    // (sea closed normal o error). Solo desmonta cuando hace click en X
+    // o cuando la tool closeAgent lo pide explícitamente.
   })
 
   // Auto-start al montar

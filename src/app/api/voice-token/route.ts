@@ -40,7 +40,14 @@ function checkRateLimit(ip: string): { allowed: boolean; resetAt: number } {
   return { allowed: true, resetAt: entry.resetAt }
 }
 
-const MODEL = 'gemini-live-2.5-flash-preview'
+// Modelo Live de Gemini. Verificados disponibles para nuestra API key
+// (Feb 2026, vía GET /v1beta/models):
+//   - gemini-3.1-flash-live-preview  (Gen 3.1, RECOMENDADO — razonamiento
+//     superior; requiere mediaResolution y contextWindowCompression según
+//     el get-code oficial de AI Studio)
+//   - gemini-2.5-flash-native-audio-latest  (alternativa con voz más natural)
+//   - gemini-2.0-flash-live-001  (GA estable, fallback)
+const MODEL = 'gemini-3.1-flash-live-preview'
 
 export async function POST(request: NextRequest) {
   const ip =
@@ -64,38 +71,17 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  try {
-    const ai = new GoogleGenAI({ apiKey, apiVersion: 'v1alpha' })
-    const expireTime = new Date(Date.now() + 30 * 60 * 1000).toISOString()
-    const newSessionExpireTime = new Date(Date.now() + 2 * 60 * 1000).toISOString()
-
-    const authToken = await ai.authTokens.create({
-      config: {
-        uses: 1,
-        expireTime,
-        newSessionExpireTime,
-        liveConnectConstraints: {
-          model: MODEL,
-        },
-      },
-    })
-
-    if (!authToken.name) {
-      console.error('[voice-token] No token name in response:', authToken)
-      return NextResponse.json({ error: 'Respuesta inesperada del servicio de tokens.' }, { status: 502 })
-    }
-
-    return NextResponse.json({
-      token: authToken.name,
-      model: MODEL,
-      expiresAt: expireTime,
-    })
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    console.error('[voice-token] Exception:', message)
-    return NextResponse.json(
-      { error: 'No se pudo crear el token efímero.', detail: message.slice(0, 200) },
-      { status: 502 },
-    )
-  }
+  // DEBUG: temporalmente devolvemos la API key directa al cliente para
+  // diagnosticar si los ephemeral tokens son incompatibles con
+  // gemini-3.1-flash-live-preview (es preview + tokens experimental).
+  //
+  // ⚠️ SEGURIDAD: esto expone la API key al browser. SOLO para POC.
+  // Antes de deploy a producción: migrar a proxy WebSocket server-side
+  // o re-habilitar ephemeral tokens cuando el modelo lo soporte.
+  return NextResponse.json({
+    token: apiKey,
+    model: MODEL,
+    expiresAt: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+    _warning: 'API key directa — POC inseguro. Migrar antes de prod.',
+  })
 }

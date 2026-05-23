@@ -3,24 +3,34 @@
 import { useState } from 'react'
 import { LexWelcomeModal } from './lex-welcome-modal'
 import { LexAgent } from './lex-agent'
+import { LexFloatingButton } from './lex-floating-button'
 
 /**
  * Orquestador del flujo de Lex en la landing.
  *
- * - Muestra LexWelcomeModal al cargar (con delay).
- * - Si el usuario acepta, monta LexAgent (que arranca la sesión Live).
- * - Si el usuario declina, no monta nada — solo persiste la elección
- *   en localStorage para no volver a preguntar en futuras visitas.
+ * Estados:
+ * - Primera visita: modal aparece automáticamente. Si acepta → agente
+ *   activo. Si declina → solo queda el botón flotante para reactivar.
+ * - Visitas siguientes: localStorage recuerda la elección, no aparece
+ *   modal, pero el botón flotante SIEMPRE está visible para que el
+ *   usuario pueda invocar a Lex cuando quiera.
  *
- * Vive separado de page.tsx (que es Server Component) porque tanto el
- * modal como el agente son client components con estado.
+ * - Click en botón flotante → activa el agente directamente (sin modal).
+ * - Cerrar el agente → vuelve a aparecer el botón flotante.
  */
 export function LexOrchestrator() {
   const [agentActive, setAgentActive] = useState(false)
 
   return (
     <>
-      <LexWelcomeModal onAcceptGuided={() => setAgentActive(true)} />
+      <LexWelcomeModal
+        hidden={agentActive}
+        onAcceptGuided={() => setAgentActive(true)}
+      />
+      <LexFloatingButton
+        isAgentActive={agentActive}
+        onActivate={() => setAgentActive(true)}
+      />
       {agentActive && <LexAgent onClosed={() => setAgentActive(false)} />}
     </>
   )
