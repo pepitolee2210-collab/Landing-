@@ -16,6 +16,7 @@ import { Faq2 } from '@/components/landing2/faq2'
 import { CtaFinal2 } from '@/components/landing2/cta-final2'
 import { StickyCartBar } from '@/components/landing2/sticky-cart-bar'
 import { Footer } from '@/components/site/footer'
+import { LexOrchestrator } from '@/components/lex/lex-orchestrator'
 
 export const metadata: Metadata = {
   title: 'Servicios legales migratorios · UsaLatinoPrime',
@@ -45,6 +46,7 @@ export default function HomePage() {
       </main>
       <Footer />
       <StickyCartBar />
+      <LexOrchestrator />
     </div>
   )
 }

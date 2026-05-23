@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Inter_Tight, JetBrains_Mono, Cormorant_Garamond, Manrope } from 'next/font/google'
 import 'material-symbols/outlined.css'
 import { DemoPlayer } from './demo-player/demo-player'
 import { getDemoScript } from './demo-player/scripts'
+import { onLexEvent } from '@/components/lex/lex-events'
 
 const interTight = Inter_Tight({
   subsets: ['latin'],
@@ -57,6 +58,19 @@ const SERVICE_TABS: ServiceTab[] = [
 export function ServicesShowcase() {
   const [activeSlug, setActiveSlug] = useState<string>('visa-juvenil')
   const script = getDemoScript(activeSlug)
+
+  // Lex puede controlar el showcase via eventos globales:
+  // - lex:openServiceDemo → cambia el tab activo
+  // - lex:playDemo / lex:pauseDemo → controla DemoPlayer via custom events
+  //   que el propio DemoPlayer escucha en su useDemoPlayer hook.
+  useEffect(() => {
+    const off = onLexEvent('lex:openServiceDemo', (payload) => {
+      if (payload?.slug && SERVICE_TABS.some((t) => t.slug === payload.slug)) {
+        setActiveSlug(payload.slug)
+      }
+    })
+    return off
+  }, [])
 
   return (
     <section
