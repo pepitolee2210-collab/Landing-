@@ -7,7 +7,7 @@ import { LiveStats } from '@/components/landing2/live-stats'
 import { ProductGrid } from '@/components/landing2/product-grid'
 import { BundleDeal } from '@/components/landing2/bundle-deal'
 import { Features } from '@/components/landing2/features'
-import { PortalPreview } from '@/components/landing2/portal-preview'
+import { ServicesShowcase } from '@/components/landing2/services-showcase'
 import { HowItWorks } from '@/components/landing2/how-it-works'
 import { Reviews } from '@/components/landing2/reviews'
 import { CeoStory } from '@/components/landing2/ceo-story'
@@ -34,7 +34,7 @@ export default function HomePage() {
         <LiveStats />
         <BundleDeal />
         <Features />
-        <PortalPreview />
+        <ServicesShowcase />
         <HowItWorks />
         <Reviews />
         <CeoStory />
