@@ -228,13 +228,93 @@ export function DemoPlayer({ script }: Props) {
             {currentStep ? (
               <Scene scene={currentStep.scene} stepProgress={stepProgress} />
             ) : (
-              <div className="flex items-center justify-center min-h-[460px]">
-                <p style={{ fontSize: 16, color: '#525252', fontFamily: 'var(--font-mono-tech)', letterSpacing: '0.2em' }}>
-                  READY · PRESS PLAY
-                </p>
-              </div>
+              <div className="flex items-center justify-center min-h-[460px]" />
             )}
           </div>
+
+          {/* ─── Play overlay — solo cuando NO está reproduciendo ─── */}
+          {!state.isPlaying && (
+            <button
+              type="button"
+              onClick={play}
+              aria-label={state.isFinished ? 'Reproducir de nuevo' : state.currentStepIdx > 0 ? 'Continuar reproducción' : 'Reproducir demo'}
+              className="absolute inset-0 flex items-center justify-center group cursor-pointer"
+              style={{
+                background:
+                  'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.62) 60%, rgba(0,0,0,0.78) 100%)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                animation: 'demo-overlay-in 0.4s cubic-bezier(0.32, 0.72, 0, 1) both',
+              }}
+            >
+              {/* Pulse rings concéntricos */}
+              <span
+                aria-hidden
+                className="absolute rounded-full pointer-events-none"
+                style={{
+                  width: 88,
+                  height: 88,
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  animation: 'demo-play-ring 2.4s ease-out infinite',
+                }}
+              />
+              <span
+                aria-hidden
+                className="absolute rounded-full pointer-events-none"
+                style={{
+                  width: 88,
+                  height: 88,
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  animation: 'demo-play-ring 2.4s ease-out 0.8s infinite',
+                }}
+              />
+
+              {/* Botón circular central */}
+              <span
+                className="relative flex items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110 group-active:scale-95"
+                style={{
+                  width: 88,
+                  height: 88,
+                  background: 'rgba(255,255,255,0.96)',
+                  boxShadow:
+                    '0 12px 48px rgba(255,255,255,0.35), 0 0 0 0.5px rgba(255,255,255,0.8) inset, 0 0 64px rgba(255,255,255,0.18)',
+                }}
+              >
+                <span
+                  className="material-symbols-outlined"
+                  data-fill="1"
+                  style={{
+                    fontSize: 44,
+                    color: '#000',
+                    marginLeft: state.isFinished ? 0 : 4,
+                    fontVariationSettings: "'FILL' 1, 'wght' 600",
+                  }}
+                >
+                  {state.isFinished ? 'restart_alt' : 'play_arrow'}
+                </span>
+              </span>
+
+              {/* Etiqueta abajo */}
+              <span
+                className="absolute"
+                style={{
+                  bottom: 'calc(50% - 96px)',
+                  fontFamily: 'var(--font-mono-tech)',
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: '0.2em',
+                  color: 'rgba(255,255,255,0.8)',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {state.isFinished
+                  ? 'Reproducir de nuevo'
+                  : state.currentStepIdx > 0
+                  ? 'Continuar'
+                  : 'Ver demostración'}
+              </span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -369,6 +449,15 @@ export function DemoPlayer({ script }: Props) {
         @keyframes tech-ping-dot {
           0% { transform: scale(1); opacity: 0.8; }
           100% { transform: scale(2.6); opacity: 0; }
+        }
+        @keyframes demo-overlay-in {
+          from { opacity: 0; backdrop-filter: blur(0px); }
+          to { opacity: 1; backdrop-filter: blur(2px); }
+        }
+        @keyframes demo-play-ring {
+          0% { transform: scale(1); opacity: 0.6; }
+          80% { opacity: 0; }
+          100% { transform: scale(2.2); opacity: 0; }
         }
       `}</style>
     </div>
