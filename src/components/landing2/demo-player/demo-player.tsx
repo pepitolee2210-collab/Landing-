@@ -1,6 +1,7 @@
 'use client'
 
 import 'material-symbols/outlined.css'
+import './tokens.css'
 import { getServicePhases } from './services-registry'
 import { useDemoPlayer } from './use-demo-player'
 import { Scene, SceneKeyframes } from './scenes'

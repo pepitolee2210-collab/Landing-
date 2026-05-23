@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Inter_Tight, JetBrains_Mono } from 'next/font/google'
+import { Inter_Tight, JetBrains_Mono, Cormorant_Garamond, Manrope } from 'next/font/google'
 import 'material-symbols/outlined.css'
 import { DemoPlayer } from './demo-player/demo-player'
 import { getDemoScript } from './demo-player/scripts'
@@ -17,6 +17,25 @@ const mono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
   variable: '--font-mono-showcase',
+  display: 'swap',
+})
+
+// Fuentes del CitaFrame (portal mobile cliente) — el tokens.css apunta a
+// estos family names. Si no se cargan, las variables --font-ulp-* caen al
+// fallback genérico (Georgia/serif), no hay pantalla blanca pero el look
+// no es idéntico al portal real de /cita.
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-cormorant-showcase',
+  display: 'swap',
+})
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-manrope-showcase',
   display: 'swap',
 })
 
@@ -42,7 +61,7 @@ export function ServicesShowcase() {
   return (
     <section
       id="servicios-showcase"
-      className={`${interTight.variable} ${mono.variable} relative overflow-hidden`}
+      className={`${interTight.variable} ${mono.variable} ${cormorant.variable} ${manrope.variable} relative overflow-hidden`}
       style={{
         background: '#000000',
         color: '#FAFAFA',
