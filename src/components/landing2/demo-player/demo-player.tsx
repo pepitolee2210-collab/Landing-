@@ -6,12 +6,56 @@ import { getServicePhases } from './services-registry'
 import { useDemoPlayer } from './use-demo-player'
 import { Scene, SceneKeyframes } from './scenes'
 import type { DemoScript } from './types'
+import { SITE } from '@/lib/site'
+import { whatsappUrl } from '@/lib/utils'
 
 interface Props {
   script: DemoScript
 }
 
 const SPEEDS = [0.5, 1, 1.5, 2] as const
+
+interface ServiceCta {
+  headline: string
+  subhead: string
+  whatsappMsg: string
+}
+
+// CTAs contextuales mostrados al terminar el demo de cada servicio.
+// El mensaje de WhatsApp queda pre-llenado al hacer click.
+const CTA_BY_SLUG: Record<string, ServiceCta> = {
+  'visa-juvenil': {
+    headline: '¿Tu hijo califica para SIJS?',
+    subhead: 'Custodia estatal + I-360 + I-485. Te llevamos de la mano hasta la Green Card.',
+    whatsappMsg: 'Hola, vi el demo de Visa Juvenil (SIJS) en su web. Quiero saber si mi hijo califica.',
+  },
+  'asilo-politico': {
+    headline: '¿Necesitas presentar tu I-589?',
+    subhead: 'Sustentos + reforzamiento con Miedo Creíble. Expediente listo para USCIS.',
+    whatsappMsg: 'Hola, vi el demo de Asilo Político en su web. Necesito presentar mi I-589.',
+  },
+  'reforzar-asilo': {
+    headline: '¿Tu caso de asilo necesita más fuerza?',
+    subhead: 'Declaración jurada, evidencias y Miedo Creíble generado por IA.',
+    whatsappMsg: 'Hola, vi el demo de Reforzar Asilo en su web. Mi caso ya está abierto y quiero reforzarlo.',
+  },
+  apelacion: {
+    headline: '¿Te negaron tu caso?',
+    subhead: 'Apelación ante la BIA con Notice of Appeal EOIR-26 + Carta de Exoneración por IA.',
+    whatsappMsg: 'Hola, vi el demo de Apelación BIA en su web. Quiero apelar mi caso.',
+  },
+  'cambio-de-corte': {
+    headline: '¿Te mudaste a otro estado?',
+    subhead: 'Moción de Cambio de Venue EOIR-33 ante tu Corte de Inmigración actual.',
+    whatsappMsg: 'Hola, vi el demo de Cambio de Corte en su web. Necesito cambiar mi caso a otro estado.',
+  },
+}
+
+const FALLBACK_CTA: ServiceCta = {
+  headline: '¿Listo para empezar tu caso?',
+  subhead: 'Te acompañamos desde el primer paso hasta tener tu expediente listo.',
+  whatsappMsg: 'Hola, vi el demo en su web. Quiero información sobre los servicios.',
+}
 
 export function DemoPlayer({ script }: Props) {
   const { state, currentStep, stepProgress, progress, play, pause, reset, setSpeed, skipToPhase } = useDemoPlayer(script)
@@ -232,12 +276,20 @@ export function DemoPlayer({ script }: Props) {
             )}
           </div>
 
-          {/* ─── Play overlay — solo cuando NO está reproduciendo ─── */}
-          {!state.isPlaying && (
+          {/* ─── Finished CTA — al terminar el demo, llamada a la acción ─── */}
+          {state.isFinished && (
+            <FinishedCta
+              cta={CTA_BY_SLUG[script.serviceSlug] ?? FALLBACK_CTA}
+              onReplay={play}
+            />
+          )}
+
+          {/* ─── Play overlay — cuando está idle o paused (no finished) ─── */}
+          {!state.isPlaying && !state.isFinished && (
             <button
               type="button"
               onClick={play}
-              aria-label={state.isFinished ? 'Reproducir de nuevo' : state.currentStepIdx > 0 ? 'Continuar reproducción' : 'Reproducir demo'}
+              aria-label={state.currentStepIdx > 0 ? 'Continuar reproducción' : 'Reproducir demo'}
               className="absolute inset-0 flex items-center justify-center group cursor-pointer"
               style={{
                 background:
@@ -286,11 +338,11 @@ export function DemoPlayer({ script }: Props) {
                   style={{
                     fontSize: 44,
                     color: '#000',
-                    marginLeft: state.isFinished ? 0 : 4,
+                    marginLeft: 4,
                     fontVariationSettings: "'FILL' 1, 'wght' 600",
                   }}
                 >
-                  {state.isFinished ? 'restart_alt' : 'play_arrow'}
+                  play_arrow
                 </span>
               </span>
 
@@ -307,11 +359,7 @@ export function DemoPlayer({ script }: Props) {
                   textTransform: 'uppercase',
                 }}
               >
-                {state.isFinished
-                  ? 'Reproducir de nuevo'
-                  : state.currentStepIdx > 0
-                  ? 'Continuar'
-                  : 'Ver demostración'}
+                {state.currentStepIdx > 0 ? 'Continuar' : 'Ver demostración'}
               </span>
             </button>
           )}
@@ -459,7 +507,188 @@ export function DemoPlayer({ script }: Props) {
           80% { opacity: 0; }
           100% { transform: scale(2.2); opacity: 0; }
         }
+        @keyframes demo-cta-content-in {
+          0% { opacity: 0; transform: translateY(14px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes demo-cta-glow {
+          0%, 100% { box-shadow: 0 12px 40px rgba(37, 211, 102, 0.35), 0 0 0 0.5px rgba(255,255,255,0.2) inset, 0 0 80px rgba(37, 211, 102, 0.2); }
+          50% { box-shadow: 0 12px 56px rgba(37, 211, 102, 0.55), 0 0 0 0.5px rgba(255,255,255,0.3) inset, 0 0 120px rgba(37, 211, 102, 0.35); }
+        }
       `}</style>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// FinishedCta — pantalla de cierre con WhatsApp brand verde + replay
+// ─────────────────────────────────────────────────────────────────────
+
+function FinishedCta({ cta, onReplay }: { cta: ServiceCta; onReplay: () => void }) {
+  const waHref = whatsappUrl(SITE.contact.whatsapp, cta.whatsappMsg)
+  return (
+    <div
+      className="absolute inset-0 flex items-center justify-center px-8 py-10"
+      style={{
+        background:
+          'radial-gradient(ellipse at center, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.88) 60%, rgba(0,0,0,0.96) 100%)',
+        backdropFilter: 'blur(4px)',
+        WebkitBackdropFilter: 'blur(4px)',
+        animation: 'demo-overlay-in 0.5s cubic-bezier(0.32, 0.72, 0, 1) both',
+      }}
+    >
+      <div
+        className="relative max-w-[520px] text-center space-y-6"
+        style={{ animation: 'demo-cta-content-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both' }}
+      >
+        {/* Eyebrow tech */}
+        <div
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full"
+          style={{
+            background: 'rgba(255,255,255,0.06)',
+            border: '0.5px solid rgba(255,255,255,0.16)',
+          }}
+        >
+          <span
+            className="relative flex items-center justify-center"
+            style={{ width: 6, height: 6 }}
+          >
+            <span
+              className="absolute inset-0 rounded-full"
+              style={{ background: '#25D366', animation: 'tech-ping-dot 1.8s ease-in-out infinite' }}
+            />
+            <span
+              className="relative rounded-full"
+              style={{
+                width: 6,
+                height: 6,
+                background: '#25D366',
+                boxShadow: '0 0 12px rgba(37,211,102,0.7)',
+              }}
+            />
+          </span>
+          <span
+            style={{
+              fontFamily: 'var(--font-mono-tech)',
+              fontSize: 10,
+              fontWeight: 500,
+              letterSpacing: '0.2em',
+              color: 'rgba(255,255,255,0.85)',
+            }}
+          >
+            DEMO COMPLETADO
+          </span>
+        </div>
+
+        {/* Headline serif (Cormorant Garamond) */}
+        <h3
+          style={{
+            fontFamily: 'var(--font-ulp-display), Georgia, serif',
+            fontSize: 'clamp(28px, 4vw, 44px)',
+            fontWeight: 500,
+            lineHeight: 1.08,
+            letterSpacing: '-0.02em',
+            color: '#FAFAFA',
+          }}
+        >
+          {cta.headline}
+        </h3>
+
+        {/* Subhead body */}
+        <p
+          style={{
+            fontFamily: 'var(--font-tight), system-ui, sans-serif',
+            fontSize: 'clamp(15px, 1.2vw, 17px)',
+            fontWeight: 400,
+            lineHeight: 1.55,
+            color: 'rgba(255,255,255,0.7)',
+            letterSpacing: '-0.01em',
+            maxWidth: 440,
+            margin: '0 auto',
+          }}
+        >
+          {cta.subhead}
+        </p>
+
+        {/* Divisor decorativo */}
+        <span
+          aria-hidden
+          className="block mx-auto"
+          style={{
+            width: 32,
+            height: 1,
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+          }}
+        />
+
+        {/* Acciones — WhatsApp brand verde + replay secundario */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
+          <a
+            href={waHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 pl-5 pr-6 py-3.5 rounded-full transition-all duration-300 hover:scale-[1.03] active:scale-[0.98]"
+            style={{
+              background: '#25D366',
+              color: '#FFFFFF',
+              fontFamily: 'var(--font-tight), system-ui, sans-serif',
+              fontSize: 15,
+              fontWeight: 600,
+              letterSpacing: '-0.005em',
+              animation: 'demo-cta-glow 3s ease-in-out infinite',
+            }}
+          >
+            <svg
+              aria-hidden
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              style={{ flexShrink: 0 }}
+            >
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            <span>Hablar por WhatsApp</span>
+          </a>
+
+          <button
+            type="button"
+            onClick={onReplay}
+            className="inline-flex items-center gap-2 pl-4 pr-5 py-3 rounded-full transition-all duration-300 hover:bg-white/10 active:scale-95"
+            style={{
+              background: 'rgba(255,255,255,0.04)',
+              border: '0.5px solid rgba(255,255,255,0.15)',
+              color: 'rgba(255,255,255,0.85)',
+              fontFamily: 'var(--font-tight), system-ui, sans-serif',
+              fontSize: 14,
+              fontWeight: 500,
+              letterSpacing: '-0.005em',
+            }}
+          >
+            <span
+              className="material-symbols-outlined"
+              style={{ fontSize: 18, fontVariationSettings: "'FILL' 0, 'wght' 500" }}
+            >
+              restart_alt
+            </span>
+            <span>Ver demo de nuevo</span>
+          </button>
+        </div>
+
+        {/* Reassurance fine print */}
+        <p
+          style={{
+            fontFamily: 'var(--font-mono-tech)',
+            fontSize: 10,
+            fontWeight: 500,
+            letterSpacing: '0.18em',
+            color: 'rgba(255,255,255,0.4)',
+            paddingTop: 8,
+          }}
+        >
+          RESPUESTA EN MINUTOS · CONSULTA SIN COMPROMISO
+        </p>
+      </div>
     </div>
   )
 }
