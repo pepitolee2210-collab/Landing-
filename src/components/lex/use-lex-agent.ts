@@ -39,6 +39,16 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   const nextStartTimeRef = useRef(0)
   const mutedRef = useRef(false)
   const speakingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Session resumption: guardamos el handle que el server nos manda en
+  // sessionResumptionUpdate. Si la sesión cierra por expiración natural
+  // (~15min con audio), reconectamos con este handle de manera transparente
+  // — el usuario no nota el corte.
+  const sessionHandleRef = useRef<string | null>(null)
+  const intentionalCloseRef = useRef(false)
+  const reconnectingRef = useRef(false)
+  const aiRef = useRef<GoogleGenAI | null>(null)
+  const modelRef = useRef<string | null>(null)
+  const tokenRef = useRef<string | null>(null)
 
   // ──────────────────────────────────────────────────────────────────
   // Helpers de audio
@@ -151,25 +161,142 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
         playbackQueueRef.current = []
         nextStartTimeRef.current = audioCtxRef.current?.currentTime ?? 0
       }
+
+      // 6) Session resumption update — guardar el handle para reconectar
+      //    si la sesión expira naturalmente.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const resumeUpdate = (msg as any).sessionResumptionUpdate
+      if (resumeUpdate?.newHandle && resumeUpdate?.resumable) {
+        sessionHandleRef.current = resumeUpdate.newHandle
+        console.log('[lex] Session handle updated for resumption')
+      }
+
+      // 7) GoAway message — el server avisa que va a cerrar pronto.
+      //    No hacemos nada activo aquí — onclose se va a disparar y
+      //    reconectaremos transparentemente con el handle guardado.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const goAway = (msg as any).goAway
+      if (goAway?.timeLeft) {
+        console.log('[lex] GoAway received, time left:', goAway.timeLeft)
+      }
     }
 
   // ──────────────────────────────────────────────────────────────────
   // Inicio / cierre
   // ──────────────────────────────────────────────────────────────────
 
+  // Función interna que solo conecta la sesión Live. Se usa tanto para
+  // arranque inicial (con token nuevo + micrófono) como para reconexión
+  // tras GoAway (reusa los recursos ya montados, pasa resumeHandle).
+  const connectSession = async (resumeHandle?: string | null) => {
+    const ai = aiRef.current
+    const model = modelRef.current
+    if (!ai || !model) throw new Error('AI client not initialized')
+
+    const fullModel = model.startsWith('models/') ? model : `models/${model}`
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const toolDecls = LEX_TOOL_DECLARATIONS.map((d): any => ({
+      name: d.name,
+      description: d.description,
+      parametersJsonSchema: d.parameters,
+    }))
+
+    const session = await ai.live.connect({
+      model: fullModel,
+      config: {
+        responseModalities: [Modality.AUDIO],
+        mediaResolution: MediaResolution.MEDIA_RESOLUTION_MEDIUM,
+        systemInstruction: LEX_SYSTEM_PROMPT,
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName: 'Zephyr' },
+          },
+        },
+        contextWindowCompression: {
+          triggerTokens: '104857',
+          slidingWindow: { targetTokens: '52428' },
+        },
+        // Habilita session resumption — server nos enviará handles que
+        // guardamos en sessionHandleRef. Si se cierra por expiración,
+        // reconectamos con el último handle de forma transparente.
+        sessionResumption: resumeHandle
+          ? { handle: resumeHandle }
+          : { handle: '' },
+        tools: [{ functionDeclarations: toolDecls }],
+      },
+      callbacks: {
+        onopen: () => {
+          console.log('[lex] WebSocket opened', resumeHandle ? '(resumed)' : '')
+          reconnectingRef.current = false
+          setState('listening')
+        },
+        onmessage: (msg) => handleServerMessage(msg),
+        onerror: (e) => {
+          console.error('[lex] WebSocket error:', e)
+          const msg = (e as { message?: string })?.message || 'Error en la conexión con Lex'
+          setErrorMessage(msg)
+          setState('error')
+        },
+        onclose: (e) => {
+          const closeCode = (e as { code?: number })?.code
+          const closeReason = (e as { reason?: string })?.reason
+          console.log('[lex] WebSocket closed:', { code: closeCode, reason: closeReason })
+
+          if (intentionalCloseRef.current) {
+            setState('closed')
+            return
+          }
+
+          // Reconexión transparente si tenemos un handle válido y la
+          // sesión cerró por expiración natural (1008 = GoAway).
+          if (sessionHandleRef.current && closeCode === 1008 && !reconnectingRef.current) {
+            reconnectingRef.current = true
+            console.log('[lex] Reconnecting transparently with session handle')
+            // No cambiamos a 'error' — mantenemos UI en 'speaking'/'listening'
+            connectSession(sessionHandleRef.current).catch((err) => {
+              console.error('[lex] Resume reconnection failed:', err)
+              setErrorMessage('No se pudo reconectar la sesión')
+              setState('error')
+              reconnectingRef.current = false
+            })
+            return
+          }
+
+          setState((prev) => {
+            if (prev === 'error') return prev
+            if (closeCode && closeCode !== 1000 && closeCode !== 1005) {
+              setErrorMessage(
+                `Conexión cerrada (código ${closeCode}${closeReason ? `: ${closeReason}` : ''})`,
+              )
+              return 'error'
+            }
+            return 'closed'
+          })
+        },
+      },
+    })
+    sessionRef.current = session
+    return session
+  }
+
   const start = async () => {
     if (state !== 'idle' && state !== 'closed' && state !== 'error') return
     setState('connecting')
     setErrorMessage(null)
+    intentionalCloseRef.current = false
+    sessionHandleRef.current = null
 
     try {
-      // 1) Pedir token efímero al backend
+      // 1) Pedir token al backend
       const tokenRes = await fetch('/api/voice-token', { method: 'POST' })
       if (!tokenRes.ok) {
         const body = await tokenRes.json().catch(() => ({}))
         throw new Error(body.error || `Token request failed (${tokenRes.status})`)
       }
       const { token, model } = (await tokenRes.json()) as { token: string; model: string }
+      tokenRef.current = token
+      modelRef.current = model
 
       // 2) Pedir permiso de micrófono
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -186,76 +313,11 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
       audioCtxRef.current = playbackCtx
       nextStartTimeRef.current = playbackCtx.currentTime
 
-      // 4) Conectar a Gemini Live API.
-      // `token` puede ser ephemeral o API key directa (POC) — el SDK acepta ambos.
+      // 4) Inicializar cliente y conectar la sesión Live
       console.log('[lex] Connecting to Gemini Live with model:', model)
       const ai = new GoogleGenAI({ apiKey: token })
-
-      // Para Gemini 3.1+, usar `parametersJsonSchema` (JSON Schema estándar)
-      // en vez de `parameters` (formato Type enum legacy). El SDK acepta
-      // ambos pero los modelos nuevos son más estrictos con el primero.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const toolDecls = LEX_TOOL_DECLARATIONS.map((d): any => ({
-        name: d.name,
-        description: d.description,
-        parametersJsonSchema: d.parameters,
-      }))
-
-      // El SDK requiere el nombre del modelo CON prefix `models/` (según
-      // el get-code oficial de AI Studio para gemini-3.1-flash-live-preview).
-      const fullModel = model.startsWith('models/') ? model : `models/${model}`
-
-      const session = await ai.live.connect({
-        model: fullModel,
-        config: {
-          responseModalities: [Modality.AUDIO],
-          mediaResolution: MediaResolution.MEDIA_RESOLUTION_MEDIUM,
-          systemInstruction: LEX_SYSTEM_PROMPT,
-          speechConfig: {
-            voiceConfig: {
-              prebuiltVoiceConfig: { voiceName: 'Zephyr' },
-            },
-          },
-          contextWindowCompression: {
-            triggerTokens: '104857',
-            slidingWindow: { targetTokens: '52428' },
-          },
-          tools: [{ functionDeclarations: toolDecls }],
-        },
-        callbacks: {
-          onopen: () => {
-            console.log('[lex] WebSocket opened')
-            setState('listening')
-          },
-          onmessage: (msg) => handleServerMessage(msg),
-          onerror: (e) => {
-            console.error('[lex] WebSocket error:', e, JSON.stringify(e, Object.getOwnPropertyNames(e)))
-            const msg = (e as { message?: string })?.message || 'Error en la conexión con Lex'
-            setErrorMessage(msg)
-            setState('error')
-          },
-          onclose: (e) => {
-            // El close se dispara también después de error. Mantenemos visible
-            // el estado de error si ya hubo uno — solo cerramos como "closed"
-            // si fue una desconexión limpia.
-            const closeCode = (e as { code?: number })?.code
-            const closeReason = (e as { reason?: string })?.reason
-            console.log('[lex] WebSocket closed:', { code: closeCode, reason: closeReason })
-            setState((prev) => {
-              if (prev === 'error') return prev
-              if (closeCode && closeCode !== 1000 && closeCode !== 1005) {
-                // Cierre anormal — mostrar como error en lugar de "closed"
-                setErrorMessage(
-                  `Conexión cerrada (código ${closeCode}${closeReason ? `: ${closeReason}` : ''})`,
-                )
-                return 'error'
-              }
-              return 'closed'
-            })
-          },
-        },
-      })
-      sessionRef.current = session
+      aiRef.current = ai
+      await connectSession()
 
       // 5) Setup captura de micrófono → enviar PCM 16kHz al modelo
       const captureCtx = new AudioContext({ sampleRate: INPUT_SAMPLE_RATE })
@@ -291,6 +353,10 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   }
 
   const stop = async () => {
+    // Marca cierre intencional para que onclose NO intente reconectar
+    intentionalCloseRef.current = true
+    sessionHandleRef.current = null
+
     try {
       sessionRef.current?.close()
     } catch {}
