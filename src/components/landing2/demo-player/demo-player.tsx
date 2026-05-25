@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import 'material-symbols/outlined.css'
 import './tokens.css'
 import { getServicePhases } from './services-registry'
@@ -8,6 +9,7 @@ import { Scene, SceneKeyframes } from './scenes'
 import type { DemoScript } from './types'
 import { SITE } from '@/lib/site'
 import { whatsappUrl } from '@/lib/utils'
+import { onLexEvent, dispatchLexEvent } from '@/components/lex/lex-events'
 
 interface Props {
   script: DemoScript
@@ -61,6 +63,34 @@ export function DemoPlayer({ script }: Props) {
   const { state, currentStep, stepProgress, progress, play, pause, reset, setSpeed, skipToPhase } = useDemoPlayer(script)
   const phases = getServicePhases(script.serviceSlug).filter((p) => !p.isCompletion)
   const currentPhaseCode = currentStep?.phase
+
+  // Lex puede controlar play/pause via custom events globales
+  useEffect(() => {
+    const offPlay = onLexEvent('lex:playDemo', () => play())
+    const offPause = onLexEvent('lex:pauseDemo', () => pause())
+    return () => {
+      offPlay()
+      offPause()
+    }
+  }, [play, pause])
+
+  // Sincronización con Lex: dispatch eventos cuando el step cambia
+  // y cuando el demo termina. Lex escucha y narra/cierra en consecuencia.
+  useEffect(() => {
+    if (!currentStep) return
+    dispatchLexEvent('lex:demoStepEnter', {
+      stepId: currentStep.id,
+      phase: String(currentStep.phase),
+      narration: currentStep.narration,
+      sceneKind: currentStep.scene.kind,
+    })
+  }, [currentStep])
+
+  useEffect(() => {
+    if (state.isFinished) {
+      dispatchLexEvent('lex:demoFinished', { serviceSlug: script.serviceSlug })
+    }
+  }, [state.isFinished, script.serviceSlug])
 
   return (
     <div

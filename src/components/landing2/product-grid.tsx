@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PRODUCTS, PRODUCT_CATEGORIES, type Product } from '@/lib/products'
 import { ServiceModal } from './service-modal'
 import { getProductMedia } from '@/lib/product-media'
+import { onLexEvent } from '@/components/lex/lex-events'
 
 const FILTERS = [...PRODUCT_CATEGORIES]
 
@@ -14,6 +15,15 @@ export function ProductGrid() {
     active === 'all'
       ? PRODUCTS
       : PRODUCTS.filter((p) => p.category === active)
+
+  // Lex puede pedir abrir el modal de video de un servicio específico
+  useEffect(() => {
+    return onLexEvent('lex:showServiceVideo', (payload) => {
+      if (!payload?.slug) return
+      const product = PRODUCTS.find((p) => p.slug === payload.slug)
+      if (product) setOpenProduct(product)
+    })
+  }, [])
 
   return (
     <section id="productos" className="l2-aurora l2-aurora-catalog relative py-20 md:py-28">
