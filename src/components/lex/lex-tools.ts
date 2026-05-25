@@ -320,12 +320,24 @@ export function executeLexTool(name: string, args: Record<string, unknown>): Lex
     case 'openWhatsApp': {
       const message = String(args.message ?? 'Hola, hablé con Lex en su web. Quiero información.')
       const url = whatsappUrl(SITE.contact.whatsapp, message)
-      // Abrir en pestaña nueva
+      // Intento de apertura automática. Si el navegador bloquea (popup
+      // blocker en Safari iOS sobre todo), el evento dispara un botón
+      // fallback persistente en el widget para que el user haga click manual.
+      let opened: Window | null = null
       if (typeof window !== 'undefined') {
-        window.open(url, '_blank', 'noopener,noreferrer')
+        try {
+          opened = window.open(url, '_blank', 'noopener,noreferrer')
+        } catch {
+          opened = null
+        }
       }
       dispatchLexEvent('lex:openWhatsApp', { message })
-      return { ok: true, message: 'WhatsApp abierto en pestaña nueva' }
+      return {
+        ok: true,
+        message: opened
+          ? 'WhatsApp abierto en pestaña nueva'
+          : 'WhatsApp NO se abrió automáticamente (popup blocker). Aparecerá un botón en el widget para que el usuario lo abra manualmente.',
+      }
     }
 
     case 'closeAgent': {
