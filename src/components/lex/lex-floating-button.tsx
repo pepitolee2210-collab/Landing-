@@ -33,7 +33,7 @@ export function LexFloatingButton({ isAgentActive, onActivate }: Props) {
       type="button"
       onClick={onActivate}
       aria-label="Hablar con Lex, el asistente digital"
-      className="group"
+      className="group lex-fab"
       style={{
         position: 'fixed',
         bottom: 24,
@@ -97,6 +97,18 @@ export function LexFloatingButton({ isAgentActive, onActivate }: Props) {
         @keyframes lex-fab-pulse {
           0%, 100% { opacity: 0; transform: scale(1); }
           50% { opacity: 0.5; transform: scale(1.6); }
+        }
+        /* Mobile: subir el FAB para no chocar con StickyCartBar.
+           SCB aparece a partir de scrollY > 1.4 * viewportHeight y vive
+           en bottom-3 centrado, ancho casi completo. En mobile pequeño
+           se solapan. Ajustamos bottom del FAB. */
+        @media (max-width: 640px) {
+          .lex-fab {
+            bottom: 76px !important;
+            right: 12px !important;
+            padding: 10px 14px 10px 12px !important;
+            font-size: 13px !important;
+          }
         }
       `}</style>
     </button>,

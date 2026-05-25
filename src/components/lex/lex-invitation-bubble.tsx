@@ -65,7 +65,7 @@ export function LexInvitationBubble({ isAgentActive, onActivate }: Props) {
     <div
       role="dialog"
       aria-label="Invitación a hablar con Lex"
-      className="max-w-[300px]"
+      className="lex-bubble max-w-[300px]"
       style={{
         position: 'fixed',
         bottom: 88, // encima del FAB (que está en bottom: 24 + altura ~52 + gap)
@@ -171,6 +171,14 @@ export function LexInvitationBubble({ isAgentActive, onActivate }: Props) {
         @keyframes lex-bubble-orb {
           0%, 100% { opacity: 0.4; transform: scale(1); }
           50% { opacity: 0.7; transform: scale(1.3); }
+        }
+        /* Mobile: subir el bubble por encima del FAB ajustado a 76px */
+        @media (max-width: 640px) {
+          .lex-bubble {
+            bottom: 140px !important;
+            right: 12px !important;
+            max-width: calc(100vw - 24px) !important;
+          }
         }
       `}</style>
     </div>,

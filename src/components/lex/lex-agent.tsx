@@ -93,7 +93,7 @@ export function LexAgent({ onClosed }: { onClosed?: () => void }) {
   // Portal a body para escapar de `.l2-root > * { position: relative }`
   return createPortal(
     <div
-      className="max-w-[360px] w-[min(360px,calc(100vw-32px))]"
+      className="lex-widget max-w-[360px] w-[min(360px,calc(100vw-16px))]"
       style={{
         position: 'fixed',
         zIndex: 50,
@@ -324,6 +324,16 @@ export function LexAgent({ onClosed }: { onClosed?: () => void }) {
         @keyframes lex-wa-pulse {
           0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
           50% { box-shadow: 0 0 0 6px rgba(37, 211, 102, 0); }
+        }
+        /* Mobile: subir el widget para no chocar con StickyCartBar */
+        @media (max-width: 640px) {
+          .lex-widget {
+            bottom: 80px !important;
+            right: 8px !important;
+            left: 8px !important;
+            max-width: none !important;
+            width: auto !important;
+          }
         }
       `}</style>
     </div>,
