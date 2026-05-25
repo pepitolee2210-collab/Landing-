@@ -23,6 +23,21 @@ interface UseLexAgentOptions {
 const INPUT_SAMPLE_RATE = 16_000
 const OUTPUT_SAMPLE_RATE = 24_000
 
+// Helpers impuros encapsulados fuera del hook para evitar warnings
+// de react-hooks/purity en el componente.
+function generateSessionId(): string {
+  return `lex-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
+}
+function nowMs(): number {
+  return Date.now()
+}
+function nowIso(): string {
+  return new Date().toISOString()
+}
+function elapsedSecSince(startMs: number): number {
+  return Math.round((Date.now() - startMs) / 1000)
+}
+
 export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   const [state, setState] = useState<LexState>('idle')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -60,6 +75,10 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   }>({})
   // Cleanup function devuelta por setupDemoSyncListeners
   const demoSyncCleanupRef = useRef<(() => void) | null>(null)
+  // Session ID + turn counter para logging (B7 — solo texto)
+  const sessionIdRef = useRef<string>('')
+  const turnCounterRef = useRef(0)
+  const sessionStartTsRef = useRef(0)
 
   // ──────────────────────────────────────────────────────────────────
   // Helpers de audio
@@ -122,6 +141,15 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   const handleServerMessage = (msg: LiveServerMessage) => {
       // 1) Tool calls
       if (msg.toolCall?.functionCalls && msg.toolCall.functionCalls.length > 0) {
+        msg.toolCall.functionCalls.forEach((call) => {
+          // Logueamos cada tool call (B7)
+          logTurn({
+            role: 'tool',
+            toolName: call.name,
+            toolArgs: call.args,
+            whatsappOpened: call.name === 'openWhatsApp',
+          })
+        })
         const responses = msg.toolCall.functionCalls.map((call) => {
           const result = executeLexTool(call.name || '', call.args || {})
           return {
@@ -154,12 +182,14 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
         }
       }
 
-      // 3) Transcripciones (input + output)
+      // 3) Transcripciones (input + output) — también loggeamos a backend
       if (content?.inputTranscription?.text) {
         onTranscript?.('user', content.inputTranscription.text)
+        logTurn({ role: 'user', text: content.inputTranscription.text })
       }
       if (content?.outputTranscription?.text) {
         onTranscript?.('lex', content.outputTranscription.text)
+        logTurn({ role: 'lex', text: content.outputTranscription.text })
       }
 
       // 4) Turn complete → listening
@@ -195,6 +225,39 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   // ──────────────────────────────────────────────────────────────────
   // Inicio / cierre
   // ──────────────────────────────────────────────────────────────────
+
+  // Logging de turns a /api/lex/log-turn — solo texto, sin audio.
+  // Fire-and-forget para no bloquear la conversación.
+  const logTurn = (payload: {
+    role: 'user' | 'lex' | 'tool' | 'system'
+    text?: string
+    toolName?: string
+    toolArgs?: Record<string, unknown>
+    toolResult?: { ok: boolean; message: string }
+    isEnd?: boolean
+    whatsappOpened?: boolean
+  }) => {
+    turnCounterRef.current += 1
+    const body = {
+      sessionId: sessionIdRef.current,
+      surface: 'landing-public' as const,
+      ...payload,
+      turnIndex: turnCounterRef.current,
+      timestamp: nowIso(),
+      durationSec: payload.isEnd
+        ? elapsedSecSince(sessionStartTsRef.current)
+        : undefined,
+    }
+    // Fire-and-forget: no esperamos la respuesta
+    fetch('/api/lex/log-turn', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      keepalive: true, // si la pestaña se cierra, la request se completa
+    }).catch(() => {
+      // Silencioso — logging no debe romper la experiencia
+    })
+  }
 
   // Envía un mensaje del sistema al modelo via sendClientContent.
   // Se usa para hints de timing escalonado, scene updates del demo, etc.
@@ -370,6 +433,12 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
     intentionalCloseRef.current = false
     sessionHandleRef.current = null
 
+    // Setup logging session ID (B7)
+    sessionIdRef.current = generateSessionId()
+    turnCounterRef.current = 0
+    sessionStartTsRef.current = nowMs()
+    logTurn({ role: 'system', text: 'session_start' })
+
     try {
       // 1) Pedir token al backend con headers explícitos para que el server
       //    valide Origin/Referer correctamente.
@@ -461,6 +530,11 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   }
 
   const stop = async () => {
+    // Log final de la sesión (B7)
+    if (sessionIdRef.current) {
+      logTurn({ role: 'system', text: 'session_end', isEnd: true })
+    }
+
     // Marca cierre intencional para que onclose NO intente reconectar
     intentionalCloseRef.current = true
     sessionHandleRef.current = null

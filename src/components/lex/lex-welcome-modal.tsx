@@ -262,7 +262,7 @@ export function LexWelcomeModal({ onAcceptGuided, onDeclineGuided, hidden }: Pro
               paddingTop: 8,
             }}
           >
-            CONVERSACIÓN PRIVADA · NO SE GRABA · ESPAÑOL
+            TRANSCRIPCIÓN ANÓNIMA PARA MEJORAR EL SERVICIO · ESPAÑOL
           </p>
         </div>
       </div>
