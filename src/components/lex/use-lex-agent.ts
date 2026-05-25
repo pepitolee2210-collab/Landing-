@@ -5,6 +5,7 @@ import { GoogleGenAI, MediaResolution, Modality, type Session, type LiveServerMe
 import { LEX_SYSTEM_PROMPT } from './lex-prompt'
 import { LEX_TOOL_DECLARATIONS, executeLexTool } from './lex-tools'
 import { AUDIO_WORKLET_SRC } from './audio-worklet-source'
+import { onLexEvent } from './lex-events'
 
 export type LexState =
   | 'idle' // no iniciado
@@ -49,6 +50,16 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   const aiRef = useRef<GoogleGenAI | null>(null)
   const modelRef = useRef<string | null>(null)
   const tokenRef = useRef<string | null>(null)
+
+  // Timing escalonado: 5min target, 7min cap duro
+  const timingTimersRef = useRef<{
+    hint4min?: ReturnType<typeof setTimeout>
+    hint55min?: ReturnType<typeof setTimeout>
+    hint65min?: ReturnType<typeof setTimeout>
+    forceClose7min?: ReturnType<typeof setTimeout>
+  }>({})
+  // Cleanup function devuelta por setupDemoSyncListeners
+  const demoSyncCleanupRef = useRef<(() => void) | null>(null)
 
   // ──────────────────────────────────────────────────────────────────
   // Helpers de audio
@@ -184,6 +195,78 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   // ──────────────────────────────────────────────────────────────────
   // Inicio / cierre
   // ──────────────────────────────────────────────────────────────────
+
+  // Envía un mensaje del sistema al modelo via sendClientContent.
+  // Se usa para hints de timing escalonado, scene updates del demo, etc.
+  const sendSystemHint = (text: string) => {
+    const session = sessionRef.current
+    if (!session) return
+    try {
+      session.sendClientContent({
+        turns: [{ role: 'user', parts: [{ text }] }],
+      })
+    } catch (err) {
+      console.warn('[lex] sendSystemHint failed:', err)
+    }
+  }
+
+  // Configura los 4 timers del funnel 5/7min. Cada uno envía un context
+  // hint al modelo para que vaya cerrando progresivamente.
+  const setupFunnelTimers = () => {
+    timingTimersRef.current.hint4min = setTimeout(() => {
+      sendSystemHint(
+        '[SISTEMA: Llevas 4 minutos. Quedan ~60 segundos para el cierre ideal. Prepara el cierre ahora — invoca buildWhatsAppMessage + openWhatsApp en los próximos 1-2 turnos.]',
+      )
+    }, 4 * 60 * 1000)
+
+    timingTimersRef.current.hint55min = setTimeout(() => {
+      sendSystemHint(
+        '[SISTEMA: 5:30 minutos transcurridos. CIERRA YA. Si hubo interrupciones está OK, pero empuja el cierre AHORA. NO agregues info nueva. INVOCA openWhatsApp en este turno.]',
+      )
+    }, 5 * 60 * 1000 + 30 * 1000)
+
+    timingTimersRef.current.hint65min = setTimeout(() => {
+      sendSystemHint(
+        '[SISTEMA: ÚLTIMO AVISO. 6:30 min. En 30 segundos forzaré el cierre. Cierra ya con openWhatsApp.]',
+      )
+    }, 6 * 60 * 1000 + 30 * 1000)
+
+    timingTimersRef.current.forceClose7min = setTimeout(() => {
+      console.log('[lex] Force closing session at 7 minutes')
+      const genericMessage = 'Hola, hablé con Lex en su web. Quiero información sobre los servicios.'
+      try {
+        window.open(
+          `https://wa.me/14028248171?text=${encodeURIComponent(genericMessage)}`,
+          '_blank',
+          'noopener,noreferrer',
+        )
+      } catch {}
+      sendSystemHint(
+        '[SISTEMA: Tiempo agotado (7min). Di "Continuemos por WhatsApp, ahí te atiende el equipo directamente" y nada más.]',
+      )
+    }, 7 * 60 * 1000)
+  }
+
+  // Setup listeners de eventos del DemoPlayer para sincronizar narración.
+  // Cuando el demo cambia de step, mandamos un context hint al modelo
+  // para que narre. Cuando termina, mandamos hint de cierre.
+  const setupDemoSyncListeners = (): (() => void) => {
+    const offStepEnter = onLexEvent('lex:demoStepEnter', (payload) => {
+      if (!payload) return
+      sendSystemHint(
+        `[SCENE_UPDATE: ahora se muestra "${payload.narration}". Comenta brevemente con tu propio tono — máximo 1 frase. NO repitas literal. NO interrumpas si el usuario está hablando.]`,
+      )
+    })
+    const offFinished = onLexEvent('lex:demoFinished', (payload) => {
+      sendSystemHint(
+        `[DEMO_FINISHED: el usuario acaba de ver el demo completo de ${payload?.serviceSlug || 'el servicio'}. Es el momento ideal para cerrar a WhatsApp. INVOCA buildWhatsAppMessage con todo el contexto capturado + openWhatsApp en este turno.]`,
+      )
+    })
+    return () => {
+      offStepEnter()
+      offFinished()
+    }
+  }
 
   // Función interna que solo conecta la sesión Live. Se usa tanto para
   // arranque inicial (con token nuevo + micrófono) como para reconexión
@@ -339,6 +422,11 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
       aiRef.current = ai
       await connectSession()
 
+      // 4.5) Setup del timer escalonado de 5/7 minutos
+      setupFunnelTimers()
+      // 4.6) Setup listeners de sincronización con DemoPlayer
+      demoSyncCleanupRef.current = setupDemoSyncListeners()
+
       // 5) Setup captura de micrófono → enviar PCM 16kHz al modelo
       const captureCtx = new AudioContext({ sampleRate: INPUT_SAMPLE_RATE })
       captureCtxRef.current = captureCtx
@@ -376,6 +464,20 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
     // Marca cierre intencional para que onclose NO intente reconectar
     intentionalCloseRef.current = true
     sessionHandleRef.current = null
+
+    // Cancelar todos los timers del funnel 5/7min
+    const timers = timingTimersRef.current
+    if (timers.hint4min) clearTimeout(timers.hint4min)
+    if (timers.hint55min) clearTimeout(timers.hint55min)
+    if (timers.hint65min) clearTimeout(timers.hint65min)
+    if (timers.forceClose7min) clearTimeout(timers.forceClose7min)
+    timingTimersRef.current = {}
+
+    // Detener listeners de sincronización con DemoPlayer
+    if (demoSyncCleanupRef.current) {
+      demoSyncCleanupRef.current()
+      demoSyncCleanupRef.current = null
+    }
 
     try {
       sessionRef.current?.close()

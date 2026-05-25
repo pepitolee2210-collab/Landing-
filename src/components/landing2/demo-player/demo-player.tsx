@@ -9,7 +9,7 @@ import { Scene, SceneKeyframes } from './scenes'
 import type { DemoScript } from './types'
 import { SITE } from '@/lib/site'
 import { whatsappUrl } from '@/lib/utils'
-import { onLexEvent } from '@/components/lex/lex-events'
+import { onLexEvent, dispatchLexEvent } from '@/components/lex/lex-events'
 
 interface Props {
   script: DemoScript
@@ -73,6 +73,24 @@ export function DemoPlayer({ script }: Props) {
       offPause()
     }
   }, [play, pause])
+
+  // Sincronización con Lex: dispatch eventos cuando el step cambia
+  // y cuando el demo termina. Lex escucha y narra/cierra en consecuencia.
+  useEffect(() => {
+    if (!currentStep) return
+    dispatchLexEvent('lex:demoStepEnter', {
+      stepId: currentStep.id,
+      phase: String(currentStep.phase),
+      narration: currentStep.narration,
+      sceneKind: currentStep.scene.kind,
+    })
+  }, [currentStep])
+
+  useEffect(() => {
+    if (state.isFinished) {
+      dispatchLexEvent('lex:demoFinished', { serviceSlug: script.serviceSlug })
+    }
+  }, [state.isFinished, script.serviceSlug])
 
   return (
     <div
