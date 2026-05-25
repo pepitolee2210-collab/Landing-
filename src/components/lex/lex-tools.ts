@@ -9,6 +9,16 @@
 import { dispatchLexEvent } from './lex-events'
 import { SITE } from '@/lib/site'
 import { whatsappUrl } from '@/lib/utils'
+import {
+  getServiceDetails,
+  getServicePricing,
+  listAllServices,
+  checkServiceFit,
+  getRelatedTestimonials,
+  getTeamInfo,
+  getFAQ,
+  buildWhatsAppMessage,
+} from './lex-knowledge'
 
 // Type compatible con FunctionDeclaration de @google/genai sin importar el SDK
 // (lo usamos en cliente; el endpoint server-side hace cast cuando configura
@@ -128,6 +138,117 @@ export const LEX_TOOL_DECLARATIONS: LexFunctionDeclaration[] = [
       'Cierra la conversación con el usuario. Úsala SOLO si el usuario pide explícitamente terminar la conversación o cerrar el asistente.',
     parameters: { type: 'object', properties: {} },
   },
+
+  // ════════════════════════════════════════════════════════════════
+  // Knowledge base tools — consultan datos reales de la landing
+  // ════════════════════════════════════════════════════════════════
+  {
+    name: 'getServiceDetails',
+    description:
+      'Obtiene info detallada del servicio: pitch, descripción larga, features incluidas, tiempo estimado, rating. ÚSALA cuando el usuario pregunte "qué incluye" / "qué hacen exactamente" / "cuánto tarda".',
+    parameters: {
+      type: 'object',
+      properties: {
+        slug: {
+          type: 'string',
+          description: 'Slug del servicio',
+          enum: ['visa-juvenil', 'asilo-politico', 'ajuste-de-estatus', 'apelacion-bia', 'cambio-de-corte', 'itin-number', 'taxes'],
+        },
+      },
+      required: ['slug'],
+    },
+  },
+  {
+    name: 'getServicePricing',
+    description:
+      'Responde la pregunta de precio. SIEMPRE retorna "cotización personalizada" + redirige a WhatsApp. NUNCA inventes precios. ÚSALA en cuanto el usuario pregunte cuánto cuesta algo.',
+    parameters: {
+      type: 'object',
+      properties: {
+        slug: {
+          type: 'string',
+          description: 'Slug del servicio',
+          enum: ['visa-juvenil', 'asilo-politico', 'ajuste-de-estatus', 'apelacion-bia', 'cambio-de-corte', 'itin-number', 'taxes'],
+        },
+      },
+      required: ['slug'],
+    },
+  },
+  {
+    name: 'listAllServices',
+    description:
+      'Lista los 7 servicios disponibles con su pitch corto. ÚSALA si el usuario pregunta "¿qué servicios tienen?" o no sabes qué necesita.',
+    parameters: { type: 'object', properties: {} },
+  },
+  {
+    name: 'checkServiceFit',
+    description:
+      'Analiza una situación descrita por el usuario y sugiere qué servicio le aplica. ÚSALA después de que el usuario describa su caso pero antes de mostrar un demo. La respuesta NO es asesoría legal — solo orientación.',
+    parameters: {
+      type: 'object',
+      properties: {
+        situation: {
+          type: 'string',
+          description:
+            'La situación tal como el usuario la describió. Ejemplo: "mi hijo de 14 años vive en Utah sin su papá"',
+        },
+      },
+      required: ['situation'],
+    },
+  },
+  {
+    name: 'getRelatedTestimonials',
+    description:
+      'Obtiene 1-2 testimonios reales de clientes. ÚSALA cuando el usuario pregunte "¿qué dicen otros clientes?" o necesite prueba social.',
+    parameters: {
+      type: 'object',
+      properties: {
+        slug: {
+          type: 'string',
+          description: 'Slug del servicio para filtrar testimonios. Opcional.',
+        },
+      },
+    },
+  },
+  {
+    name: 'getTeamInfo',
+    description:
+      'Información general de UsaLatinoPrime: ubicación, fundación, contacto. ÚSALA si el usuario pregunta "¿quiénes son?" o "¿dónde están?".',
+    parameters: { type: 'object', properties: {} },
+  },
+  {
+    name: 'getFAQ',
+    description:
+      'Responde preguntas comunes sobre la operación del negocio. Topics: precios, ubicacion, idioma, tiempo, documentos, pago, cita, portal, garantia, whatsapp. ÚSALA antes de inventar respuestas.',
+    parameters: {
+      type: 'object',
+      properties: {
+        topic: {
+          type: 'string',
+          description:
+            'Tema de la pregunta. Ej: "precios", "tiempo", "documentos", "garantia".',
+        },
+      },
+      required: ['topic'],
+    },
+  },
+  {
+    name: 'buildWhatsAppMessage',
+    description:
+      'Arma el mensaje contextual perfecto para abrir WhatsApp con la situación específica del usuario. Devuelve un string que usarás en openWhatsApp(message). ÚSALA SIEMPRE antes de openWhatsApp para personalizar el mensaje.',
+    parameters: {
+      type: 'object',
+      properties: {
+        userName: { type: 'string', description: 'Nombre del usuario si lo dijo' },
+        serviceSlug: { type: 'string', description: 'Slug del servicio identificado' },
+        userSituation: { type: 'string', description: 'Resumen de su situación en 1 frase' },
+        minorName: { type: 'string', description: 'Nombre del hijo si aplica' },
+        minorAge: { type: 'number', description: 'Edad del hijo si aplica' },
+        state: { type: 'string', description: 'Estado donde vive' },
+        urgency: { type: 'string', description: 'high si dijo que es urgente, normal si no', enum: ['high', 'normal'] },
+      },
+    },
+  },
 ]
 
 // ─────────────────────────────────────────────────────────────────────
@@ -195,6 +316,52 @@ export function executeLexTool(name: string, args: Record<string, unknown>): Lex
     case 'closeAgent': {
       dispatchLexEvent('lex:close')
       return { ok: true, message: 'Conversación cerrada' }
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    // Knowledge base handlers — devuelven datos como string JSON para
+    // que el modelo pueda usarlos en su respuesta.
+    // ════════════════════════════════════════════════════════════════
+    case 'getServiceDetails': {
+      const result = getServiceDetails(String(args.slug ?? ''))
+      return { ok: result.ok, message: JSON.stringify(result) }
+    }
+    case 'getServicePricing': {
+      const result = getServicePricing(String(args.slug ?? ''))
+      return { ok: result.ok, message: JSON.stringify(result) }
+    }
+    case 'listAllServices': {
+      const result = listAllServices()
+      return { ok: result.ok, message: JSON.stringify(result) }
+    }
+    case 'checkServiceFit': {
+      const result = checkServiceFit(String(args.situation ?? ''))
+      return { ok: result.ok, message: JSON.stringify(result) }
+    }
+    case 'getRelatedTestimonials': {
+      const slug = args.slug ? String(args.slug) : undefined
+      const result = getRelatedTestimonials(slug)
+      return { ok: result.ok, message: JSON.stringify(result) }
+    }
+    case 'getTeamInfo': {
+      const result = getTeamInfo()
+      return { ok: result.ok, message: JSON.stringify(result) }
+    }
+    case 'getFAQ': {
+      const result = getFAQ(String(args.topic ?? ''))
+      return { ok: result.ok, message: JSON.stringify(result) }
+    }
+    case 'buildWhatsAppMessage': {
+      const result = buildWhatsAppMessage({
+        userName: args.userName ? String(args.userName) : undefined,
+        serviceSlug: args.serviceSlug ? String(args.serviceSlug) : undefined,
+        userSituation: args.userSituation ? String(args.userSituation) : undefined,
+        minorName: args.minorName ? String(args.minorName) : undefined,
+        minorAge: args.minorAge ? Number(args.minorAge) : undefined,
+        state: args.state ? String(args.state) : undefined,
+        urgency: args.urgency === 'high' ? 'high' : 'normal',
+      })
+      return { ok: result.ok, message: JSON.stringify(result) }
     }
 
     default:
