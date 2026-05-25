@@ -11,8 +11,12 @@ import { createPortal } from 'react-dom'
  */
 
 const STORAGE_KEY = 'ulp-lex-welcome-choice'
+const STORAGE_KEY_TIMESTAMP = 'ulp-lex-welcome-choice-at'
 const DELAY_MS = 3000
 const SCROLL_THRESHOLD_PX = 280
+// Re-engagement: si el user eligió 'explore' hace más de 30 días, volvemos
+// a preguntar (su contexto migratorio puede haber cambiado).
+const REENGAGE_AFTER_MS = 30 * 24 * 60 * 60 * 1000
 
 type Choice = 'guided' | 'explore'
 
@@ -28,10 +32,22 @@ export function LexWelcomeModal({ onAcceptGuided, onDeclineGuided, hidden }: Pro
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    // Si el usuario ya eligió en una visita anterior, no volvemos a mostrar
     if (typeof window === 'undefined') return
     const stored = localStorage.getItem(STORAGE_KEY) as Choice | null
-    if (stored) return
+    const storedAt = localStorage.getItem(STORAGE_KEY_TIMESTAMP)
+
+    // Si el usuario eligió 'guided' antes → no preguntamos (FAB siempre disponible)
+    if (stored === 'guided') return
+
+    // Si eligió 'explore' hace menos de 30 días → respetamos
+    if (stored === 'explore' && storedAt) {
+      const choiceTimestamp = parseInt(storedAt, 10)
+      if (!Number.isNaN(choiceTimestamp)) {
+        const elapsed = Date.now() - choiceTimestamp
+        if (elapsed < REENGAGE_AFTER_MS) return
+      }
+    }
+    // Si pasaron 30+ días desde 'explore' → re-preguntar
 
     let triggered = false
     const trigger = () => {
@@ -53,13 +69,19 @@ export function LexWelcomeModal({ onAcceptGuided, onDeclineGuided, hidden }: Pro
   }, [])
 
   function accept() {
-    try { localStorage.setItem(STORAGE_KEY, 'guided') } catch {}
+    try {
+      localStorage.setItem(STORAGE_KEY, 'guided')
+      localStorage.setItem(STORAGE_KEY_TIMESTAMP, String(Date.now()))
+    } catch {}
     setOpen(false)
     onAcceptGuided()
   }
 
   function decline() {
-    try { localStorage.setItem(STORAGE_KEY, 'explore') } catch {}
+    try {
+      localStorage.setItem(STORAGE_KEY, 'explore')
+      localStorage.setItem(STORAGE_KEY_TIMESTAMP, String(Date.now()))
+    } catch {}
     setOpen(false)
     onDeclineGuided?.()
   }

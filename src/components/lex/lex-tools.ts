@@ -297,12 +297,61 @@ export interface LexToolResult {
   message: string
 }
 
+// Scroll respetuoso: registramos cuando el user scrolleó manualmente.
+// Si scrolleó hace menos de USER_SCROLL_WINDOW_MS, Lex NO hace auto-scroll
+// (solo destaca el elemento si está en viewport).
+const USER_SCROLL_WINDOW_MS = 5000
+let lastUserScrollTime = 0
+
+if (typeof window !== 'undefined') {
+  // Detectar scroll manual via wheel/touch (NO via scrollIntoView programático).
+  // ScrollIntoView triggers el evento scroll pero NO wheel/touchmove.
+  const markUserScroll = () => {
+    lastUserScrollTime = Date.now()
+  }
+  window.addEventListener('wheel', markUserScroll, { passive: true })
+  window.addEventListener('touchmove', markUserScroll, { passive: true })
+  // keydown PgDown/PgUp/Arrow también cuenta
+  window.addEventListener('keydown', (e) => {
+    if (['PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'Home', 'End', 'Space'].includes(e.code)) {
+      markUserScroll()
+    }
+  })
+}
+
+function isInViewport(el: HTMLElement): boolean {
+  const rect = el.getBoundingClientRect()
+  const viewHeight = window.innerHeight
+  // Consideramos "en viewport" si al menos 30% del elemento es visible
+  const visibleTop = Math.max(0, rect.top)
+  const visibleBottom = Math.min(viewHeight, rect.bottom)
+  const visibleHeight = Math.max(0, visibleBottom - visibleTop)
+  return visibleHeight / Math.min(rect.height, viewHeight) > 0.3
+}
+
+function userIsActivelyScrolling(): boolean {
+  return Date.now() - lastUserScrollTime < USER_SCROLL_WINDOW_MS
+}
+
 export function executeLexTool(name: string, args: Record<string, unknown>): LexToolResult {
   switch (name) {
     case 'scrollToSection': {
       const sectionId = String(args.sectionId ?? '')
       const el = document.getElementById(sectionId)
       if (!el) return { ok: false, message: `Sección ${sectionId} no encontrada` }
+
+      // Scroll respetuoso: si el user scrolleó hace <5s O el elemento ya
+      // está visible, solo destacamos con highlight en vez de scroll forzado.
+      if (userIsActivelyScrolling() || isInViewport(el)) {
+        el.classList.add('lex-highlight-pulse')
+        setTimeout(() => el.classList.remove('lex-highlight-pulse'), 2500)
+        dispatchLexEvent('lex:scrollTo', { sectionId })
+        return {
+          ok: true,
+          message: `Sección ${sectionId} destacada (user activo o ya visible — no scroll forzado)`,
+        }
+      }
+
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
       dispatchLexEvent('lex:scrollTo', { sectionId })
       return { ok: true, message: `Scroll a ${sectionId} completado` }
