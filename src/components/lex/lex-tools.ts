@@ -138,6 +138,21 @@ export const LEX_TOOL_DECLARATIONS: LexFunctionDeclaration[] = [
       'Cierra la conversación con el usuario. Úsala SOLO si el usuario pide explícitamente terminar la conversación o cerrar el asistente.',
     parameters: { type: 'object', properties: {} },
   },
+  {
+    name: 'captureUserContext',
+    description:
+      'Guarda datos del usuario para personalizar el demo y el mensaje final de WhatsApp. INVÓCALA tan pronto como el usuario te diga su nombre, datos del hijo, estado donde vive o resuma su situación. NO inventes datos — solo guarda lo que él dijo explícitamente.',
+    parameters: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', description: 'Primer nombre del usuario' },
+        minorName: { type: 'string', description: 'Nombre del hijo si aplica SIJS' },
+        minorAge: { type: 'number', description: 'Edad del hijo si aplica' },
+        state: { type: 'string', description: 'Estado donde vive (ej. Utah)' },
+        situation: { type: 'string', description: 'Resumen 1 frase de su caso' },
+      },
+    },
+  },
 
   // ════════════════════════════════════════════════════════════════
   // Knowledge base tools — consultan datos reales de la landing
@@ -316,6 +331,18 @@ export function executeLexTool(name: string, args: Record<string, unknown>): Lex
     case 'closeAgent': {
       dispatchLexEvent('lex:close')
       return { ok: true, message: 'Conversación cerrada' }
+    }
+
+    case 'captureUserContext': {
+      const payload: Record<string, unknown> = {}
+      if (args.name) payload.name = String(args.name)
+      if (args.minorName) payload.minorName = String(args.minorName)
+      if (args.minorAge !== undefined) payload.minorAge = Number(args.minorAge)
+      if (args.state) payload.state = String(args.state)
+      if (args.situation) payload.situation = String(args.situation)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      dispatchLexEvent('lex:userContext', payload as any)
+      return { ok: true, message: `Contexto guardado: ${JSON.stringify(payload)}` }
     }
 
     // ════════════════════════════════════════════════════════════════

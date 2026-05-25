@@ -1,11 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Inter_Tight, JetBrains_Mono, Cormorant_Garamond, Manrope } from 'next/font/google'
 import 'material-symbols/outlined.css'
 import { DemoPlayer } from './demo-player/demo-player'
 import { getDemoScript } from './demo-player/scripts'
+import { personalizeScript } from './demo-player/personalize-script'
 import { onLexEvent } from '@/components/lex/lex-events'
+import { useLexUserContext } from '@/components/lex/lex-user-context'
 
 const interTight = Inter_Tight({
   subsets: ['latin'],
@@ -57,7 +59,15 @@ const SERVICE_TABS: ServiceTab[] = [
 
 export function ServicesShowcase() {
   const [activeSlug, setActiveSlug] = useState<string>('visa-juvenil')
-  const script = getDemoScript(activeSlug)
+  const rawScript = getDemoScript(activeSlug)
+  const { ctx } = useLexUserContext()
+
+  // Personalizar el script con los datos capturados por Lex.
+  // Re-memoriza solo cuando cambia el script o el contexto del usuario.
+  const script = useMemo(() => {
+    if (!rawScript) return null
+    return personalizeScript(rawScript, ctx)
+  }, [rawScript, ctx])
 
   // Lex puede controlar el showcase via eventos globales:
   // - lex:openServiceDemo → cambia el tab activo

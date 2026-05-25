@@ -8,15 +8,9 @@ import { LexFloatingButton } from './lex-floating-button'
 /**
  * Orquestador del flujo de Lex en la landing.
  *
- * Estados:
- * - Primera visita: modal aparece automáticamente. Si acepta → agente
- *   activo. Si declina → solo queda el botón flotante para reactivar.
- * - Visitas siguientes: localStorage recuerda la elección, no aparece
- *   modal, pero el botón flotante SIEMPRE está visible para que el
- *   usuario pueda invocar a Lex cuando quiera.
- *
- * - Click en botón flotante → activa el agente directamente (sin modal).
- * - Cerrar el agente → vuelve a aparecer el botón flotante.
+ * El store del contexto del usuario es module-level (ver
+ * lex-user-context.tsx), así que NO necesita Provider. El ServicesShowcase
+ * y el LexAgent leen del mismo store global mediante useLexUserContext.
  */
 export function LexOrchestrator() {
   const [agentActive, setAgentActive] = useState(false)

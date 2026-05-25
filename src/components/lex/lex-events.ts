@@ -17,6 +17,11 @@ export type LexEvent =
   | { type: 'lex:scrollTo'; payload: { sectionId: string } }
   | { type: 'lex:openWhatsApp'; payload: { message: string } }
   | { type: 'lex:close' }
+  | { type: 'lex:userContext'; payload: { name?: string; minorName?: string; minorAge?: number; state?: string; situation?: string; serviceSlug?: string } }
+  | { type: 'lex:demoStepEnter'; payload: { stepId: string; phase: string; narration: string; sceneKind: string } }
+  | { type: 'lex:demoFinished'; payload: { serviceSlug: string } }
+  | { type: 'lex:playHeroVideo' }
+  | { type: 'lex:showServiceVideo'; payload: { slug: string } }
 
 type LexEventType = LexEvent['type']
 
