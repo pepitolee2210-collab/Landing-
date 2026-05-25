@@ -74,8 +74,19 @@ export function ServiceModal({ product, open, onClose }: ServiceModalProps) {
     }
   }, [open, media.video])
 
+  // Cleanup del timer de fallback de error: si user cierra el modal
+  // mientras el video falla, evitamos state update sobre componente
+  // que ya devolvió null.
+  const errorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  useEffect(() => {
+    return () => {
+      if (errorTimerRef.current) clearTimeout(errorTimerRef.current)
+    }
+  }, [])
+
   function handleVideoError() {
-    setTimeout(() => setEnded(true), 1200)
+    if (errorTimerRef.current) clearTimeout(errorTimerRef.current)
+    errorTimerRef.current = setTimeout(() => setEnded(true), 1200)
   }
 
   if (!open) return null
@@ -136,6 +147,7 @@ export function ServiceModal({ product, open, onClose }: ServiceModalProps) {
                 controls={false}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={() => setEnded(true)}
+                onError={handleVideoError}
                 className="absolute inset-0 w-full h-full object-cover"
               />
             ) : (

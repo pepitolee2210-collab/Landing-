@@ -106,6 +106,15 @@ export function Faq2() {
   const [typed, setTyped] = useState('')
   const cardRef = useRef<HTMLDivElement | null>(null)
   const sectionRef = useRef<HTMLElement | null>(null)
+  const askTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Cleanup del timer de transición thinking→answer si user navega o
+  // clickea otra pregunta antes de que pasen los 1400ms.
+  useEffect(() => {
+    return () => {
+      if (askTimerRef.current) clearTimeout(askTimerRef.current)
+    }
+  }, [])
 
   // Cursor spotlight tracking (card)
   useEffect(() => {
@@ -186,7 +195,8 @@ export function Faq2() {
   function ask(idx: number) {
     setActiveIdx(idx)
     setState('thinking')
-    setTimeout(() => setState('answer'), 1400)
+    if (askTimerRef.current) clearTimeout(askTimerRef.current)
+    askTimerRef.current = setTimeout(() => setState('answer'), 1400)
   }
   function reset() {
     setState('idle')

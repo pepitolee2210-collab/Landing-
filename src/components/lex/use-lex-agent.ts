@@ -288,12 +288,32 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
     sessionHandleRef.current = null
 
     try {
-      // 1) Pedir token al backend
-      const tokenRes = await fetch('/api/voice-token', { method: 'POST' })
+      // 1) Pedir token al backend con headers explícitos para que el server
+      //    valide Origin/Referer correctamente.
+      const tokenRes = await fetch('/api/voice-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+      })
+
       if (!tokenRes.ok) {
         const body = await tokenRes.json().catch(() => ({}))
-        throw new Error(body.error || `Token request failed (${tokenRes.status})`)
+        // Mensajes claros al usuario según tipo de error
+        if (tokenRes.status === 403) {
+          throw new Error('Lex no está disponible desde este sitio.')
+        }
+        if (tokenRes.status === 429) {
+          const retry = body.retryAt
+            ? ` Intenta de nuevo a las ${new Date(body.retryAt).toLocaleTimeString()}.`
+            : ' Intenta en un momento.'
+          throw new Error(`Has llegado al límite de sesiones por hora.${retry}`)
+        }
+        if (tokenRes.status === 500) {
+          throw new Error('Lex no está configurado correctamente. Avisa al equipo.')
+        }
+        throw new Error(body.error || `Error al conectar con Lex (${tokenRes.status})`)
       }
+
       const { token, model } = (await tokenRes.json()) as { token: string; model: string }
       tokenRef.current = token
       modelRef.current = model

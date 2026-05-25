@@ -51,7 +51,16 @@ export function BundleDeal() {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [active, setActive] = useState<Phase>(0)
   const [paused, setPaused] = useState(false)
+  const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const current = PHASES[active]
+
+  // Cleanup del setTimeout de pausa al desmontar — evita state update
+  // sobre componente desmontado si user navega antes de que pasen los 10s.
+  useEffect(() => {
+    return () => {
+      if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current)
+    }
+  }, [])
 
   // Auto-rotate 7s (sin halftone-glow para evitar repaints constantes)
   useEffect(() => {
@@ -65,7 +74,9 @@ export function BundleDeal() {
   function goTo(i: Phase) {
     setActive(i)
     setPaused(true)
-    setTimeout(() => setPaused(false), 10000)
+    // Cancelar timer anterior si el user clickea rápido entre fases
+    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current)
+    pauseTimerRef.current = setTimeout(() => setPaused(false), 10000)
   }
 
   return (
