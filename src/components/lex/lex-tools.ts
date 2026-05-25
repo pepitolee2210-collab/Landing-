@@ -139,6 +139,28 @@ export const LEX_TOOL_DECLARATIONS: LexFunctionDeclaration[] = [
     parameters: { type: 'object', properties: {} },
   },
   {
+    name: 'playHeroVideo',
+    description:
+      'Muestra el video del equipo en el hero (scroll + destacar). Úsala cuando el usuario pregunta "¿quiénes son?" / "¿quién es el equipo?" / "muéstrame quienes están detrás".',
+    parameters: { type: 'object', properties: {} },
+  },
+  {
+    name: 'showServiceVideo',
+    description:
+      'Abre el video corto de 30 segundos del servicio en el service-modal. Es el video EXPLICATIVO (qué es el servicio). Distinto de openServiceDemo que muestra la PLATAFORMA en vivo. Úsala cuando el usuario pregunta "¿qué es X servicio?" / "explícame cómo es X" antes del demo.',
+    parameters: {
+      type: 'object',
+      properties: {
+        slug: {
+          type: 'string',
+          description: 'Slug del servicio',
+          enum: ['visa-juvenil', 'asilo-politico', 'ajuste-de-estatus', 'apelacion-bia', 'cambio-de-corte', 'itin-number', 'taxes'],
+        },
+      },
+      required: ['slug'],
+    },
+  },
+  {
     name: 'captureUserContext',
     description:
       'Guarda datos del usuario para personalizar el demo y el mensaje final de WhatsApp. INVÓCALA tan pronto como el usuario te diga su nombre, datos del hijo, estado donde vive o resuma su situación. NO inventes datos — solo guarda lo que él dijo explícitamente.',
@@ -343,6 +365,31 @@ export function executeLexTool(name: string, args: Record<string, unknown>): Lex
     case 'closeAgent': {
       dispatchLexEvent('lex:close')
       return { ok: true, message: 'Conversación cerrada' }
+    }
+
+    case 'playHeroVideo': {
+      // Scroll al hero + dispatch evento (el componente Hero2 puede
+      // escuchar para destacar el video si quiere).
+      const hero = document.getElementById('hero')
+      if (hero) {
+        hero.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+      dispatchLexEvent('lex:playHeroVideo')
+      return { ok: true, message: 'Video del hero destacado' }
+    }
+
+    case 'showServiceVideo': {
+      const slug = String(args.slug ?? '')
+      // Scroll al ProductGrid donde están las cards de servicios y dispatch
+      // evento. ProductGrid escucha y abre el ServiceModal del slug.
+      const products = document.getElementById('productos')
+      if (products) {
+        products.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+      dispatchLexEvent('lex:showServiceVideo', { slug })
+      return { ok: true, message: `Video del servicio ${slug} solicitado` }
     }
 
     case 'captureUserContext': {
