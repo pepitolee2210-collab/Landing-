@@ -39,7 +39,29 @@ function elapsedSecSince(startMs: number): number {
 }
 
 export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
-  const [state, setState] = useState<LexState>('idle')
+  const [state, setStateRaw] = useState<LexState>('idle')
+  // Wrapper que mantiene sincronizado el ref para callbacks externos
+  // (onLexEvent en setupDemoSyncListeners) sin closures stale.
+  const setState = (next: LexState | ((prev: LexState) => LexState)) => {
+    setStateRaw((prev) => {
+      const value = typeof next === 'function' ? next(prev) : next
+      stateRef.current = value
+      // Si terminamos un turno (listening) y hay un SCENE_UPDATE pendiente,
+      // enviarlo ahora — evita solape de voz si llegaron steps durante la
+      // narración anterior.
+      if (value === 'listening' && pendingSceneUpdateRef.current) {
+        const hint = pendingSceneUpdateRef.current
+        pendingSceneUpdateRef.current = null
+        // Defer al próximo tick para que el state ya esté propagado
+        Promise.resolve().then(() => {
+          sessionRef.current?.sendClientContent({
+            turns: [{ role: 'user', parts: [{ text: hint }] }],
+          })
+        })
+      }
+      return value
+    })
+  }
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isMuted, setIsMuted] = useState(false)
 
@@ -65,6 +87,14 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   const aiRef = useRef<GoogleGenAI | null>(null)
   const modelRef = useRef<string | null>(null)
   const tokenRef = useRef<string | null>(null)
+  // State actual del agente (ref) — se mantiene sincronizado con setState
+  // para que callbacks como onLexEvent puedan consultarlo sin closures viejas.
+  const stateRef = useRef<LexState>('idle')
+  // SCENE_UPDATE pendiente: si Lex está hablando cuando llega un step nuevo,
+  // guardamos solo el último (descartamos intermedios) y lo enviamos al
+  // terminar el turno. Evita que Lex narre 3 steps en cascada sin pausa,
+  // causando solape de voz.
+  const pendingSceneUpdateRef = useRef<string | null>(null)
 
   // Timing escalonado: 5min target, 7min cap duro
   const timingTimersRef = useRef<{
@@ -203,6 +233,17 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
         nextStartTimeRef.current = audioCtxRef.current?.currentTime ?? 0
       }
 
+      // 5b) Si el modelo cierra el turno, resetear el reloj del scheduler
+      //     al currentTime — evita que un próximo turno arranque tarde
+      //     (acumulación de nextStartTimeRef cuando hay reconnects o
+      //     gaps largos entre turnos).
+      if (content?.turnComplete && audioCtxRef.current) {
+        nextStartTimeRef.current = Math.max(
+          nextStartTimeRef.current,
+          audioCtxRef.current.currentTime,
+        )
+      }
+
       // 6) Session resumption update — guardar el handle para reconectar
       //    si la sesión expira naturalmente.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -316,9 +357,15 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
   const setupDemoSyncListeners = (): (() => void) => {
     const offStepEnter = onLexEvent('lex:demoStepEnter', (payload) => {
       if (!payload) return
-      sendSystemHint(
-        `[SCENE_UPDATE: ahora se muestra "${payload.narration}". Comenta brevemente con tu propio tono — máximo 1 frase. NO repitas literal. NO interrumpas si el usuario está hablando.]`,
-      )
+      const hint = `[SCENE_UPDATE: ahora se muestra "${payload.narration}". Comenta brevemente con tu propio tono — máximo 1 frase. NO repitas literal. NO interrumpas si el usuario está hablando.]`
+      // Si Lex está hablando, guardar SOLO el último step (descartar
+      // intermedios) y enviarlo cuando vuelva a 'listening'. Evita que
+      // Lex narre 2-3 steps en cascada con voces solapadas.
+      if (stateRef.current === 'speaking') {
+        pendingSceneUpdateRef.current = hint
+        return
+      }
+      sendSystemHint(hint)
     })
     const offFinished = onLexEvent('lex:demoFinished', (payload) => {
       sendSystemHint(
@@ -399,6 +446,12 @@ export function useLexAgent({ onTranscript }: UseLexAgentOptions = {}) {
           if (sessionHandleRef.current && closeCode === 1008 && !reconnectingRef.current) {
             reconnectingRef.current = true
             console.log('[lex] Reconnecting transparently with session handle')
+            // Drenar chunks pendientes de la sesión anterior antes de
+            // empezar la nueva — si no, el nuevo turno se solaparía con
+            // residuos del anterior.
+            playbackQueueRef.current = []
+            nextStartTimeRef.current = audioCtxRef.current?.currentTime ?? 0
+            pendingSceneUpdateRef.current = null
             // No cambiamos a 'error' — mantenemos UI en 'speaking'/'listening'
             connectSession(sessionHandleRef.current).catch((err) => {
               console.error('[lex] Resume reconnection failed:', err)
