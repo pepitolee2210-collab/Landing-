@@ -1,6 +1,6 @@
 # 🎬 Guía de Media — UsaLatinoPrime Landing
 
-Documento maestro para crear las **7 imágenes** + **7 videos** del catálogo de servicios.
+Documento maestro para crear las **9 imágenes** + **9 videos** del catálogo de servicios.
 
 > **Identidad de UsaLatinoPrime — léelo antes de escribir cualquier copy:**
 >
@@ -21,17 +21,19 @@ Documento maestro para crear las **7 imágenes** + **7 videos** del catálogo de
 
 ---
 
-## 📋 Los 7 servicios (orden del catálogo)
+## 📋 Los 9 servicios (orden del catálogo)
 
 | # | Nombre | id | Categoría |
 |---|---|---|---|
-| 01 | Visa Juvenil · SIJS | `visa-juvenil` | Producto estrella |
-| 02 | Asilo Político | `asilo-politico` | Asilo |
-| 03 | Ajuste de Estatus · I-485 | `ajuste-estatus` | Green Card |
-| 04 | Apelación · BIA (EOIR-26) | `apelacion-bia` | Litigio |
-| 05 | Cambio de Corte | `cambio-corte` | Litigio |
-| 06 | ITIN Number | `itin` | IRS · Taxes |
-| 07 | Declaración de Impuestos | `taxes` | IRS · Taxes |
+| 01 | Apelación · BIA (EOIR-26) | `apelacion-bia` | Litigio |
+| 02 | Visa Juvenil · SIJS | `visa-juvenil` | Producto estrella |
+| 03 | I-360 | `i360` | Visa Juvenil (fase 2) |
+| 04 | I-485 · Ajuste de Estatus | `ajuste-estatus` | Green Card |
+| 05 | Asilo Político | `asilo-politico` | Asilo |
+| 06 | Reforzar Asilo | `reforzar-asilo` | Asilo |
+| 07 | Cambio de Corte | `cambio-corte` | Litigio |
+| 08 | ITIN Number | `itin` | IRS · Taxes |
+| 09 | Declaración de Impuestos | `taxes` | IRS · Taxes |
 
 ---
 
@@ -419,6 +421,118 @@ done in minutes.
 
 [27–30s · CTA]
     "Tus taxes con quien también lleva tu caso migratorio."
+    Logo + WhatsApp.
+```
+
+---
+
+### 8️⃣ I-360 (`i360.jpg` / `.mp4`)
+> Fase 2 del flujo SIJS — petición ante USCIS tras la custodia estatal.
+
+**Prompt imagen:**
+```
+[base] + Latino teenager (around 17) sitting at a desk in a quiet bedroom,
+illuminated by laptop screen glow. The laptop displays a clean USCIS-style
+petition tracker with "I-360 · Special Immigrant Juvenile" header and a soft
+gold progress bar. On the desk: a single sealed state court order envelope
+with a faint embossed seal visible. Reflection of the dashboard on the
+teenager's glasses. Mother in extreme background bokeh, out of focus, hand
+on the doorframe — present but not interfering. Mood of focused autonomy.
+Editorial portrait, late evening warm light. Gold accent #f2b234 on the
+phone screen and faint highlight on the envelope.
+```
+
+**Guion video (30s):**
+```
+[0–4s · GANCHO]
+    PLANO: Madre y adolescente en oficina de bufete. Abogado mostrando
+    una pila de papeles I-360, formularios en inglés, fechas tachadas.
+    VOZ: "Ya tienes la custodia. Ahora viene el USCIS. Y casi todo el
+    mundo se atora aquí."
+
+[4–10s · ANTES]
+    SPLIT: bufete cobrando $3,500 SOLO por la I-360 / madre llamando al
+    paralegal sin respuesta / RFE llegando por correo / pánico.
+    VOZ: "Antes: pagar la I-360 aparte. Esperar meses sin actualizaciones.
+    Y si llega un RFE de USCIS, te cobran otra vez por responderlo."
+
+[10–22s · AHORA]
+    Adolescente en su cuarto con el laptop. Interfaz UsaLatinoPrime:
+    'Fase 1 · Custodia ✓' / 'Fase 2 · I-360 · 78%'. La plataforma
+    compilando la evidencia de la corte estatal, generando el I-360
+    completo, llenando los campos con datos ya validados. Notificación:
+    "RFE recibido — borrador de respuesta listo, revisa con Vanessa".
+    Vanessa en chat: "Lo presento mañana, todo en orden."
+    VOZ: "Hoy, con UsaLatinoPrime, la I-360 se arma sola con la evidencia
+    de tu custodia. Nuestra plataforma — desarrollada por abogados
+    de inmigración — la genera, valida y responde a los RFE en automático.
+    Vanessa solo revisa y firma."
+
+[22–27s · PROOF]
+    🏃 2 A 3 SEMANAS DE PREPARACIÓN · 💵 SIN HONORARIOS EXTRA POR FASE ·
+    🛡️ RFE AUTOMATIZADO · 🎯 EVIDENCIA HEREDADA DE CUSTODIA
+    VOZ: "Más rápido. Más accesible. Más seguro. Más exacto."
+
+[27–30s · CTA]
+    "Ya pasaste lo más difícil. No te atores en el papeleo."
+    Logo + WhatsApp.
+```
+
+---
+
+### 9️⃣ Reforzar Asilo (`reforzar-asilo.jpg` / `.mp4`)
+> Para quien ya tiene un caso iniciado y necesita más solidez antes de la audiencia.
+
+**Prompt imagen:**
+```
+[base] + Latino adult (40s, gender neutral, wearing simple shirt) sitting
+on a couch at dusk, head slightly bowed, holding a smartphone in both hands
+with quiet determination. The phone screen shows a clean asylum dashboard
+with sections "Narrativa", "Evidencia nueva", "Testimonio · prep" — all in
+soft blue with a faint red accent ribbon marking "Audiencia en 6 semanas".
+On the side table: a folder labeled "I-589 · 2023" already half-used, and a
+new pen on top of fresh paper as if about to add more proof. Vanessa
+visible as a small video-call square on the phone (paralegal in a clean
+office). Mood: a second chance, taken seriously. Editorial portrait,
+warm cinematic dusk light, slight film grain.
+```
+
+**Guion video (30s):**
+```
+[0–4s · GANCHO]
+    PLANO: Persona en oficina de bufete. Abogado: "Tu caso de asilo
+    está débil. Necesitas reforzarlo. Son $5,000 más."
+    VOZ: "Tu asilo ya está en marcha. Pero la audiencia se acerca y
+    sientes que falta evidencia. Casi todo el mundo paga el doble aquí."
+
+[4–10s · ANTES]
+    SPLIT: bufete cobrando $5,000 por refuerzo / cliente llamando a su
+    paralegal sin respuesta / archivos viejos sin actualizar / pánico
+    antes de la audiencia.
+    VOZ: "Antes: contratar otro abogado solo para reforzar lo que ya
+    pagaste. Repetir tu historia desde cero. Y rezar para que llegue
+    nueva evidencia a tiempo."
+
+[10–22s · AHORA]
+    Adulto en su sala con el celular. UsaLatinoPrime dashboard:
+    'Caso Asilo · activo' → botón 'Reforzar para audiencia'. La plataforma
+    sugiere áreas débiles de la narrativa, lista evidencia adicional
+    recomendada (noticias del país, reportes Human Rights Watch), prepara
+    preguntas tipo audiencia. Vanessa en chat: "Ensayamos tu testimonio
+    el viernes. Te marco a las 6."
+    VOZ: "Hoy, con UsaLatinoPrime, refuerzas tu propio caso desde tu
+    celular. Nuestra plataforma — desarrollada por abogados de inmigración —
+    detecta los puntos débiles de tu narrativa, sugiere evidencia nueva
+    y te prepara para audiencia. Vanessa, tu paralegal, ensaya el
+    testimonio contigo en el momento exacto."
+
+[22–27s · PROOF]
+    🏃 2 A 3 SEMANAS DE REFUERZO · 💵 SIN PAGAR OTRO BUFETE ·
+    🛡️ NARRATIVA AUDITADA · 🎯 ENSAYO DE TESTIMONIO INCLUIDO
+    VOZ: "Más rápido. Más accesible. Más seguro. Más exacto."
+
+[27–30s · CTA]
+    "Tu audiencia se gana con preparación. Empieza hoy mismo."
     Logo + WhatsApp.
 ```
 
