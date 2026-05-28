@@ -36,7 +36,35 @@ export interface Product {
 
 export const PRODUCTS: Product[] = [
   /* ════════════════════════════════════════════════
-     01 · VISA JUVENIL SIJS
+     01 · APELACIÓN BIA — Notice of Appeal EOIR-26
+     ════════════════════════════════════════════════ */
+  {
+    id: 'apelacion-bia',
+    slug: 'apelacion-bia',
+    category: 'litigio',
+    name: 'Apelación · BIA (EOIR-26)',
+    pitch: 'Segunda oportunidad ante corte superior',
+    shortDescription:
+      'Apela la decisión del juez de inmigración ante el Board of Immigration Appeals. Tienes solo 30 días.',
+    fullDescription:
+      'Si un juez de inmigración te negó asilo, cancelación o tu visa, tienes 30 días para apelar ante el BIA. Preparamos brief legal con argumentos, precedentes y nueva evidencia. Esto pausa la deportación mientras la BIA decide.',
+    rating: 4.8,
+    reviewCount: 11,
+    badge: { text: 'Apelación · BIA', variant: 'sale' },
+    features: [
+      { label: 'Notice of Appeal EOIR-26 ante BIA', included: true },
+      { label: 'Brief legal con argumentos y precedentes', included: true },
+      { label: 'Análisis de errores del juez', included: true },
+      { label: 'Nueva evidencia si aplica', included: true },
+      { label: 'Pausa la deportación mientras BIA decide', included: true },
+      { label: 'Fee waiver si demuestras incapacidad de pago', included: true },
+    ],
+    estimatedDelivery: '1–2 semanas',
+    accentColor: 'red',
+  },
+
+  /* ════════════════════════════════════════════════
+     02 · VISA JUVENIL SIJS
      ════════════════════════════════════════════════ */
   {
     id: 'visa-juvenil',
